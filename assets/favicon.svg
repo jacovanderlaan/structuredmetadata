@@ -1,4 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#0b6b5e"/>
-  <path d="M9 21 L15 11 L15 17 L23 11 L17 21 L17 15 Z" fill="#fff"/>
+  <rect width="32" height="32" rx="7" fill="#0f172a"/>
+  <!-- Structured Metadata: a structured schema grid -->
+  <rect x="7" y="7" width="18" height="18" rx="2.5" fill="none" stroke="#2563eb" stroke-width="1.7"/>
+  <line x1="7" y1="13" x2="25" y2="13" stroke="#2563eb" stroke-width="1.5"/>
+  <line x1="14" y1="13" x2="14" y2="25" stroke="#6ea0f0" stroke-width="1.4"/>
+  <line x1="7" y1="19" x2="25" y2="19" stroke="#6ea0f0" stroke-width="1.4"/>
+  <rect x="8.5" y="8.6" width="15" height="3" rx="1" fill="#2563eb" opacity="0.9"/>
+  <circle cx="10.6" cy="16" r="1" fill="#fff"/>
+  <circle cx="10.6" cy="22" r="1" fill="#fff"/>
 </svg>

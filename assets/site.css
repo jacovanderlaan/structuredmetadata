@@ -48,6 +48,12 @@ nav.main a.cta{color:var(--accent);font-weight:600}
 .hero .sub{font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--muted);max-width:640px;margin:.6em 0 0}
 .hero .formula{margin-top:26px;font-size:.95rem;color:var(--muted);
   border-left:3px solid var(--accent);padding-left:14px}
+.hero-img{display:block;width:100%;max-width:100%;height:auto;margin:38px 0 0;
+  border:1px solid var(--line);border-radius:14px}
+.section-img{display:block;width:100%;height:auto;margin:0;
+  border:1px solid var(--line);border-radius:12px}
+.fig{margin:26px 0}
+.fig figcaption{margin-top:9px;font-size:.88rem;color:var(--muted);text-align:center}
 
 /* sections */
 section{padding:12px 0}
