@@ -31,13 +31,18 @@ code{background:var(--code);padding:.12em .38em;border-radius:5px;font-size:.9em
 /* header */
 header.site{border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;
   background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px)}
-header.site .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
-.brand{font-weight:800;color:var(--fg);letter-spacing:-.02em;font-size:1.05rem}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{font-weight:800;color:var(--fg);letter-spacing:-.02em;font-size:1.02rem;white-space:nowrap;flex:0 0 auto}
 .brand .abbr{color:var(--accent)}
-nav.main a{color:var(--muted);margin-left:20px;font-size:.93rem;font-weight:500}
+nav.main{display:flex;align-items:center;flex-wrap:nowrap}
+nav.main a{color:var(--muted);margin-left:18px;font-size:.9rem;font-weight:500;white-space:nowrap}
 nav.main a:hover{color:var(--fg);text-decoration:none}
 nav.main a.cta{color:var(--accent);font-weight:600}
-@media(max-width:680px){nav.main a{margin-left:12px;font-size:.82rem}
+/* progressive collapse: shrink, then drop secondary links before the nav wraps */
+@media(max-width:940px){nav.main a{margin-left:14px;font-size:.85rem}}
+@media(max-width:880px){.brand .abbr{display:none}}
+@media(max-width:820px){nav.main a:not(.cta):not([href="#idea"]):not([href="concepts/index.html"]){display:none}}
+@media(max-width:600px){nav.main a{margin-left:12px;font-size:.82rem}
   nav.main a:not(.cta){display:none}}
 
 /* hero */
@@ -102,3 +107,12 @@ footer a{color:var(--muted);text-decoration:underline}
 hr{border:none;border-top:1px solid var(--line);margin:34px 0}
 .badge{display:inline-block;background:var(--accent-soft);color:var(--accent);
   font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.04em}
+
+/* concept detail pages */
+.c-hero{margin:0 0 26px}
+.c-hero img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px}
+.c-hero figcaption{margin-top:9px;font-size:.85rem;color:var(--muted);text-align:center}
+.c-rel{margin-top:34px;border-top:1px solid var(--line);padding-top:20px}
+.c-rel h3{font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 .5rem}
+.c-rel ul{margin:0;padding-left:1.1rem}
+.c-rel li{margin:.3rem 0}
