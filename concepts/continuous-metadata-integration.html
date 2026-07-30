@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Continuous Metadata Integration — Structured Metadata</title>
+<meta name="description" content="CI applied to metadata — metadata changes flow through the platform continuously, validated and propagated like code." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="/">Home</a>
+      <a href="index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow">Method</div>
+  <h1>Continuous Metadata Integration</h1>
+  <p class="sub">CI applied to metadata — metadata changes flow through the platform continuously, validated and propagated like code.</p>
+</div>
+<section class="wrap">
+<p>> CI applied to metadata — metadata changes flow through the platform continuously, validated and propagated like code.</p>
+<p>Continuous Metadata Integration (CMI) does for metadata what CI did for code: every change to a model, mapping, or rule enters a pipeline that validates it, checks its impact, regenerates the affected artifacts, and propagates the result — automatically, on every change, not in quarterly release ceremonies. A modeler merges a changed mapping; minutes later the platform has consistent SQL, tests, lineage, and documentation reflecting it, or a failed check explaining why not.</p>
+<p>The premise is <a href="metadata-as-code.html">metadata-as-code</a>: once metadata is versioned in a repository, it can ride the same machinery as software — branches, pull requests, automated checks, promotion through environments. But CMI adds the metadata-specific stages that code CI does not have: semantic validation (is the model internally consistent?), impact analysis via lineage (which downstream artifacts does this change touch?), and regeneration as the deployment step, with the validation loop as the quality gate on what generation produced.</p>
+<p>CMI is what makes a model-driven platform feel *alive* rather than ceremonial. Without it, the model is technically the source of truth but practically a bottleneck — changes queue up for the next big regeneration, and people start patching downstream to avoid the wait, undoing the model-driven contract one hotfix at a time. With it, the shortest path to any change runs through the model, which is exactly where you want the habit to form.</p>
+<p><strong>Where it lives:</strong> the method layer — the change-flow machinery of the metadata OS.</p>
+<div class="callout" style="margin-top:30px"><p><strong>Related concepts:</strong> <a href="metadata-as-code.html">Metadata As Code</a> · <a href="round-trip-engineering.html">Round Trip Engineering</a></p></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

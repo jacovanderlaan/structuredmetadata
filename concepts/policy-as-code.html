@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Policy As Code — Structured Metadata</title>
+<meta name="description" content="Governance policies expressed as code or metadata — versioned, testable, and enforced automatically." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="/">Home</a>
+      <a href="index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow">Lineage & governance</div>
+  <h1>Policy As Code</h1>
+  <p class="sub">Governance policies expressed as code or metadata — versioned, testable, and enforced automatically.</p>
+</div>
+<section class="wrap">
+<p>> Governance policies expressed as code or metadata — versioned, testable, and enforced automatically.</p>
+<p>A policy in a PDF is a wish; a policy as code is a fact about the platform. Policy-as-code takes individual governance policies — "personal data never lands unmasked in the exposure layer", "every table has an owner", "metric definitions require review" — and expresses each one as an executable, versioned rule that the platform evaluates automatically, in CI or at generation time.</p>
+<p>The unit of the concept is the *single policy*, and that is what gives it its engineering properties. Each policy gets a lifecycle: it is proposed in a pull request, reviewed by the people accountable for it, tested against known-good and known-bad cases, versioned so you can answer "what did the policy say in March?", and enforced by machinery rather than memos. Exceptions become explicit, reviewable code paths instead of quiet Slack agreements.</p>
+<p>Closely related to governance-as-code — the sibling that names the whole governance layer built this way; policy-as-code is its atom. And in MDDE the natural home for these rules is the metadata layer itself, following the same versioned-artifact discipline as <a href="metadata-as-code.html">metadata-as-code</a>: a policy over models and metadata can be checked *before* anything is generated, which is where enforcement is cheapest.</p>
+<p><strong>Where it lives:</strong> a governance concept in the metadata OS — the atomic unit of the as-code governance stack.</p>
+<div class="callout" style="margin-top:30px"><p><strong>Related concepts:</strong> <a href="metadata-as-code.html">Metadata As Code</a> · <a href="embedded-metadata-governance.html">Embedded Metadata Governance</a></p></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>
