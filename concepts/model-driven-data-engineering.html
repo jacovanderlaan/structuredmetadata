@@ -21,7 +21,7 @@
   </div>
 </header>
 <div class="hero wrap" style="padding-bottom:20px">
-  <div class="eyebrow">Umbrella thesis</div>
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Umbrella thesis</div>
   <h1>Model Driven Data Engineering</h1>
   <p class="sub">Building scalable, metadata-driven data platforms from models — not hand-written code.</p>
 </div>
@@ -32,7 +32,7 @@
 <p>The bet is easy to state and hard to hold: <strong>you write the model, not the pipeline.</strong> A five-table demo is enough to prove the trick — SQL generated from metadata instead of typed by hand. The full metamodel is 268 tables, and the honest question is why it grows that far. The answer is not sprawl but discipline: repeating groups become tables (an identifier has member columns, in order), declaration and call are separated the way a programming language separates them (a function has declared parameters; each use binds arguments), and capabilities arrive in coherent clusters (Data Vault, fact-oriented modeling, import bridges) you can adopt or ignore. The model is large the way a city is large — districts, not sprawl — and roughly two-thirds of it is optional.</p>
 <p>What makes the approach trustworthy is that the metadata is <a href="executable-metadata.html">executable</a>, not descriptive: it does not document what the platform does, it *is* what the platform does. Because SQL, tests, lineage and docs are all executions of the same metadata, they cannot drift out of sync — the <a href="metadata-star.html">metadata star</a> is the image, <a href="deterministic-sql-generation.html">deterministic generation</a> is the mechanism, and the <a href="metadata-operating-system.html">metadata operating system</a> is the engineered whole. MDDE is not a tool; it is the way of thinking the tools implement. The framework even documents itself — its own reference, DDL and diagrams are generated from the metamodel database, because a metadata framework whose documentation is hand-maintained would be a contradiction.</p>
 <p><strong>Where it lives:</strong> Core throughout the MDDE corpus — the umbrella every other concept hangs under.</p>
-<div class="c-rel"><h3>Related concepts</h3><ul><li><a href="executable-metadata.html">Executable Metadata</a></li><li><a href="metadata-star.html">Metadata Star</a></li><li><a href="deterministic-sql-generation.html">Deterministic Sql Generation</a></li><li><a href="metadata-operating-system.html">Metadata Operating System</a></li></ul></div>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="executable-metadata.html">Executable Metadata</a></li><li><a href="metadata-star.html">Metadata Star</a></li><li><a href="metadata-operating-system.html">Metadata Operating System</a></li></ul></div><div class="c-rel"><h3>Related concepts</h3><ul><li><a href="deterministic-sql-generation.html">Deterministic Sql Generation</a></li></ul></div>
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
 </section>
 <footer><div class="wrap">

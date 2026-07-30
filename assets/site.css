@@ -116,3 +116,13 @@ hr{border:none;border-top:1px solid var(--line);margin:34px 0}
 .c-rel h3{font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 .5rem}
 .c-rel ul{margin:0;padding-left:1.1rem}
 .c-rel li{margin:.3rem 0}
+
+/* key concepts */
+.key-badge{display:inline-block;background:var(--gold,#b88a1b);color:#fff;font-size:.62rem;
+  font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:5px;
+  vertical-align:middle;margin-right:6px}
+.key-section{background:var(--accent-soft);border:1px solid var(--line);border-radius:14px;
+  padding:6px 22px 18px;margin:8px 0 30px}
+.key-section h2{margin-top:1.2rem}
+.card.is-key{border-color:var(--gold,#b88a1b)}
+.c-rel.c-key h3{color:var(--gold,#b88a1b)}
