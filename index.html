@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Structured Metadata — the full MDDE metadata model, 268 tables explained</title>
+<meta name="description" content="The complete metadata model behind Metadata-Driven Data Engineering: 268 tables across 16 subject areas. Structure, transformation, temporality, quality, lineage, governance and knowledge — as queryable data, not code locked in tools." />
+<meta property="og:title" content="Structured Metadata — the MDDE metadata model" />
+<meta property="og:description" content="268 tables, 16 subject areas. The full metamodel that makes a data platform's structure and logic queryable data, not code." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="#idea">The idea</a>
+      <a href="#areas">The model</a>
+      <a href="#articles">Articles</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero wrap">
+  <div class="eyebrow">The MDDE metadata model</div>
+  <h1>Structure and logic, as data you can query.</h1>
+  <p class="sub">A data platform&rsquo;s structure and transformation logic are <strong>data, not code</strong>. Entities, mappings, filters, time policies, rules, lineage &mdash; and even the generated SQL &mdash; live as rows in one metamodel. <strong>268 tables. 16 subject areas.</strong> Every question about the platform becomes a SQL query instead of an archaeology project.</p>
+  <div class="formula">structure &middot; movement &middot; meaning &middot; AI-readable &mdash; in one model</div>
+  <div class="cta-row">
+    <a class="btn" href="#areas">Explore the 16 areas</a>
+    <a class="btn ghost" href="#articles">Read the articles</a>
+  </div>
+</div>
+
+<section class="wrap" id="idea">
+  <h2>The idea in one paragraph</h2>
+  <p class="lead">MDDE&rsquo;s bet: a data platform&rsquo;s structure and transformation logic are <strong>data</strong>. Entities, attributes, mappings, filters, time policies, rules and the generated SQL live as rows in a metamodel &mdash; and the platform artifacts (DDL, dbt, pipelines, documentation, diagrams) are <em>generated views</em> of that metadata.</p>
+  <p>The 268 tables are the price of making every question &mdash; lineage, impact, quality, history, who-decided-what &mdash; a query instead of a dig. This model exists to show that each table earns its price. It even documents itself: the reference docs, DDL and diagrams are generated from the metamodel database. A metadata framework whose own documentation is hand-maintained would be a contradiction.</p>
+  <div class="callout">
+    <p><strong>Four hubs everything hangs off:</strong> <code>model</code> &rarr; <code>layer</code> &rarr; <code>entity</code> &rarr; <code>attribute</code>. From there: mappings (the SELECT as data), filters, time, rules, lineage, governance and knowledge.</p>
+  </div>
+</section>
+
+<section class="wrap" id="areas">
+  <h2>The model &mdash; 16 subject areas</h2>
+  <p class="muted">Every table assigned to exactly one area; 268 base tables classified core / optional, hub / sub / satellite.</p>
+  <div class="cards">
+    <div class="card"><h3>Core structural model <span class="badge">21</span></h3><p>The irreducible kernel: model &rarr; layer &rarr; entity &rarr; attribute, plus keys, identifiers, inheritance, domains and subject areas as first-class citizens.</p></div>
+    <div class="card"><h3>Transformation logic <span class="badge">30</span></h3><p>A SQL query as a structured object: FROM/JOIN, SELECT list, WHERE, GROUP BY, windows, functions and filters &mdash; each clause its own table. Impact analysis becomes a query.</p></div>
+    <div class="card"><h3>Temporality &amp; time <span class="badge">7</span></h3><p>Time reified, not hidden in SQL: reusable time profiles, point-in-time generation, timeline consolidation, materialized temporal filters.</p></div>
+    <div class="card"><h3>Source integration &amp; mastering <span class="badge">16</span></h3><p>MDM as data: contributors with trust scores, key harmonization, probabilistic matching, golden records with survivorship audit &mdash; which value won and why.</p></div>
+    <div class="card"><h3>Data Vault &amp; imports <span class="badge">11</span></h3><p>Ingest an existing Data Vault and reason about it &mdash; or migrate away: detected hubs/links/satellites, plan-execute-verify migration, effectivity and multi-active patterns.</p></div>
+    <div class="card"><h3>Business modeling front-ends <span class="badge">13</span></h3><p>BEAM modelstorming and FCO-IM fact-oriented modeling, implemented as data &mdash; with requirements-to-implementation traceability a document can never give you.</p></div>
+    <div class="card"><h3>Discovery &amp; reverse engineering <span class="badge">19</span></h3><p>Reconstruct a model from legacy SQL: mined keys and relationships with confidence and review, lineage, complexity, safe-restructuring proposals with regression tests.</p></div>
+    <div class="card"><h3>Rules, quality &amp; testing <span class="badge">28</span></h3><p>Rules as data (AnaCredit-grade), contracts, gates, tests, incidents, anomalies and a quality score with a time axis. The largest evidence of real use.</p></div>
+    <div class="card"><h3>Reconciliation &amp; comparison <span class="badge">9</span></h3><p>Prove new equals old: source-vs-target and query-pair comparison with per-column tolerance and row-level evidence &mdash; the trail auditors want.</p></div>
+    <div class="card"><h3>Runs, generation &amp; observability <span class="badge">26</span></h3><p>Everything the engine does, recorded as data: runs, SQL generation and patches, table/column profiling, load history, freshness, metrics and alerts.</p></div>
+    <div class="card"><h3>Versioning, change &amp; environments <span class="badge">28</span></h3><p>Metadata change governed like data change: per-object version snapshots, field-level audit, environments, releases and git-style merge for metadata.</p></div>
+    <div class="card"><h3>Orchestration &amp; delivery <span class="badge">6</span></h3><p>The model generates its own pipelines: DAG, tasks, dependencies and schedules &mdash; plus delivery expectations for &lsquo;delivery is late&rsquo; alerting.</p></div>
+    <div class="card"><h3>Governance, collaboration &amp; knowledge <span class="badge">30</span></h3><p>The people-and-meaning layer: glossary, synonyms, ownership, tags, data mesh, access control, verified query-to-SQL pairs &mdash; the seed of a semantic layer.</p></div>
+    <div class="card"><h3>Work management <span class="badge">8</span></h3><p>A lightweight tracker embedded in the metamodel, so work links to the exact entity it concerns instead of a disconnected ticket system.</p></div>
+    <div class="card"><h3>Import/export bridges <span class="badge">15</span></h3><p>Bridges to DBML, PowerDesigner, Unity Catalog and Power BI &mdash; down to individual visuals, so BI lineage reaches into the report.</p></div>
+    <div class="card"><h3>Diagramming &amp; presentation <span class="badge">5</span></h3><p>Diagrams are views of the model, never the model itself: definitions, placed symbols, reusable styles and user templates with a render history.</p></div>
+  </div>
+  <p class="muted">Totals: 16 areas &middot; 268 base tables (+4 views) &middot; every table placed on column evidence.</p>
+</section>
+
+<section class="wrap" id="articles">
+  <h2>Articles</h2>
+  <p class="lead">The thinking behind the model &mdash; structure, metadata organization, and why a solid model is what AI actually needs.</p>
+  <div class="cards">
+    <div class="card"><h3>Metadata First</h3><p>Before tags, before search: the <em>organization</em> of metadata. Structure, maps of content, and sidecars &mdash; so both you and the AI can find your way. <span class="muted">(in progress)</span></p></div>
+    <div class="card"><h3>A Data Model Is Structured Business Knowledge</h3><p>A model isn&rsquo;t a diagram of tables. It&rsquo;s business knowledge, made explicit and queryable. <span class="muted">(draft)</span></p></div>
+    <div class="card"><h3>Build the Structure and AI Can Use It</h3><p>AI doesn&rsquo;t need more prose. It needs a solid, readable model. Build the structure, and the AI can use it. <span class="muted">(draft)</span></p></div>
+    <div class="card"><h3>Inmon Named the ELDM. Here&rsquo;s One That Runs</h3><p>The enterprise logical data model, not as a wall poster &mdash; as a metamodel that generates real artifacts. <span class="muted">(draft)</span></p></div>
+  </div>
+  <p class="muted">Articles publish on <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> and Medium. This section links the metadata pieces as they go live.</p>
+</section>
+
+<section class="wrap" id="relation">
+  <h2>Where this fits</h2>
+  <p>This model is the substance under <a href="https://breakthroughmodeling.com">Breakthrough Modeling</a> &mdash; the new way of modeling that unites structure, movement, meaning and AI in one model. <strong>MDDE</strong> (model-driven data engineering) is the generation side; this metamodel is what it generates from.</p>
+  <div class="cta-row">
+    <a class="btn" href="https://breakthroughmodeling.com">See the breakthrough &rarr;</a>
+    <a class="btn ghost" href="https://structurebeatsmagic.com">Start with the method</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><span class="badge">Test phase</span> &nbsp; Structured Metadata &mdash; the MDDE metadata model. Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+    <p class="muted">Structure beats magic. &copy; Jaco van der Laan. Shared for discussion, not redistribution.</p>
+  </div>
+</footer>
+
+</body>
+</html>
