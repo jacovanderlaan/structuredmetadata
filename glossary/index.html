@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
+<title>Terms — Structured Metadata</title>
+<meta name="description" content="Terms on Structured Metadata — filter, sort and browse." />
+<link rel="canonical" href="https://structuredmetadata.com/glossary/" />
+<meta property="og:title" content="Terms — Structured Metadata" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://structuredmetadata.com/glossary/" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head>
+<body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">The idea</button><span class="navmenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Library</button><span class="navmenu">
+<a href="../concepts/index.html">Concepts</a>
+<a href="../anti-patterns/index.html">Anti-patterns</a>
+<a href="../glossary/index.html">Glossary</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Explore</button><span class="navmenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+<a href="../skills/index.html">Skills</a>
+<a href="../ideas/index.html">Ideas</a>
+</span></span>
+<a href="../index.html#articles">Articles</a>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
+<div class="hero wrap" style="padding-bottom:16px">
+  <div class="eyebrow">Listing</div>
+  <h1>Terms</h1>
+</div>
+<section class="wrap">
+<div id="browse" data-page-type="glossary"></div>
+<div class="bw-fallback">
+  <p class="muted">All items:</p>
+  <ul class="artlist">
+    <li>glossary-mdde &mdash; <span class="muted">MDDE-only glossary terms — the non-concept vocabulary specific to Model-Driven Data Engineering (enterprise da</span></li>
+    <li>glossary-shared &mdash; <span class="muted">Shared SBM/MDDE glossary — the non-concept vocabulary both audiences need. Substrate terms (markdown, YAML, da</span></li>
+  </ul>
+</div>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../",
+    assets: "../concepts/assets/",
+    pageType: "glossary"
+  }).then(() => document.body.classList.add("bw-ready"));
+</script>
+</section>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+</body></html>

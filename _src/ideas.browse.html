@@ -1,0 +1,28 @@
+<div id="browse" data-page-type="ideas"></div>
+<div class="bw-fallback">
+  <p class="muted">All items:</p>
+  <ul class="artlist">
+    <li>Article footers — related articles / concepts / terms</li>
+    <li>BUILD.md runbook &mdash; <span class="muted">done 31 jul — rules/site-build/BUILD.md.</span></li>
+    <li>Boundary with structureddiagrams — where does &quot;describing the model&quot; end and &quot;showing it&quot; begin</li>
+    <li>Full-site link validation &mdash; <span class="muted">done 31 jul — 63 pages, 1,263 links, 0 broken.</span></li>
+    <li>Glossary section — terms vs concepts</li>
+    <li>Multi-page IA (ADR-127)</li>
+    <li>NOINDEX removal — when does SM go live to search</li>
+    <li>Orphan-page pruning &mdash; <span class="muted">done 31 jul — ported.</span></li>
+    <li>Research section — questions investigated, published as artifacts</li>
+    <li>Site out of sync with its source of truth &mdash; <span class="muted">done 31 jul — now 57/57, 0 orphans. The 25 &#x27;orphans&#x27; had no keyconcept line at all (published before the conve</span></li>
+    <li>This product folder is nearly empty &mdash; <span class="muted">Only rules/site-build/ exists. Article sources and per-concept assets still live in shared libraries; give the</span></li>
+    <li>demo/ and browser.html exist in the repo — document what they are</li>
+    <li>structuredmemories brand — memory records it as an owned name; is it a section here or its own thing?</li>
+  </ul>
+</div>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../",
+    assets: "../concepts/assets/",
+    pageType: "ideas"
+  }).then(() => document.body.classList.add("bw-ready"));
+</script>

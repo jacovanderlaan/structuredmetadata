@@ -1,0 +1,23 @@
+<div id="browse" data-page-type="anti-patterns"></div>
+<div class="bw-fallback">
+  <p class="muted">All items:</p>
+  <ul class="artlist">
+    <li><a href="../concepts/coupled-by-default.html">Coupled by default</a> &mdash; <span class="muted">The anti-pattern: systems reach into each other&#x27;s internals because nothing stopped them — dependencies nobody</span></li>
+    <li><a href="../concepts/decision-black-box.html">Decision black box</a> &mdash; <span class="muted">The anti-pattern: the outcome was recorded, the reasoning was not — so every decision has to be re-argued from</span></li>
+    <li><a href="../concepts/documentation-theatre.html">Documentation theatre</a> &mdash; <span class="muted">The anti-pattern: documentation produced to satisfy a process rather than a reader — complete, compliant, and </span></li>
+    <li><a href="../concepts/fragmented-schools-of-thought.html">Fragmented schools of thought</a> &mdash; <span class="muted">The anti-pattern: a discipline splits into rival interpretations of the same method, and practitioners spend t</span></li>
+    <li><a href="../concepts/gated-knowledge.html">Gated knowledge</a> &mdash; <span class="muted">The anti-pattern: understanding locked behind a person, a licence or a login — access controlled by whoever ho</span></li>
+    <li><a href="../concepts/local-tidiness.html">Local tidiness</a> &mdash; <span class="muted">The anti-pattern: every folder looks reasonable up close, and nobody can say what the system is. Order without</span></li>
+    <li><a href="../concepts/model-as-drawing.html">Model as drawing</a> &mdash; <span class="muted">The anti-pattern: treating the model as a picture to be drawn rather than knowledge to be captured — so it inf</span></li>
+    <li><a href="../concepts/social-cost-of-method.html">Social cost of method</a> &mdash; <span class="muted">The anti-pattern: a method&#x27;s vocabulary becomes insider language, splitting the team into those who can follow</span></li>
+  </ul>
+</div>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../",
+    assets: "../concepts/assets/",
+    pageType: "anti-patterns"
+  }).then(() => document.body.classList.add("bw-ready"));
+</script>
