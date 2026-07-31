@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
+<title>MDDE Adoption Framework: Minimal Metadata for Your Use Case — Structured Metadata</title>
+<meta name="description" content="Deploy exactly the entities your use case needs — not the 380+ a platform ships &quot;just in case&quot;." />
+<link rel="canonical" href="https://structuredmetadata.com/articles/mdde-adoption-framework-minimal-metadata-for-your-use-case.html" />
+<meta property="og:title" content="MDDE Adoption Framework: Minimal Metadata for Your Use Case" />
+<meta property="og:description" content="Deploy exactly the entities your use case needs — not the 380+ a platform ships &quot;just in case&quot;." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://structuredmetadata.com/articles/mdde-adoption-framework-minimal-metadata-for-your-use-case.html" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head>
+<body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">The idea</button><span class="navmenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Library</button><span class="navmenu">
+<a href="../concepts/index.html">Concepts</a>
+<a href="../anti-patterns/index.html">Anti-patterns</a>
+<a href="../glossary/index.html">Glossary</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Explore</button><span class="navmenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+<a href="../skills/index.html">Skills</a>
+<a href="../decisions/index.html">Decisions</a>
+<a href="../ideas/index.html">Ideas</a>
+</span></span>
+<a href="../articles/index.html">Articles</a>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
+<div class="wrap pagewrap">
+<main class="pagebody">
+<div class="eyebrow">Article</div>
+<h1>MDDE Adoption Framework: Minimal Metadata for Your Use Case</h1>
+<div class="bw-meta">2025-10-15 · 11 min read</div>
+<p><em>Don&#x27;t deploy the whole platform. Deploy exactly what you need.</em></p>
+<p>---</p>
+<p><em>Most metadata platforms suffer from feature bloat. You adopt one capability and inherit two hundred database tables you&#x27;ll never query. The MDDE Adoption Framework maps modules to metadata, so you deploy only what your use case requires — and can show, table by table, why each one is there.</em></p>
+<p>!MDDE Adoption Framework hero image: a towering pile of paperwork labelled core, governance, operations shrinking down to two clean stacked entities — core and lineage — next to icons for docs, lineage and quality/mdde-adoption-framework-minimal-metadata-for-your-use-case/assets/01_hero/01_hero.png)</p>
+<p>---</p>
+<h3>The metadata bloat problem</h3>
+<p>You want to implement data lineage. Just lineage.</p>
+<p>You install a metadata platform and discover it created:</p>
+<ul>
+<li>47 tables for &quot;core metadata&quot;</li>
+<li>23 tables for &quot;governance&quot;</li>
+<li>15 tables for &quot;operations&quot;</li>
+<li>12 tables for &quot;collaboration&quot;</li>
+<li>…</li>
+</ul>
+<p><strong>97 tables for lineage?</strong> You needed maybe five.</p>
+<p>This is metadata bloat, and it isn&#x27;t an accident — it&#x27;s the default outcome when nobody mapped the dependencies. Platforms ship everything because they can&#x27;t articulate which metadata supports which capability, so every table becomes &quot;required&quot; by default. That&#x27;s <strong>magic</strong> dressed up as completeness: impressive on a diagram, unaccountable in a review. <strong>Structure beats magic</strong> means the opposite discipline — every table earns its place by a traceable dependency, or it doesn&#x27;t ship.</p>
+<p>---</p>
+<h3>The module-metadata matrix</h3>
+<p>The MDDE Adoption Framework introduces a clear mapping: <strong>every module declares its metadata dependencies</strong>. Not &quot;the platform needs 380 entities&quot; — &quot;this specific capability needs these specific entities, and here&#x27;s why.&quot;</p>
+<pre class="code"><code>
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         MODULE-METADATA MATRIX                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  MODULE                    REQUIRED ENTITIES          CHILD MODELS          │
+│  ─────────────────────────────────────────────────────────────────────────  │
+│                                                                             │
+│  yaml_models               model, entity, attribute   core                  │
+│  sql_generation             model, entity, attribute   core                  │
+│                                                                             │
+│  entity_lineage             entity, entity_mapping     core, lineage         │
+│  column_lineage             attribute, attr_mapping,   core, lineage         │
+│                              entity_mapping                                  │
+│                                                                             │
+│  quality_checks             entity, attribute,         core, governance      │
+│                              simple_check                                    │
+│                                                                             │
+│  data_vault                 model, entity, attribute,  core, reference       │
+│                              stereotype                                      │
+│                                                                             │
+│  unity_catalog               model, entity, attribute,  core, integration     │
+│                              layer                                           │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>If you only need lineage</strong>, you deploy <code>core</code> + <code>lineage</code> child models — perhaps 15 entities instead of 380+.</p>
+<p><strong>If you only need documentation</strong>, you deploy <code>core</code> — maybe 5 entities.</p>
+<p>This is <strong>metadata as code</strong>: the dependency between a module and its entities isn&#x27;t tribal knowledge in someone&#x27;s head, it&#x27;s a declared, version-controlled mapping you can query, diff and review like any other artefact.</p>
+<p>---</p>
+<h3>Use case to metadata: the minimal subset</h3>
+<p>Each use case maps to a specific set of modules, which maps to a specific set of metadata entities. Four examples, in increasing order of scope.</p>
+<h3>Documentation use case</h3>
+<p>You want to document existing data assets. Nothing more.</p>
+<pre class="code"><code>
+from mdde.planning.adoption_framework import get_minimal_entity_set, UseCase
+
+result = get_minimal_entity_set([UseCase.DOCUMENTATION])
+</code></pre>
+<p><strong>Result:</strong></p>
+<pre class="code"><code>
+use_cases: [documentation]
+modules_needed: [yaml_models, discovery, ai_documentation, erd_diagrams]
+child_models_needed: [core]
+total_entities: 8
+
+entities_by_child_model:
+  core:
+    - model
+    - entity
+    - attribute
+    - relationship_def
+  organization:
+    - diagram_def
+    - style_def
+  collaboration:
+    - collaborative_comment
+    - collaborative_glossary_link
+</code></pre>
+<p><strong>8 entities.</strong> Not 380. Eight.</p>
+<h3>Lineage use case</h3>
+<p>You need to track data flows for regulatory compliance.</p>
+<pre class="code"><code>
+result = get_minimal_entity_set([UseCase.LINEAGE])
+</code></pre>
+<p><strong>Result:</strong></p>
+<pre class="code"><code>
+use_cases: [lineage]
+modules_needed: [entity_lineage, column_lineage, impact_analysis, lineage_diagrams]
+child_models_needed: [core, lineage]
+total_entities: 18
+
+entities_by_child_model:
+  core:
+    - model
+    - entity
+    - attribute
+    - relationship_def
+  lineage:
+    - entity_mapping
+    - attribute_mapping
+    - entity_lineage
+    - function_param_mapping
+    - entity_mapping_key_mapping
+    - relationship_key_mapping
+  organization:
+    - diagram_def
+    - style_def
+</code></pre>
+<p><strong>18 entities.</strong> Full column-level lineage with impact analysis.</p>
+<h3>Quality use case</h3>
+<p>You want to implement data quality checks.</p>
+<pre class="code"><code>
+result = get_minimal_entity_set([UseCase.QUALITY])
+</code></pre>
+<p><strong>Result:</strong></p>
+<pre class="code"><code>
+use_cases: [quality]
+modules_needed: [quality_checks, quality_gates]
+child_models_needed: [core, governance]
+total_entities: 14
+
+entities_by_child_model:
+  core:
+    - model
+    - entity
+    - attribute
+  governance:
+    - simple_check
+    - quality_gate
+    - quality_indicator
+    - observability_config
+    - entity_freshness_observation
+    - observation
+</code></pre>
+<h3>Regulatory banking use case</h3>
+<p>BCBS 239 compliance requires lineage, quality, governance, <em>and</em> bi-temporal modeling — the widest use case in the catalog, and still a fraction of the full model.</p>
+<pre class="code"><code>
+result = get_minimal_entity_set([
+    UseCase.REGULATORY,
+    UseCase.LINEAGE,
+    UseCase.QUALITY,
+    UseCase.GOVERNANCE
+])
+</code></pre>
+<p><strong>Result:</strong></p>
+<pre class="code"><code>
+use_cases: [regulatory, lineage, quality, governance]
+modules_needed:
+  - yaml_models
+  - entity_lineage
+  - column_lineage
+  - quality_checks
+  - quality_gates
+  - dual_scd2
+  - kde_tracking
+  - data_requirements
+child_models_needed: [core, lineage, governance, reference]
+total_entities: 42
+
+entities_by_child_model:
+  core:
+    - model
+    - entity
+    - attribute
+    - layer
+    - relationship_def
+  lineage:
+    - entity_mapping
+    - attribute_mapping
+    - entity_lineage
+    - entity_timeline_consolidation
+    - entity_timeline_source
+    # ...8 more
+  governance:
+    - key_data_element
+    - kde_attribute_link
+    - requirement
+    - stakeholder
+    - simple_check
+    - quality_gate
+    # ...4 more
+  reference:
+    - stereotype_def
+    - time_profile_def
+</code></pre>
+<p><strong>42 entities for full BCBS 239 compliance.</strong> Still far less than the full 380+ entity model — and every one of them traceable to a module a regulator can name.</p>
+<p>---</p>
+<h3>The Adoption Advisor</h3>
+<p>The <code>AdoptionAdvisor</code> class generates personalized recommendations based on your profile — this is where the module-metadata matrix becomes a planning tool, not just documentation.</p>
+<pre class="code"><code>
+from mdde.planning.adoption_framework import (
+    AdoptionAdvisor,
+    AdoptionProfile,
+    LifecycleStage,
+    ResourceLevel,
+    UseCase,
+)
+
+# Define your context
+profile = AdoptionProfile(
+    name=&quot;Regional Bank Risk Platform&quot;,
+    industry=&quot;banking&quot;,
+    lifecycle_stage=LifecycleStage.DEVELOPMENT,
+    resource_level=ResourceLevel.MODERATE,  # 3-5 people
+    use_cases=[UseCase.MIGRATION, UseCase.LINEAGE, UseCase.QUALITY],
+    regulations=[&quot;BCBS_239&quot;, &quot;GDPR&quot;],
+)
+
+# Get recommendations
+advisor = AdoptionAdvisor()
+subset = advisor.recommend(profile)
+
+print(f&quot;Modules recommended: {len(subset.modules)}&quot;)
+print(f&quot;Setup days: {subset.total_setup_days}&quot;)
+print(f&quot;Learning hours: {subset.total_learning_hours}&quot;)
+print(f&quot;Metadata entities needed: {len(subset.required_entities)}&quot;)
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre class="code"><code>
+Modules recommended: 12
+Setup days: 18.5
+Learning hours: 52
+Metadata entities needed: 28
+</code></pre>
+<p>The advisor:</p>
+<p>1. <strong>Finds matching modules</strong> — based on your use cases and regulations</p>
+<p>2. <strong>Resolves dependencies</strong> — if you need <code>column_lineage</code>, you automatically get <code>entity_lineage</code></p>
+<p>3. <strong>Filters by constraints</strong> — if you&#x27;re at &quot;minimal&quot; resource level, enterprise-grade features are excluded</p>
+<p>4. <strong>Prioritizes</strong> — &quot;must have&quot; vs &quot;recommended&quot; vs &quot;optional&quot;</p>
+<p>5. <strong>Calculates metadata</strong> — exactly which entities you need to deploy</p>
+<p>---</p>
+<h3>Quick start profiles</h3>
+<p>For common scenarios, use pre-configured profiles:</p>
+<pre class="code"><code>
+from mdde.planning.adoption_framework import get_quick_start_profile
+
+# Documentation-only adoption
+profile = get_quick_start_profile(&quot;documentation&quot;)
+# → LifecycleStage.DISCOVERY, ResourceLevel.MINIMAL, [UseCase.DOCUMENTATION]
+
+# Platform migration
+profile = get_quick_start_profile(&quot;migration&quot;)
+# → LifecycleStage.DEVELOPMENT, ResourceLevel.MODERATE,
+#   [UseCase.MIGRATION, UseCase.DOCUMENTATION, UseCase.LINEAGE]
+
+# Data quality implementation
+profile = get_quick_start_profile(&quot;quality&quot;)
+# → LifecycleStage.DEVELOPMENT, ResourceLevel.MODERATE,
+#   [UseCase.QUALITY, UseCase.GOVERNANCE]
+
+# Banking regulatory compliance
+profile = get_quick_start_profile(&quot;regulatory_banking&quot;)
+# → Industry: banking, Regulations: [BCBS_239, GDPR],
+#   [UseCase.REGULATORY, UseCase.LINEAGE, UseCase.QUALITY, UseCase.GOVERNANCE]
+
+# Data mesh foundation
+profile = get_quick_start_profile(&quot;data_mesh&quot;)
+# → LifecycleStage.OPERATIONS, ResourceLevel.ENTERPRISE,
+#   [UseCase.DATA_MESH, UseCase.GOVERNANCE, UseCase.SELF_SERVICE]
+</code></pre>
+<p>---</p>
+<h3>The module catalog</h3>
+<p>The framework includes 22 modules across 8 categories. Each entry below is the same catalog data the advisor queries — shown here as the reference table, so you can scope a conversation without running code.</p>
+<h3>Core Modules</h3>
+<p>!Table: Core Modules — yaml_models (define entities in YAML, 1 setup day, 4 learning hours), sql_generation (generate DDL/DML, 1 day, 2 hours), model_validation (validate against schema, 0.5 day, 1 hour)/mdde-adoption-framework-minimal-metadata-for-your-use-case/assets/02_figure/02_figure.png)</p>
+<h3>Discovery &amp; Documentation</h3>
+<p>!Table: Discovery &amp; Documentation modules — discovery (reverse engineer schemas, 2 setup days, 4 learning hours), ai_documentation (AI-powered docs, 1 day, 2 hours)/mdde-adoption-framework-minimal-metadata-for-your-use-case/assets/03_figure/03_figure.png)</p>
+<h3>Lineage</h3>
+<p>!Table: Lineage modules — entity_lineage (entity-to-entity flows, 2 setup days, 4 learning hours), column_lineage (column-level lineage, 3 days, 6 hours), impact_analysis (schema change impact, 2 days, 4 hours)/mdde-adoption-framework-minimal-metadata-for-your-use-case/assets/04_figure/04_figure.png)</p>
+<h3>Quality</h3>
+<p>!Table: Quality modules — quality_checks (data quality rules, 3 setup days, 8 learning hours), quality_gates (enforce before data moves, 2 days, 4 hours)/mdde-adoption-framework-minimal-metadata-for-your-use-case/assets/05_figure/05_figure.png)</p>
+<h3>Temporal</h3>
+<p>!Table: Temporal modules — scd2 (slowly changing dimension, 2 setup days, 8 learning hours), dual_scd2 (bi-temporal modeling, 5 days, 16 hours), pit_tables (point-in-time tables, 3 days, 8 hours)/mdde-adoption-framework-minimal-metadata-for-your-use-case/assets/06_figure/06_figure.png)</p>
+<h3>Governance</h3>
+<p>!Table: Governance modules — data_requirements (business requirements, 2 setup days, 4 learning hours), kde_tracking (key data elements, 3 days, 8 hours), data_contracts (producer/consumer contracts, 5 days, 16 hours)/mdde-adoption-framework-minimal-metadata-for-your-use-case/assets/07_figure/07_figure.png)</p>
+<h3>Integration</h3>
+<p>!Table: Integration modules — dbt_integration (generate dbt models, 3 setup days, 8 learning hours), unity_catalog (Databricks Unity sync, 5 days, 16 hours)/mdde-adoption-framework-minimal-metadata-for-your-use-case/assets/08_figure/08_figure.png)</p>
+<h3>Methodology</h3>
+<p>!Table: Methodology modules — data_vault (hub, link, satellite, 10 setup days, 40 learning hours), dimensional (fact and dimension, 5 days, 24 hours)/mdde-adoption-framework-minimal-metadata-for-your-use-case/assets/09_figure/09_figure.png)</p>
+<p>Notice the pattern in setup days and learning hours: <code>dual_scd2</code> and <code>data_vault</code> are the expensive ones (5–10 setup days, 16–40 learning hours) because bi-temporal modeling and Hub/Link/Satellite structures are genuinely harder to learn than a YAML entity definition. The advisor&#x27;s day/hour estimates aren&#x27;t guesses — they come from the same catalog, so a scoping conversation with a client can point at a number instead of a feeling.</p>
+<p>---</p>
+<h3>Entity annotations</h3>
+<p>Every metadata entity can be annotated with its module relevance:</p>
+<pre class="code"><code>
+from mdde.planning.adoption_framework import get_entity_annotation
+
+annotation = get_entity_annotation(&quot;entity&quot;)
+print(annotation)
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre class="code"><code>
+EntityAnnotation(
+    entity_name=&#x27;entity&#x27;,
+    child_model=&#x27;core&#x27;,
+    modules=[&#x27;yaml_models&#x27;, &#x27;sql_generation&#x27;, &#x27;model_validation&#x27;,
+             &#x27;discovery&#x27;, &#x27;ai_documentation&#x27;, &#x27;entity_lineage&#x27;,
+             &#x27;column_lineage&#x27;, &#x27;impact_analysis&#x27;, &#x27;quality_checks&#x27;, ...],
+    use_cases=[&#x27;documentation&#x27;, &#x27;modeling&#x27;, &#x27;migration&#x27;, &#x27;governance&#x27;,
+               &#x27;quality&#x27;, &#x27;lineage&#x27;, &#x27;devops&#x27;, &#x27;ai_enablement&#x27;],
+    is_core=True  # Used by 5+ modules
+)
+</code></pre>
+<p>This enables:</p>
+<ul>
+<li><strong>Schema annotations</strong> — document which modules use which entities</li>
+<li><strong>Documentation</strong> — auto-generate module-entity relationship docs</li>
+<li><strong>Governance</strong> — understand impact of schema changes</li>
+</ul>
+<p>---</p>
+<h3>Generating adoption roadmaps</h3>
+<p>The advisor can generate a complete phased roadmap:</p>
+<pre class="code"><code>
+roadmap = advisor.generate_adoption_roadmap(profile)
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre class="code"><code>
+profile:
+  name: &quot;Regional Bank Risk Platform&quot;
+  lifecycle: &quot;development&quot;
+  use_cases: [&quot;migration&quot;, &quot;lineage&quot;, &quot;quality&quot;]
+
+summary:
+  total_modules: 12
+  total_setup_days: 18.5
+  total_learning_hours: 52
+  required_metadata_entities: 28
+  required_child_models: [&quot;core&quot;, &quot;lineage&quot;, &quot;governance&quot;]
+
+phases:
+  - phase: 1
+    name: &quot;Foundation&quot;
+    duration_days: 5.5
+    modules:
+      - name: yaml_models
+        display_name: &quot;YAML Modeling&quot;
+        reason: &quot;Core for modeling, documentation&quot;
+      - name: quality_checks
+        display_name: &quot;Quality Checks&quot;
+        reason: &quot;Core for quality, governance&quot;
+      - name: entity_lineage
+        display_name: &quot;Entity Lineage&quot;
+        reason: &quot;Core for lineage, governance&quot;
+  - phase: 2
+    name: &quot;Expansion&quot;
+    duration_days: 13
+    modules:
+      - name: column_lineage
+        display_name: &quot;Column Lineage&quot;
+        reason: &quot;Supports lineage&quot;
+      - name: impact_analysis
+        display_name: &quot;Impact Analysis&quot;
+        reason: &quot;Supports lineage&quot;
+      # ...
+
+metadata_requirements:
+  entities:
+    - model
+    - entity
+    - attribute
+    - entity_mapping
+    - attribute_mapping
+    - simple_check
+    # ...
+  child_models:
+    - core
+    - lineage
+    - governance
+</code></pre>
+<p>A phased roadmap is what turns &quot;we need lineage&quot; into a plan a project sponsor can approve: Foundation first, Expansion once the core is proven, nothing deployed before its dependency chain is deployed.</p>
+<p>---</p>
+<h3>Minimal deployment example</h3>
+<p>Here&#x27;s how to deploy only what you need.</p>
+<h3>Step 1: Generate your minimal subset</h3>
+<pre class="code"><code>
+# For documentation + quality
+result = get_minimal_entity_set([UseCase.DOCUMENTATION, UseCase.QUALITY])
+
+print(f&quot;Deploy these child models: {result[&#x27;child_models_needed&#x27;]}&quot;)
+print(f&quot;Total entities: {result[&#x27;total_entities&#x27;]}&quot;)
+</code></pre>
+<h3>Step 2: Export required schema</h3>
+<pre class="code"><code>
+# Generate DDL for only the required child models
+mdde schema export \
+  --child-models core governance \
+  --output minimal_schema.sql
+</code></pre>
+<h3>Step 3: Validate your deployment</h3>
+<pre class="code"><code>
+# Verify all required entities exist
+mdde validate deployment \
+  --required-entities model,entity,attribute,simple_check
+</code></pre>
+<p>---</p>
+<h3>IP sharing: only share what&#x27;s relevant</h3>
+<p>The Adoption Framework also enables <strong>selective IP sharing</strong>.</p>
+<p>When working with customers, you don&#x27;t need to share the entire MDDE codebase. You can identify exactly which modules are relevant to their use case:</p>
+<pre class="code"><code>
+# Customer needs migration + lineage
+modules_for_customer = advisor.get_use_case_modules(UseCase.MIGRATION)
+modules_for_customer += advisor.get_use_case_modules(UseCase.LINEAGE)
+
+# Generate module list for sharing
+for module in modules_for_customer:
+    print(f&quot;- {module.display_name}: {module.description}&quot;)
+</code></pre>
+<p>This clarity enables:</p>
+<ul>
+<li><strong>Scoped licensing</strong> — license only the modules customers use</li>
+<li><strong>Focused training</strong> — train only on relevant capabilities</li>
+<li><strong>Lighter deployments</strong> — fewer entities = faster setup</li>
+</ul>
+<p>This is the tool-extender model in one mechanism: MDDE isn&#x27;t a framework a client adopts wholesale, it&#x27;s a set of accelerators scoped to exactly the modules their use case needs, layered onto tools they already run (dbt, Databricks, their own DDL). Nothing gets shared, licensed or taught beyond what the engagement actually touches.</p>
+<p>---</p>
+<h3>The bidirectional map</h3>
+<p>The framework maintains a bidirectional mapping:</p>
+<h3>Entity → Modules</h3>
+<pre class="code"><code>
+from mdde.planning.adoption_framework import get_entity_modules
+
+# Which modules use the &#x27;entity_mapping&#x27; entity?
+modules = get_entity_modules(&quot;entity_mapping&quot;)
+# → [&#x27;entity_lineage&#x27;, &#x27;column_lineage&#x27;, &#x27;impact_analysis&#x27;, &#x27;lineage_diagrams&#x27;]
+</code></pre>
+<h3>Module → Entities</h3>
+<pre class="code"><code>
+from mdde.planning.adoption_framework import get_module_entities
+
+# Which entities does &#x27;column_lineage&#x27; require?
+entities = get_module_entities(&quot;column_lineage&quot;)
+# → [&#x27;attribute&#x27;, &#x27;attribute_mapping&#x27;, &#x27;entity_mapping&#x27;,
+#    &#x27;function_param_mapping&#x27;, &#x27;entity_window_param_mapping&#x27;]
+</code></pre>
+<p>This bidirectionality enables <strong>impact analysis</strong> — if you modify an entity, you know which modules are affected.</p>
+<p>---</p>
+<h3>Integration with Use Case Profiles</h3>
+<p>The Adoption Framework integrates with the Use Case Profiles article — that piece covers how a profile gets built from an organization&#x27;s context; this one covers what that profile costs in metadata once it&#x27;s built.</p>
+<pre class="code"><code>
+# use-case-profile.yaml
+organization:
+  industry: banking
+  regulations: [BCBS_239, GDPR]
+
+ambition:
+  level: transformational
+
+mdde_preferences:
+  features_of_interest:
+    must_have:
+      - column_lineage
+      - dual_scd2
+      - quality_checks
+</code></pre>
+<p>The profile feeds into the Adoption Framework:</p>
+<pre class="code"><code>
+# Parse profile and generate recommendations
+profile = parse_use_case_profile(&quot;use-case-profile.yaml&quot;)
+subset = advisor.recommend(profile)
+
+# Output includes exactly what&#x27;s needed for BCBS 239 banking
+assert &quot;dual_scd2&quot; in [m.module.name for m in subset.modules]
+assert &quot;column_lineage&quot; in [m.module.name for m in subset.modules]
+</code></pre>
+<p>---</p>
+<h3>Why this matters</h3>
+<h3>For platform implementers</h3>
+<ul>
+<li><strong>Deploy faster</strong> — no unnecessary tables</li>
+<li><strong>Reduce complexity</strong> — fewer moving parts</li>
+<li><strong>Lower costs</strong> — less storage, compute, maintenance</li>
+</ul>
+<h3>For consultants</h3>
+<ul>
+<li><strong>Scope clearly</strong> — know exactly what a project requires</li>
+<li><strong>Estimate accurately</strong> — setup days and learning hours are documented</li>
+<li><strong>Avoid over-engineering</strong> — don&#x27;t deploy features that won&#x27;t be used</li>
+</ul>
+<h3>For customers</h3>
+<ul>
+<li><strong>Start small</strong> — adopt incrementally</li>
+<li><strong>Understand dependencies</strong> — know what&#x27;s required before you start</li>
+<li><strong>Grow when needed</strong> — add modules as use cases expand</li>
+</ul>
+<p>---</p>
+<h3>Summary</h3>
+<p>The MDDE Adoption Framework answers the question every platform adopter asks:</p>
+<p><strong>&quot;What do I actually need to deploy?&quot;</strong></p>
+<p>Instead of shipping 380+ entities &quot;just in case&quot;, the framework:</p>
+<p>1. <strong>Maps modules to metadata</strong> — every module declares its dependencies</p>
+<p>2. <strong>Maps use cases to modules</strong> — documentation needs different modules than regulatory compliance</p>
+<p>3. <strong>Calculates minimal subsets</strong> — exactly which entities for your use case</p>
+<p>4. <strong>Generates roadmaps</strong> — phased implementation with effort estimates</p>
+<p>5. <strong>Enables selective sharing</strong> — share only what&#x27;s relevant to each customer</p>
+<p>None of this requires you to adopt a platform. It requires a <strong>metadata operating system</strong> — a declared, queryable map of what depends on what — layered onto the tools you already run. That&#x27;s the whole thesis: structure beats magic, applied to your own deployment.</p>
+<p>Stop deploying everything. Deploy what you need.</p>
+<p style="margin-top:34px"><a href="index.html">&larr; All articles</a></p>
+</main></div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+<script type="module">
+  import { initDetail } from "../assets/detail.js";
+  initDetail();
+</script>
+</body></html>

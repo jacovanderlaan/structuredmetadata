@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
+<title>TMDL and Model-Driven Development: Generate vs. Hand-Craft — Structured Metadata</title>
+<meta name="description" content="Why the future of semantic model development is generation, not authoring" />
+<link rel="canonical" href="https://structuredmetadata.com/articles/tmdl-and-model-driven-development-generate-vs-handcraft.html" />
+<meta property="og:title" content="TMDL and Model-Driven Development: Generate vs. Hand-Craft" />
+<meta property="og:description" content="Why the future of semantic model development is generation, not authoring" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://structuredmetadata.com/articles/tmdl-and-model-driven-development-generate-vs-handcraft.html" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head>
+<body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">The idea</button><span class="navmenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Library</button><span class="navmenu">
+<a href="../concepts/index.html">Concepts</a>
+<a href="../anti-patterns/index.html">Anti-patterns</a>
+<a href="../glossary/index.html">Glossary</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Explore</button><span class="navmenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+<a href="../skills/index.html">Skills</a>
+<a href="../decisions/index.html">Decisions</a>
+<a href="../ideas/index.html">Ideas</a>
+</span></span>
+<a href="../articles/index.html">Articles</a>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
+<div class="wrap pagewrap">
+<main class="pagebody">
+<div class="eyebrow">Article</div>
+<h1>TMDL and Model-Driven Development: Generate vs. Hand-Craft</h1>
+<div class="bw-meta">2026-03-07 · 11 min read</div>
+<p><em>Why the future of semantic model development is generation, not authoring</em></p>
+<p>---</p>
+<p>!TMDL hand-craft versus generate, illustrated as two workflows converging on the same Fabric-hosted semantic model — one built manually with inconsistent measures, the other assembled from consistent, auto-generated TMDL files/tmdl-and-model-driven-development-generate-vs-handcraft/assets/01_hero/01_hero.png)</p>
+<p>TMDL (Tabular Model Definition Language) changed everything for Power BI developers. For the first time, semantic models have a human-readable, Git-friendly, text-based format that can be versioned, diffed, and reviewed like code.</p>
+<p>But here&#x27;s the question nobody&#x27;s asking: <strong>should you write TMDL by hand?</strong></p>
+<p>The answer, increasingly, is no. TMDL is a good target format and a bad source format. The moment it becomes something you hand-author, you&#x27;ve recreated the exact problem it was supposed to fix — just in a nicer syntax.</p>
+<p>This article makes the case for treating TMDL as a build artifact, the same way you&#x27;d treat compiled code or a generated SQL script: never edited directly, always regenerated from something upstream that actually deserves to be the source of truth.</p>
+<p>---</p>
+<h2>What TMDL Solved — and What It Didn&#x27;t</h2>
+<p>TMDL replaced the binary <code>.bim</code> format and verbose JSON of TMSL with a clean, readable syntax:</p>
+<pre class="code"><code>
+table Sales
+    lineageTag: 8f2c7b9d-1234-5678-90ab-cdef12345678
+
+    column Amount
+        dataType: decimal
+        formatString: \$#,0.00
+        summarizeBy: sum
+        sourceColumn: Amount
+
+    column ProductID
+        dataType: int64
+        isHidden: true
+        sourceColumn: ProductID
+
+    measure &#x27;Total Revenue&#x27; = SUM(Sales[Amount])
+        formatString: \$#,0.00
+        description: &quot;Sum of all sales amounts&quot;
+
+    measure &#x27;Revenue YTD&#x27; =
+        CALCULATE(
+            [Total Revenue],
+            DATESYTD(&#x27;Date&#x27;[Date])
+        )
+        formatString: \$#,0.00
+        description: &quot;Year-to-date revenue&quot;
+</code></pre>
+<p><strong>What TMDL genuinely fixed:</strong></p>
+<ul>
+<li>Human-readable (unlike binary <code>.bim</code>)</li>
+<li>Git-friendly (real diffs, not JSON noise)</li>
+<li>Modular (one file per table)</li>
+<li>IDE-compatible (syntax highlighting, IntelliSense)</li>
+</ul>
+<p>What it didn&#x27;t fix is <em>where the definitions come from</em>. TMDL gave semantic models a better serialization format. It didn&#x27;t give them a source of truth. Teams adopted it, opened Tabular Editor or VS Code, and kept doing exactly what they did before — typing measure definitions by hand — just in a format that&#x27;s easier to diff. The format upgraded; the workflow didn&#x27;t.</p>
+<p>---</p>
+<h2>The Hand-Crafting Problem</h2>
+<p>Most teams adopt TMDL and immediately start writing it by hand. This seems natural — it&#x27;s text, after all, and text feels like source.</p>
+<p>But hand-crafting TMDL creates the same four problems every hand-crafted artifact creates once more than one person touches it.</p>
+<h3>Problem 1: Inconsistency</h3>
+<p>Different developers write different styles:</p>
+<pre class="code"><code>
+-- Developer A
+measure &#x27;Total Sales&#x27; = SUM(Sales[Amount])
+
+-- Developer B
+measure TotalSales = SUM ( Sales[Amount] )
+
+-- Developer C
+measure &#x27;total_sales&#x27; = sum(Sales[Amount])
+</code></pre>
+<p>Same logic, three styles. Which is correct? Without a standard, they all are — and now your semantic layer has three naming conventions living side by side.</p>
+<h3>Problem 2: Documentation Drift</h3>
+<p>Descriptions start strong, then decay:</p>
+<pre class="code"><code>
+-- Week 1: Well documented
+measure &#x27;Total Revenue&#x27; = SUM(Sales[Amount])
+    description: &quot;Sum of all sales amounts after discounts, excluding returns&quot;
+
+-- Week 10: Description outdated
+measure &#x27;Total Revenue&#x27; = SUM(Sales[NetAmount])  -- Changed column
+    description: &quot;Sum of all sales amounts after discounts, excluding returns&quot;
+    -- Description still says &quot;Amount&quot;, code uses &quot;NetAmount&quot;
+</code></pre>
+<p>Nobody updates a comment as a separate step. The code changes; the sentence next to it doesn&#x27;t.</p>
+<h3>Problem 3: Duplication</h3>
+<p>Time intelligence measures get copy-pasted across models:</p>
+<pre class="code"><code>
+-- Model A: Sales
+measure &#x27;Revenue YTD&#x27; = CALCULATE([Total Revenue], DATESYTD(&#x27;Date&#x27;[Date]))
+
+-- Model B: Marketing (copy-pasted, slightly modified)
+measure &#x27;Spend YTD&#x27; = CALCULATE([Total Spend], DATESYTD(&#x27;Date&#x27;[Date]))
+
+-- Model C: Operations (copy-pasted, bug introduced)
+measure &#x27;Cost YTD&#x27; = CALCULATE([Total Cost], DATESYTD(&#x27;Calendar&#x27;[Date]))
+    -- Oops: Different date table name
+</code></pre>
+<p>Copy-paste is how a correct pattern quietly becomes three slightly-wrong ones.</p>
+<h3>Problem 4: No Single Source of Truth</h3>
+<p>The semantic model becomes the definition. But what defined the semantic model? Requirements in a Word doc? A conversation in Slack? A memory of what someone said in standup three weeks ago? Nobody knows — and nobody can regenerate the model from anything but the model itself.</p>
+<p>These aren&#x27;t TMDL&#x27;s failures. They&#x27;re what happens whenever the thing you <em>hand-write</em> is also the thing you&#x27;d need to <em>govern</em>. TMDL didn&#x27;t cause this; it just makes it more visible, because now the drift shows up as a Git diff instead of disappearing into a binary blob.</p>
+<p>---</p>
+<h2>The Model-Driven Alternative</h2>
+<p><strong>Structure beats magic</strong> here in the most literal sense: the fix isn&#x27;t a smarter way to write TMDL, it&#x27;s refusing to write it at all. Model-driven development inverts the workflow so structure — explicit, versioned metadata — does the work that used to depend on one developer&#x27;s discipline and memory.</p>
+<pre class="code"><code>
+Traditional:
+  Requirements → [Human brain] → TMDL → Semantic Model
+
+Model-Driven:
+  Requirements → YAML Metadata → [Generator] → TMDL → Semantic Model
+</code></pre>
+<p>The metadata is the source of truth. TMDL is a generated artifact — you read it, you diff it in a PR, you never type it.</p>
+<h3>MDDE YAML as Source</h3>
+<pre class="code"><code>
+# entities/sales.yaml
+entities:
+  - name: Sales
+    stereotype: dim_fact
+    description: &quot;Customer sales transactions&quot;
+
+    attributes:
+      - name: Amount
+        type: decimal(18,2)
+        description: &quot;Transaction amount after discounts&quot;
+        format: currency
+
+      - name: ProductID
+        type: int
+        description: &quot;Reference to product dimension&quot;
+        hidden: true
+
+    measures:
+      - name: Total Revenue
+        expression: SUM([Amount])
+        description: &quot;Sum of all sales amounts&quot;
+        format: currency
+        time_intelligence:
+          - YTD
+          - PY
+          - YoY
+</code></pre>
+<h3>Generated TMDL</h3>
+<pre class="code"><code>
+/// This file is auto-generated from MDDE metadata.
+/// Source: entities/sales.yaml
+/// Generated: 2026-03-07T14:30:00Z
+/// Do not edit manually.
+
+table Sales
+    lineageTag: auto-generated-uuid
+
+    column Amount
+        dataType: decimal
+        formatString: \$#,0.00
+        summarizeBy: sum
+        sourceColumn: Amount
+        description: &quot;Transaction amount after discounts&quot;
+
+    column ProductID
+        dataType: int64
+        isHidden: true
+        sourceColumn: ProductID
+        description: &quot;Reference to product dimension&quot;
+
+    measure &#x27;Total Revenue&#x27; = SUM(Sales[Amount])
+        formatString: \$#,0.00
+        description: &quot;Sum of all sales amounts&quot;
+
+    measure &#x27;Total Revenue YTD&#x27; =
+        CALCULATE(
+            [Total Revenue],
+            DATESYTD(&#x27;Date&#x27;[Date])
+        )
+        formatString: \$#,0.00
+        description: &quot;Year-to-date: Sum of all sales amounts&quot;
+
+    measure &#x27;Total Revenue PY&#x27; =
+        CALCULATE(
+            [Total Revenue],
+            SAMEPERIODLASTYEAR(&#x27;Date&#x27;[Date])
+        )
+        formatString: \$#,0.00
+        description: &quot;Prior year: Sum of all sales amounts&quot;
+
+    measure &#x27;Total Revenue YoY&#x27; =
+        VAR CurrentValue = [Total Revenue]
+        VAR PriorValue = [Total Revenue PY]
+        RETURN DIVIDE(CurrentValue - PriorValue, PriorValue)
+        formatString: 0.0%
+        description: &quot;Year-over-year change: Sum of all sales amounts&quot;
+</code></pre>
+<p><strong>What just happened:</strong></p>
+<p>1. One measure definition → four generated measures</p>
+<p>2. Consistent naming: <code>[Base] YTD</code>, <code>[Base] PY</code>, <code>[Base] YoY</code></p>
+<p>3. Descriptions auto-prefixed with time context</p>
+<p>4. Format strings appropriate to measure type</p>
+<p>This is <strong>metadata as code</strong>: the YAML is what gets reviewed, tested, and merged. TMDL is what comes out the other end — never the other way around.</p>
+<p>---</p>
+<h2>Why Generation Wins</h2>
+<h3>1. Consistency by Default</h3>
+<p>The generator enforces style. Every measure follows the same pattern.</p>
+<pre class="code"><code>
+# Generator configuration
+naming:
+  measures:
+    ytd_suffix: &quot; YTD&quot;
+    py_suffix: &quot; PY&quot;
+    yoy_suffix: &quot; YoY&quot;
+  columns:
+    case: PascalCase
+</code></pre>
+<p>No debate, no drift. Style is configuration, not discipline — which means it survives a team change, a deadline crunch, or a new hire who never read the naming-convention doc.</p>
+<h3>2. Documentation Is Automatic</h3>
+<p>Descriptions come from metadata. When metadata changes, descriptions regenerate — this is <strong>living documentation</strong>: it evolves with the platform because it&#x27;s derived, not typed alongside it.</p>
+<pre class="code"><code>
+# Change once in YAML
+attributes:
+  - name: Amount
+    description: &quot;Net transaction amount after discounts and returns&quot;
+</code></pre>
+<p>Regenerate → all references updated. There&#x27;s no second place to remember to update.</p>
+<h3>3. Time Intelligence Is Free</h3>
+<p>Define once in metadata, generate all variants:</p>
+<pre class="code"><code>
+measures:
+  - name: Revenue
+    expression: SUM([Amount])
+    time_intelligence:
+      - YTD
+      - QTD
+      - MTD
+      - PY
+      - PQ
+      - PM
+      - YoY
+      - QoQ
+      - MoM
+</code></pre>
+<p>That&#x27;s 10 measures from one definition. Each is correctly named, formatted, and documented — none of it copy-pasted, so none of it can silently diverge.</p>
+<h3>4. Multi-Target Generation</h3>
+<p>The same YAML generates multiple outputs:</p>
+<pre class="code"><code>
+# Single source
+entities:
+  - name: Sales
+    attributes:
+      - name: Amount
+        type: decimal(18,2)
+</code></pre>
+<p>Generate:</p>
+<ul>
+<li><strong>SQL DDL:</strong> <code>CREATE TABLE sales (amount DECIMAL(18,2))</code></li>
+<li><strong>dbt model:</strong> <code>{{ config(materialized=&#x27;table&#x27;) }} SELECT amount FROM ...</code></li>
+<li><strong>TMDL:</strong> <code>column Amount dataType: decimal</code></li>
+<li><strong>Documentation:</strong> Markdown with column definitions</li>
+</ul>
+<p>One truth, many representations. This is the same move that made <strong>model-driven data engineering</strong> work for SQL and dbt in the first place — TMDL is just the newest target it can point at.</p>
+<h3>5. Validation Before Generation</h3>
+<p>Errors caught at metadata level, not after deployment:</p>
+<pre class="code"><code>
+METADATA VALIDATION
+===================
+Error: Entity &quot;Sales&quot; has measure &quot;Revenue&quot; referencing
+       non-existent attribute &quot;Ammount&quot; (typo?)
+
+Suggestion: Did you mean &quot;Amount&quot;?
+</code></pre>
+<p>Catching a typo in a YAML validator costs a red line in CI. Catching the same typo after deployment costs a support ticket, a Teams thread, and someone&#x27;s afternoon.</p>
+<p>---</p>
+<h2>The Workflow</h2>
+<h3>Step 1: Define Metadata</h3>
+<pre class="code"><code>
+# entities/sales.yaml
+entities:
+  - name: Sales
+    stereotype: dim_fact
+    description: &quot;Customer sales transactions&quot;
+    source:
+      schema: raw
+      table: fact_orders
+    attributes:
+      - name: OrderDate
+        type: date
+        description: &quot;Date order was placed&quot;
+        role: date_key
+      - name: Amount
+        type: decimal(18,2)
+        description: &quot;Net transaction amount&quot;
+    measures:
+      - name: Total Revenue
+        expression: SUM([Amount])
+        time_intelligence: [YTD, PY, YoY]
+</code></pre>
+<h3>Step 2: Validate</h3>
+<pre class="code"><code>
+mdde validate entities/
+</code></pre>
+<p>Output:</p>
+<pre class="code"><code>
+Validating entities/sales.yaml...
+  ✓ Entity &quot;Sales&quot; has valid stereotype
+  ✓ All attributes have descriptions
+  ✓ Measure expressions are valid DAX
+  ✓ Time intelligence references valid date role
+
+All validations passed.
+</code></pre>
+<h3>Step 3: Generate TMDL</h3>
+<pre class="code"><code>
+mdde export powerbi --format tmdl --output ./tmdl/
+</code></pre>
+<p>Output:</p>
+<pre class="code"><code>
+Generating TMDL from 12 entities...
+  → Sales.tmdl (4 columns, 7 measures)
+  → Customer.tmdl (8 columns, 0 measures)
+  → Product.tmdl (6 columns, 0 measures)
+  → Date.tmdl (12 columns, 0 measures)
+  → relationships.tmdl (6 relationships)
+  → model.tmdl (model-level properties)
+
+Generated 6 TMDL files.
+</code></pre>
+<h3>Step 4: Deploy</h3>
+<pre class="code"><code>
+mdde fabric deploy --workspace &quot;Sales Analytics&quot; --model ./tmdl/
+</code></pre>
+<p>---</p>
+<h2>Handling Edge Cases</h2>
+<p>&quot;But what about complex measures that don&#x27;t fit templates?&quot;</p>
+<h3>Custom DAX in Metadata</h3>
+<pre class="code"><code>
+measures:
+  - name: Rolling 12 Month Average
+    expression: |
+      VAR Last12Months =
+          DATESINPERIOD(
+              &#x27;Date&#x27;[Date],
+              MAX(&#x27;Date&#x27;[Date]),
+              -12,
+              MONTH
+          )
+      RETURN
+          AVERAGEX(
+              Last12Months,
+              CALCULATE([Total Revenue])
+          )
+    description: &quot;Average monthly revenue over trailing 12 months&quot;
+</code></pre>
+<p>The generator passes through custom DAX verbatim. You get the best of both worlds: templated measures where patterns apply, custom DAX where they don&#x27;t.</p>
+<h3>Calculation Groups</h3>
+<pre class="code"><code>
+calculation_groups:
+  - name: Time Intelligence
+    items:
+      - name: Current
+        expression: SELECTEDMEASURE()
+      - name: YTD
+        expression: CALCULATE(SELECTEDMEASURE(), DATESYTD(&#x27;Date&#x27;[Date]))
+      - name: PY
+        expression: CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR(&#x27;Date&#x27;[Date]))
+</code></pre>
+<p>Generated as proper TMDL calculation group syntax.</p>
+<p>---</p>
+<h2>When to Hand-Craft</h2>
+<p>There are legitimate cases for manual TMDL:</p>
+<p>1. <strong>Prototyping</strong> — quick experiments before committing to metadata</p>
+<p>2. <strong>One-off fixes</strong> — emergency production patches</p>
+<p>3. <strong>Legacy migration</strong> — importing existing models before converting to metadata</p>
+<p>But even then, the goal is metadata-first. Hand-crafted TMDL should be temporary — a scratchpad on the way to a YAML definition, not a permanent home.</p>
+<p>---</p>
+<h2>CI/CD Integration</h2>
+<p>The model-driven approach integrates naturally with CI/CD — this is <strong>semantic DevOps</strong>: meaning ships on a release train, not by hand.</p>
+<pre class="code"><code>
+# .github/workflows/semantic-model.yml
+name: Semantic Model CI/CD
+
+on:
+  push:
+    paths:
+      - &#x27;entities/**/*.yaml&#x27;
+      - &#x27;measures/**/*.yaml&#x27;
+
+jobs:
+  validate-and-deploy:
+    steps:
+      - name: Validate Metadata
+        run: mdde validate ./entities/
+
+      - name: Generate TMDL
+        run: mdde export powerbi --format tmdl --output ./tmdl/
+
+      - name: Run Best Practice Analyzer
+        run: npx @pbi-tools/bpa ./tmdl/
+
+      - name: Deploy to Development
+        run: mdde fabric deploy --workspace &quot;Dev&quot; --model ./tmdl/
+</code></pre>
+<p><strong>The key insight:</strong> YAML changes trigger the pipeline. TMDL is never committed to Git — it&#x27;s a build artifact, exactly like a compiled binary or a generated SQL script.</p>
+<p>---</p>
+<h2>Comparison: Hand-Craft vs. Generate</h2>
+<p>| Aspect | Hand-Craft | Generate |</p>
+<p>|--------|------------|----------|</p>
+<p>| <strong>Consistency</strong> | Depends on discipline | Enforced by generator |</p>
+<p>| <strong>Documentation</strong> | Manual, drifts | Automatic, always current |</p>
+<p>| <strong>Time intelligence</strong> | Copy-paste per measure | Define once, generate all |</p>
+<p>| <strong>Multi-target</strong> | Separate files | Single source |</p>
+<p>| <strong>Validation</strong> | After deployment | Before generation |</p>
+<p>| <strong>Code review</strong> | Review TMDL (verbose) | Review YAML (concise) |</p>
+<p>| <strong>Refactoring</strong> | Find/replace risk | Regenerate safely |</p>
+<p>| <strong>Onboarding</strong> | Learn TMDL syntax | Learn YAML schema |</p>
+<p>---</p>
+<h2>Getting Started</h2>
+<h3>For New Projects</h3>
+<p>Start with metadata. Define your entities in YAML, generate TMDL from day one.</p>
+<pre class="code"><code>
+# Initialize MDDE project
+mdde init --template powerbi
+
+# Define first entity
+mdde entity create Sales --stereotype dim_fact
+
+# Generate TMDL
+mdde export powerbi --format tmdl
+</code></pre>
+<h3>For Existing Projects</h3>
+<p>Import existing TMDL into metadata, then switch to generation:</p>
+<pre class="code"><code>
+# Import existing model
+mdde import powerbi --source ./existing-model.bim --output ./entities/
+
+# Review and enhance imported metadata
+code ./entities/
+
+# Regenerate (verify round-trip)
+mdde export powerbi --format tmdl --output ./new-tmdl/
+
+# Compare
+diff -r ./existing-model/ ./new-tmdl/
+</code></pre>
+<p>---</p>
+<h2>Key Takeaways</h2>
+<p>1. <strong>TMDL is an output, not an input</strong> — treat it like compiled code, not source.</p>
+<p>2. <strong>Metadata is the source of truth</strong> — YAML definitions drive everything.</p>
+<p>3. <strong>Generation enforces consistency</strong> — no style debates, no documentation drift.</p>
+<p>4. <strong>Time intelligence is multiplicative</strong> — one measure definition, many variants.</p>
+<p>5. <strong>Multi-target generation</strong> — same metadata produces SQL, dbt, TMDL, docs.</p>
+<p>6. <strong>Validation shifts left</strong> — catch errors in metadata, not after deployment.</p>
+<p>7. <strong>CI/CD is natural</strong> — YAML changes trigger pipelines, TMDL is never committed.</p>
+<p>The question isn&#x27;t whether to use TMDL. TMDL is a good format either way. The question is whether it&#x27;s the thing you write or the thing your pipeline writes for you — and once you&#x27;ve seen the second version work, going back to typing measures by hand feels like editing a compiled binary.</p>
+<p>---</p>
+<p><em>This is part 2 of the Power BI + MDDE integration series.</em></p>
+<p><em>Next: &quot;From Entity to Measure: Automated DAX Generation&quot;</em></p>
+<p style="margin-top:34px"><a href="index.html">&larr; All articles</a></p>
+</main></div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+<script type="module">
+  import { initDetail } from "../assets/detail.js";
+  initDetail();
+</script>
+</body></html>

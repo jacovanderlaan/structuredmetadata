@@ -1,0 +1,24 @@
+<div id="browse" data-page-type="articles"></div>
+<div class="bw-fallback">
+  <p class="muted">All items:</p>
+  <ul class="artlist">
+    <li><a href="../articles/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata.html">Atomic SQL: Self-Contained Data Pipelines That Carry Their Own Metadata</a> &mdash; <span class="muted">A SQL file that documents itself is a SQL file that can&#x27;t drift from its own documentation</span></li>
+    <li><a href="../articles/bill-inmons-lasting-impact-why-3nf-and-universal-data-models-still-matter-in-modern-integration-layers.html">Bill Inmon&#x27;s Lasting Impact: Why 3NF and Universal Data Models Still Matter in Modern Integration Layers</a> &mdash; <span class="muted">The father of data warehousing never designed for dbt, Data Vault, or dual SCD2 — but the integration-layer di</span></li>
+    <li><a href="../articles/building-ai-enabled-metadata-driven-data-platform-teams.html">Building AI-Enabled, Metadata-Driven Data Platform Teams</a> &mdash; <span class="muted">The roles don&#x27;t disappear when AI arrives — they move up a level, and metadata is what makes that move possibl</span></li>
+    <li><a href="../articles/from-kimball-to-metadata-how-dimensional-thinking-still-shapes-modern-data-architecture.html">From Kimball to Metadata: How Dimensional Thinking Still Shapes Modern Data Architecture</a> &mdash; <span class="muted">Kimball gave the field a shared vocabulary — metadata-driven engineering gives that vocabulary structure it ca</span></li>
+    <li><a href="../articles/mdde-adoption-framework-minimal-metadata-for-your-use-case.html">MDDE Adoption Framework: Minimal Metadata for Your Use Case</a> &mdash; <span class="muted">Deploy exactly the entities your use case needs — not the 380+ a platform ships &quot;just in case&quot;.</span></li>
+    <li><a href="../articles/sidecar-tables-companion-metadata-for-data-assets.html">Sidecar Tables: Companion Metadata for Data Assets</a> &mdash; <span class="muted">How auxiliary tables let metadata travel with your data without polluting the business schema</span></li>
+    <li><a href="../articles/tmdl-and-model-driven-development-generate-vs-handcraft.html">TMDL and Model-Driven Development: Generate vs. Hand-Craft</a> &mdash; <span class="muted">Why the future of semantic model development is generation, not authoring</span></li>
+  </ul>
+</div>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../",
+    assets: "../concepts/assets/",
+    pageType: "articles",
+    itemTypes: ["post"],
+    defaults: {"view": "list", "sort": "newest"}
+  }).then(() => document.body.classList.add("bw-ready"));
+</script>

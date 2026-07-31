@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
+<title>Atomic SQL: Self-Contained Data Pipelines That Carry Their Own Metadata — Structured Metadata</title>
+<meta name="description" content="A SQL file that documents itself is a SQL file that can&#x27;t drift from its own documentation" />
+<link rel="canonical" href="https://structuredmetadata.com/articles/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata.html" />
+<meta property="og:title" content="Atomic SQL: Self-Contained Data Pipelines That Carry Their Own Metadata" />
+<meta property="og:description" content="A SQL file that documents itself is a SQL file that can&#x27;t drift from its own documentation" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://structuredmetadata.com/articles/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata.html" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head>
+<body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">The idea</button><span class="navmenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Library</button><span class="navmenu">
+<a href="../concepts/index.html">Concepts</a>
+<a href="../anti-patterns/index.html">Anti-patterns</a>
+<a href="../glossary/index.html">Glossary</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Explore</button><span class="navmenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+<a href="../skills/index.html">Skills</a>
+<a href="../decisions/index.html">Decisions</a>
+<a href="../ideas/index.html">Ideas</a>
+</span></span>
+<a href="../articles/index.html">Articles</a>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
+<div class="wrap pagewrap">
+<main class="pagebody">
+<div class="eyebrow">Article</div>
+<h1>Atomic SQL: Self-Contained Data Pipelines That Carry Their Own Metadata</h1>
+<div class="bw-meta">2026-03-02 · 13 min read</div>
+<p>A SQL file that documents itself is a SQL file that can&#x27;t drift from its own documentation</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>The problem: metadata sprawl</h3>
+<p>In most data platforms, metadata doesn&#x27;t live in one place — it lives in five:</p>
+<ul>
+<li><strong>ETL tools</strong> hold pipeline schedules and dependencies</li>
+<li><strong>Data catalogs</strong> hold descriptions and classifications</li>
+<li><strong>Governance platforms</strong> hold PII tags and ownership</li>
+<li><strong>Quality tools</strong> hold validation rules</li>
+<li><strong>BI tools</strong> hold metric definitions</li>
+</ul>
+<p>Call it what it is: <strong>metadata sprawl</strong>. The same column gets described five times, in five tools, by people who never talk to each other — and the descriptions inevitably contradict. This is <strong>innocent SQL</strong> one level up: nobody lies about what a column means, everybody just documents it slightly differently, and the drift compounds until nobody trusts any single answer.</p>
+<p>!Diagram showing the metadata sprawl problem: a single table sitting between Airflow, Unity Catalog, dbt, Purview, a data-quality tool and Looker, each holding a different fragment of the table&#x27;s metadata, with the question &quot;which source is correct?&quot;/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata/assets/01_hero/01_hero.png)</p>
+<p>Ask a new team member &quot;what does this column mean?&quot; and you get six different answers — one per tool, and none of them the SQL that actually produced the value.</p>
+<h3>The fix: Atomic SQL</h3>
+<p><strong>Atomic SQL</strong> is a design pattern where every SQL file is self-contained: pipeline, transformation, and column metadata all live as structured comments inside the file itself. The query runs with zero external metadata dependencies — no catalog lookup, no orchestrator config, no separate quality-rule store required to execute it. But at deployment time, that same metadata is <strong>extracted</strong> and published outward to whatever platforms need it: the orchestrator, the catalog, the quality tool.</p>
+<p>Think of it as a shipping container for a data transformation: the container carries the manifest of what&#x27;s inside, so nobody downstream has to guess.</p>
+<p>!AI-generated illustration of a glowing &quot;Atomic SQL&quot; folder icon surrounded by orbiting icons for ETL orchestrators, catalogs, governance, portability, auditability and deployment-readiness, evoking a single self-contained unit radiating out to every consuming platform/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata/assets/02_figure/02_figure.png)</p>
+<h3>The anatomy of an Atomic SQL file</h3>
+<pre class="code"><code>
+-- ============================================================================
+-- HEADER: Pipeline Identity
+-- ============================================================================
+-- @pipeline: customer_360_daily
+-- @version: 2.1.0
+-- @owner: data-platform@company.com
+-- @schedule: 0 6 * * *
+-- @target: gold.dim_customer
+-- @stereotype: dim_scd2
+-- @depends_on: silver.clean_customers, silver.fact_orders
+-- ============================================================================
+
+WITH
+-- ============================================================================
+-- CTE: What this transformation step does
+-- @cte: deduplicated
+-- @grain: one row per customer_id
+-- @description: Remove duplicates, keep most recent record
+-- ============================================================================
+deduplicated AS (
+    SELECT *,
+        ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY updated_at DESC) as rn
+    FROM silver.clean_customers
+)
+-- ============================================================================
+-- OUTPUT: Target table with quality expectations
+-- @output: gold.dim_customer
+-- @pk: customer_key
+-- @check: not_null(customer_id, email)
+-- @check: unique(customer_id)
+-- ============================================================================
+SELECT
+    customer_id,                    -- @nk: natural key
+    email,                          -- @tag: pii, gdpr
+    lifetime_value                  -- @tag: metric, currency_usd
+FROM deduplicated
+WHERE rn = 1;
+</code></pre>
+<p>One file, four things it can do without leaving Git:</p>
+<p>1. <strong>Execute immediately</strong> in any SQL environment — no metadata store required.</p>
+<p>2. <strong>Be reviewed</strong> with full context in a PR — the metadata change sits next to the code change.</p>
+<p>3. <strong>Be deployed</strong> with automatic metadata extraction into orchestrator, catalog, quality tool.</p>
+<p>4. <strong>Be versioned</strong> with complete history — <code>git blame</code> tells you who tagged a column PII, and when.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Why &quot;atomic&quot;?</h3>
+<p>In chemistry, an atom is the smallest unit that still retains the properties of an element — split it further and you lose what made it that element. An Atomic SQL file works the same way: it&#x27;s the smallest deployable unit that still retains every property of the pipeline. Split the metadata out into a separate catalog entry, and you&#x27;ve reintroduced the drift the pattern exists to kill.</p>
+<p>!Comparison table: for each property (transformation logic, dependencies, schedule, quality checks, column metadata, ownership), Atomic SQL keeps it &quot;in the file&quot; while the traditional approach scatters it across Airflow, dbt, orchestrator, quality tool, catalog and governance tool/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata/assets/03_figure/03_figure.png)</p>
+<p>That table is the whole argument in one glance: in the traditional approach, only the transformation logic reliably lives in the file. Everything else is a pointer to some other tool&#x27;s opinion.</p>
+<h3>The three zones of annotation</h3>
+<p>Atomic SQL uses three annotation zones, each scoped to a different level of the pipeline.</p>
+<h4>Zone 1: header (pipeline-level)</h4>
+<p>The header block carries metadata about the <strong>entire pipeline</strong>:</p>
+<pre class="code"><code>
+-- ============================================================================
+-- @pipeline: customer_360_daily
+-- @version: 2.1.0
+-- @owner: data-platform@company.com
+-- @schedule: 0 6 * * *
+-- @target: gold.dim_customer
+-- @stereotype: dim_scd2
+-- @depends_on: silver.clean_customers, silver.fact_orders
+-- @sla: freshness=6h, quality=99.5%
+-- @certified: true
+-- @description: |
+--   Builds unified customer dimension from CRM and order data.
+--   Implements SCD Type 2 for historical tracking.
+--   Critical for customer analytics dashboards.
+-- ============================================================================
+</code></pre>
+<p><strong>Extractable to:</strong></p>
+<ul>
+<li>Airflow / Databricks Workflows — schedule, dependencies</li>
+<li>Data catalog — owner, description, certification</li>
+<li>Monitoring — SLA expectations</li>
+</ul>
+<h4>Zone 2: CTE comments (transformation-level)</h4>
+<p>Each CTE gets its own comment block explaining what it does and why:</p>
+<pre class="code"><code>
+-- ============================================================================
+-- @cte: order_enrichment
+-- @description: Calculate customer lifetime metrics from order history
+-- @grain: one row per customer_id
+-- @joins: silver.fact_orders ON customer_id
+-- @aggregation: SUM(order_total), COUNT(order_id)
+-- @business_rule: Only include orders with status = &#x27;completed&#x27;
+-- ============================================================================
+order_enrichment AS (
+    SELECT
+        customer_id,
+        SUM(order_total) as lifetime_value,
+        COUNT(order_id) as total_orders
+    FROM silver.fact_orders
+    WHERE status = &#x27;completed&#x27;
+    GROUP BY customer_id
+)
+</code></pre>
+<p><strong>Why this matters:</strong></p>
+<ul>
+<li>Future maintainers understand the transformation logic without archaeology</li>
+<li>Lineage tools can infer column-level relationships from the annotations, not just the joins</li>
+<li>AI assistants can explain what each step does — the explanation is <em>in the file they&#x27;re reading</em></li>
+</ul>
+<h4>Zone 3: column annotations (inline)</h4>
+<p>Column-level metadata sits right next to the column definition, not three tools away:</p>
+<pre class="code"><code>
+SELECT
+    customer_id,                          -- @nk: natural key from CRM
+    email,                                -- @tag: pii, gdpr, mask_on_export
+    CONCAT(first_name, &#x27; &#x27;, last_name)    -- @derived: concatenation
+        as full_name,
+    segment,                              -- @enum: enterprise, smb, consumer
+    lifetime_value,                       -- @tag: metric, currency_usd
+                                           -- @aggregation: sum
+    health_score                          -- @tag: metric, derived
+                                           -- @range: 0-100
+                                           -- @business_context: enterprise_model
+FROM enriched
+</code></pre>
+<p><strong>Why inline?</strong></p>
+<ul>
+<li>Metadata is visible during code review, not hidden behind a separate PR to a separate repo</li>
+<li>Column and metadata change together, in the same diff, or not at all</li>
+<li>No drift between what the code does and what the documentation claims it does</li>
+</ul>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>The deployment pipeline</h3>
+<p>Atomic SQL files don&#x27;t need a metadata store to <strong>execute</strong> — but at <strong>deployment</strong> time, the metadata gets extracted and pushed out to every platform that needs a copy:</p>
+<p>!Deployment flow diagram: a customer_360.sql file with embedded @pipeline, @owner, @depends_on and @check annotations flows through a deployment pipeline (parse SQL, extract annotations, validate dependencies, execute query, publish metadata) and fans out into Airflow (DAG tasks, schedule, deps graph), Unity Catalog (PII tags, owner) and MDDE (lineage, quality, context)/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata/assets/04_figure/04_figure.png)</p>
+<h4>Example: <code>mdde deploy</code></h4>
+<pre class="code"><code>
+$ mdde deploy pipelines/customer_360.sql --env prod
+
+Parsing atomic query...
+✓ Pipeline: customer_360_daily v2.1.0
+✓ Owner: data-platform@company.com
+✓ Schedule: 0 6 * * * (Daily 06:00 UTC)
+Extracting metadata...
+✓ Dependencies: 2 tables
+  - silver.clean_customers
+  - silver.fact_orders
+✓ Target: gold.dim_customer (dim_scd2)
+✓ Quality checks: 3 defined
+✓ Column tags: 6 columns annotated
+Validating...
+✓ Dependencies exist in catalog
+✓ No circular dependencies
+✓ Owner has deploy permissions
+Deploying...
+✓ Executed query (12.3s, 1.2M rows)
+✓ Registered in Airflow DAG
+✓ Published tags to Unity Catalog
+✓ Updated lineage in MDDE
+✓ Quality checks scheduled
+Deployment complete!
+View in catalog: https://catalog.company.com/gold/dim_customer
+</code></pre>
+<p>Nothing here is exotic — it&#x27;s a parser reading structured comments and a set of API calls to the tools you already run. That&#x27;s the point: Atomic SQL doesn&#x27;t replace Airflow, Unity Catalog, or your quality platform. It&#x27;s the <strong>metadata as code</strong> layer that keeps them all fed from one source instead of five independently-maintained ones.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Handling complex transformations</h3>
+<p>Real pipelines aren&#x27;t one CTE. Here&#x27;s how the pattern scales.</p>
+<h4>Multi-CTE pipelines</h4>
+<pre class="code"><code>
+-- @pipeline: customer_360_daily
+-- @target: gold.dim_customer
+
+WITH
+-- @cte: raw_dedupe | @grain: 1 row/customer_id
+raw_dedupe AS (
+    SELECT *, ROW_NUMBER() OVER (...) as rn
+    FROM silver.clean_customers
+),
+-- @cte: order_metrics | @grain: 1 row/customer_id | @joins: fact_orders
+order_metrics AS (
+    SELECT customer_id, SUM(total) as ltv, COUNT(*) as orders
+    FROM silver.fact_orders
+    GROUP BY customer_id
+),
+-- @cte: segment_rules | @business_rule: RFM segmentation
+segment_rules AS (
+    SELECT
+        customer_id,
+        CASE
+            WHEN ltv &gt; 10000 AND orders &gt; 10 THEN &#x27;vip&#x27;
+            WHEN ltv &gt; 5000 THEN &#x27;high_value&#x27;
+            WHEN orders &gt; 5 THEN &#x27;frequent&#x27;
+            ELSE &#x27;standard&#x27;
+        END as segment
+    FROM order_metrics
+),
+-- @cte: final_join | Combines all CTEs
+final AS (
+    SELECT r.*, o.ltv, o.orders, s.segment
+    FROM raw_dedupe r
+    JOIN order_metrics o ON r.customer_id = o.customer_id
+    JOIN segment_rules s ON r.customer_id = s.customer_id
+    WHERE r.rn = 1
+)
+-- @output: gold.dim_customer
+SELECT * FROM final;
+</code></pre>
+<h4>Incremental loads</h4>
+<pre class="code"><code>
+-- @pipeline: orders_incremental
+-- @target: silver.fact_orders
+-- @mode: incremental
+-- @watermark: order_date
+-- @lookback: 3 days
+
+-- @cte: new_orders | Fetch only new/updated records
+WITH new_orders AS (
+    SELECT *
+    FROM bronze.raw_orders
+    WHERE order_date &gt;= &#x27;{{ watermark }}&#x27; - INTERVAL &#x27;3 days&#x27;
+)
+-- @output: silver.fact_orders
+-- @merge_key: order_id
+-- @update_columns: status, updated_at
+SELECT * FROM new_orders;
+</code></pre>
+<h4>Parameterized queries</h4>
+<pre class="code"><code>
+-- @pipeline: monthly_aggregation
+-- @target: gold.monthly_metrics
+-- @parameters:
+--   - name: year_month
+--     type: string
+--     format: YYYY-MM
+--     default: {{ current_month }}
+
+WITH monthly AS (
+    SELECT
+        DATE_TRUNC(&#x27;month&#x27;, order_date) as month,
+        SUM(total) as revenue
+    FROM silver.fact_orders
+    WHERE DATE_TRUNC(&#x27;month&#x27;, order_date) = &#x27;{{ year_month }}-01&#x27;
+    GROUP BY 1
+)
+SELECT * FROM monthly;
+</code></pre>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Quality checks in Atomic SQL</h3>
+<p>Quality expectations live in the same file as the transformation they guard:</p>
+<pre class="code"><code>
+-- ============================================================================
+-- QUALITY CHECKS
+-- @check: not_null(customer_id, email)
+-- @check: unique(customer_id)
+-- @check: unique(customer_id, valid_from)  -- SCD2 uniqueness
+-- @check: range(health_score, 0, 100)
+-- @check: enum(segment, &#x27;enterprise&#x27;, &#x27;smb&#x27;, &#x27;consumer&#x27;, &#x27;startup&#x27;)
+-- @check: referential(customer_id, silver.clean_customers.customer_id)
+-- @check: freshness(updated_at, 24h)
+-- @check: row_count(min=1000, max=10000000)
+-- @check: custom(&quot;lifetime_value &gt;= 0 OR status = &#x27;inactive&#x27;&quot;)
+-- ============================================================================
+</code></pre>
+<p>At deployment, these get:</p>
+<p>1. <strong>Scheduled</strong> to run right after the pipeline</p>
+<p>2. <strong>Registered</strong> in the data quality platform</p>
+<p>3. <strong>Monitored</strong>, with alerts wired to failures</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>The benefits</h3>
+<h4>1. Portability</h4>
+<p>Move the file, and everything moves with it — nothing to recreate on the other side:</p>
+<pre class="code"><code>
+# Copy from dev to prod
+cp pipelines/customer_360.sql /prod/pipelines/
+
+# Deploy - metadata travels with the file
+mdde deploy /prod/pipelines/customer_360.sql --env prod
+</code></pre>
+<p>No re-recreating DAGs. No re-tagging columns. No re-entering quality rules by hand in a second tool.</p>
+<h4>2. Code review = metadata review</h4>
+<p>Change a column from <code>VARCHAR</code> to <code>DECIMAL</code>, and the PR shows both changes in one diff:</p>
+<pre class="code"><code>
+SELECT
+-     lifetime_value,                 -- @tag: metric, varchar
++     CAST(lifetime_value AS DECIMAL) -- @tag: metric, currency_usd
++         as lifetime_value,          -- @precision: 15,2
+</code></pre>
+<p>The reviewer sees the code change and the metadata change together, because they <em>are</em> the same change.</p>
+<h4>3. No drift</h4>
+<p>The traditional failure mode:</p>
+<pre class="code"><code>
+Code says:     email VARCHAR(255)
+Catalog says:  email VARCHAR(100)
+Quality says:  email NOT NULL
+Governance:    email is PII (maybe?)
+</code></pre>
+<p>Four tools, four half-true answers. Atomic SQL collapses it to one:</p>
+<pre class="code"><code>
+email VARCHAR(255)    -- @tag: pii, gdpr | @check: not_null
+</code></pre>
+<p>One source. No drift. Ever — because there&#x27;s nowhere else for a second answer to live.</p>
+<h4>4. Git-native history</h4>
+<pre class="code"><code>
+$ git log --oneline pipelines/customer_360.sql
+
+a1b2c3d Add health_score metric
+d4e5f6g Mark email as GDPR-sensitive
+g7h8i9j Change SLA from 12h to 6h
+j0k1l2m Add referential integrity check
+m3n4o5p Initial pipeline creation
+</code></pre>
+<p>Every metadata change is tracked with author, timestamp, and commit message — the same audit trail you already trust for code, now covering governance decisions too.</p>
+<h4>5. AI-ready</h4>
+<p>When an assistant needs to explain your data, the explanation is already sitting in the file it&#x27;s reading:</p>
+<pre class="code"><code>
+User: &quot;What does the health_score column mean?&quot;
+
+AI: Looking at customer_360.sql...
+The health_score column:
+- Is a derived metric (tagged: metric, derived)
+- Ranges from 0-100 (check: range)
+- Uses enterprise_model business context
+- Is calculated in the &#x27;scored&#x27; CTE using RFM formula:
+  - Recency: 40% weight
+  - Frequency: 30% weight
+  - Monetary: 30% weight
+</code></pre>
+<p>This is the part worth naming plainly: <strong>structure beats magic</strong> here too. The AI isn&#x27;t guessing from a vague prompt or hallucinating a plausible-sounding answer — it&#x27;s reading structure that a human deliberately put in place. Good output stops being luck and becomes repeatable the moment the metadata is <em>actually there</em> to read.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Implementation checklist</h3>
+<p>Ready to adopt Atomic SQL? Four phases, roughly in order.</p>
+<p><strong>Phase 1 — Annotation standard</strong></p>
+<ul>
+<li>Define annotation syntax (<code>@tag</code>, <code>@check</code>, etc.)</li>
+<li>Document which annotations go where — header, CTE, column</li>
+<li>Create linting rules to validate annotations</li>
+<li>Build an annotation reference for your team</li>
+</ul>
+<p><strong>Phase 2 — Parser</strong></p>
+<ul>
+<li>Build a SQL parser that extracts annotations</li>
+<li>Handle multi-line values (descriptions)</li>
+<li>Support all annotation types</li>
+<li>Unit test extensively — this is the piece everything else depends on</li>
+</ul>
+<p><strong>Phase 3 — Deployment integration</strong></p>
+<ul>
+<li>Connect to your orchestrator (Airflow, Databricks, etc.)</li>
+<li>Connect to your catalog (Unity, Purview, etc.)</li>
+<li>Connect to your quality platform (dbt, Great Expectations, etc.)</li>
+<li>Build the deploy command that ties them together</li>
+</ul>
+<p><strong>Phase 4 — Migration</strong></p>
+<ul>
+<li>Inventory existing pipelines</li>
+<li>Generate annotations from existing metadata sources — don&#x27;t hand-type what you can extract</li>
+<li>Review and enhance the generated annotations</li>
+<li>Deprecate the external metadata sources once the SQL file is the trusted copy</li>
+</ul>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Conclusion</h3>
+<p>Atomic SQL isn&#x27;t a new language, and it isn&#x27;t a framework you adopt wholesale. It&#x27;s a design pattern that treats a SQL file as a complete, self-documenting package — and you can apply it inside dbt, SQLMesh, plain Airflow, or any orchestrator&#x27;s deployment step. Extend whatever you already run; don&#x27;t rip it out.</p>
+<p>The principles are simple:</p>
+<p>1. <strong>Metadata belongs with code</strong> — not scattered across five separate tools</p>
+<p>2. <strong>One source of truth</strong> — the SQL file, not a catalog entry that might be stale</p>
+<p>3. <strong>Extract, don&#x27;t duplicate</strong> — publish outward to platforms from the file, never the reverse</p>
+<p>4. <strong>Version everything</strong> — a metadata change is a code change, reviewed the same way</p>
+<p>The result is pipelines that are:</p>
+<ul>
+<li><strong>Portable</strong> — move anywhere, metadata follows</li>
+<li><strong>Auditable</strong> — Git history captures every governance decision, not just every code change</li>
+<li><strong>Reviewable</strong> — PRs show the full context, not just the diff</li>
+<li><strong>Trustworthy</strong> — no drift between what the code does and what the catalog claims it does</li>
+</ul>
+<p>Start with one pipeline. Add the annotations. Extract to your platforms. Scale from there — the fifth pipeline is cheaper than the first, because the parser and the deploy step are already built.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Appendix: complete annotation reference</h3>
+<h4>Header annotations</h4>
+<p>!Table of header-level annotations — @pipeline, @version, @owner, @target marked Required; @schedule, @depends_on, @stereotype, @sla, @certified, @description marked optional — each with an example/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata/assets/05_figure/05_figure.png)</p>
+<h4>CTE annotations</h4>
+<p>!Table of CTE-level annotations — @cte, @description, @grain, @joins, @filter, @aggregation, @business_rule — each with an example value/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata/assets/06_figure/06_figure.png)</p>
+<h4>Column annotations</h4>
+<p>!Table of column-level annotations — @tag, @nk, @enum, @range, @derived, @currency, @format — each with an example value/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata/assets/07_figure/07_figure.png)</p>
+<h4>Quality annotations</h4>
+<p>!Table of quality-check annotations — @check: not_null, unique, range, enum, referential, freshness, row_count, custom — each with an example expression/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata/assets/08_figure/08_figure.png)</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<p style="margin-top:34px"><a href="index.html">&larr; All articles</a></p>
+</main></div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+<script type="module">
+  import { initDetail } from "../assets/detail.js";
+  initDetail();
+</script>
+</body></html>

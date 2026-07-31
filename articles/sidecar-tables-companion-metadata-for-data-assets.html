@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
+<title>Sidecar Tables: Companion Metadata for Data Assets — Structured Metadata</title>
+<meta name="description" content="How auxiliary tables let metadata travel with your data without polluting the business schema" />
+<link rel="canonical" href="https://structuredmetadata.com/articles/sidecar-tables-companion-metadata-for-data-assets.html" />
+<meta property="og:title" content="Sidecar Tables: Companion Metadata for Data Assets" />
+<meta property="og:description" content="How auxiliary tables let metadata travel with your data without polluting the business schema" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://structuredmetadata.com/articles/sidecar-tables-companion-metadata-for-data-assets.html" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head>
+<body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">The idea</button><span class="navmenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Library</button><span class="navmenu">
+<a href="../concepts/index.html">Concepts</a>
+<a href="../anti-patterns/index.html">Anti-patterns</a>
+<a href="../glossary/index.html">Glossary</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Explore</button><span class="navmenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+<a href="../skills/index.html">Skills</a>
+<a href="../decisions/index.html">Decisions</a>
+<a href="../ideas/index.html">Ideas</a>
+</span></span>
+<a href="../articles/index.html">Articles</a>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
+<div class="wrap pagewrap">
+<main class="pagebody">
+<div class="eyebrow">Article</div>
+<h1>Sidecar Tables: Companion Metadata for Data Assets</h1>
+<div class="bw-meta">2026-03-05 · 14 min read</div>
+<p>How auxiliary tables let metadata travel with your data without polluting the business schema</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Introduction</h3>
+<p>Every data engineer has met this table: <code>customer</code> — clean, twelve business columns, and then <code>created_at</code>, <code>updated_at</code>, <code>created_by</code>, <code>quality_score</code>, <code>last_checked_at</code>, <code>version_number</code>, <code>previous_value</code> bolted on because nobody had a better place to put them. Give it a year and the &quot;clean business entity&quot; is half operational plumbing. Your ETL now populates a dozen extra columns nobody downstream asked for, and every consumer scrolls past metadata to find the three fields they actually need.</p>
+<p><strong>Sidecar tables</strong> fix this the same way good structure always does: by separating concerns instead of hoping discipline holds. The main table stays business data. Companion tables — sidecars — carry the operational metadata: history, quality, audit, load statistics, configuration. Same subject, different lifecycle, different table.</p>
+<p>This is <strong>[[concept-structure-beats-magic|Structure Beats Magic]]</strong> applied to schema design. There&#x27;s no clever trick here — just a naming convention and a decision about where metadata lives, applied consistently until the pattern becomes invisible infrastructure.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>What is a Sidecar Table?</h3>
+<p>A <strong>sidecar table</strong> is a companion table that:</p>
+<p>  1. <strong>References the main table</strong> via foreign key</p>
+<p>  2. <strong>Tracks metadata</strong> that doesn&#x27;t belong in the main entity</p>
+<p>  3. <strong>Has its own lifecycle</strong> — it can be truncated, archived, or dropped independently of the business data it describes</p>
+<p>  4. <strong>Follows naming conventions</strong> that make the relationship obvious from the table name alone</p>
+<p>The term borrows from the sidecar pattern in microservices architecture, where a helper container runs alongside the main application container handling cross-cutting concerns — logging, monitoring, security — without the application itself needing to know. Same idea, applied to tables instead of containers: the main table doesn&#x27;t need to know its sidecars exist.</p>
+<pre class="code"><code>
+┌──────────────────────────────────────────────────────────────────────┐
+│                          DATA ASSET                                  │
+│                                                                      │
+│   ┌─────────────────────┐     ┌─────────────────────────────────┐    │
+│   │     Main Table      │     │        Sidecar Tables           │    │
+│   │                     │     │                                 │    │
+│   │  • Business data    │────►│  • _version   (SCD2 history)    │    │
+│   │  • Core attributes  │     │  • _history   (change audit)    │    │
+│   │  • Primary keys     │     │  • _quality   (DQ metrics)      │    │
+│   │                     │     │  • _log       (load tracking)   │    │
+│   └─────────────────────┘     │  • _audit     (access tracking) │    │
+│                               │  • _config    (runtime params)  │    │
+│                               └─────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Sidecar Table Categories</h3>
+<h3>1. Version Tables (<code>_version</code>)</h3>
+<p>Track the complete history of an entity using SCD Type 2 semantics.</p>
+<p><strong>Purpose</strong>: Answer &quot;What did this record look like at time X?&quot;</p>
+<p><strong>Structure</strong>:</p>
+<pre class="code"><code>
+entity_version:
+  attributes:
+    - version_id: VARCHAR (PK)
+    - entity_id: VARCHAR (FK to main table)
+    - version_sequence: INTEGER
+    - valid_from: TIMESTAMP
+    - valid_to: TIMESTAMP
+    - is_current: BOOLEAN
+    - changed_by: VARCHAR
+    - change_reason: VARCHAR
+    # ... snapshot of all versioned attributes
+</code></pre>
+<p><strong>Example</strong>:</p>
+<pre class="code"><code>
+-- Main table
+CREATE TABLE customer (
+    customer_id VARCHAR PRIMARY KEY,
+    name VARCHAR,
+    email VARCHAR,
+    segment VARCHAR
+);
+
+-- Version sidecar
+CREATE TABLE customer_version (
+    version_id VARCHAR PRIMARY KEY,
+    customer_id VARCHAR REFERENCES customer(customer_id),
+    version_sequence INTEGER,
+    name VARCHAR,
+    email VARCHAR,
+    segment VARCHAR,
+    valid_from TIMESTAMP,
+    valid_to TIMESTAMP,
+    is_current BOOLEAN,
+    changed_by VARCHAR
+);
+</code></pre>
+<p><strong>When to use</strong>:</p>
+<p>  * Regulatory requirements for audit trails</p>
+<p>  * Time-travel queries</p>
+<p>  * Debugging data issues</p>
+<p>If this smells like SCD2, it is — the pattern behind <strong>[[concept-pit-helper-tables|PIT helper tables]]</strong> in the MDDE temporal layer. A <code>_version</code> sidecar is where that history physically lives before anything pre-joins it for fast as-of queries.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>2. History Tables (<code>_history</code>)</h3>
+<p>Track specific changes to attributes or status transitions.</p>
+<p><strong>Purpose</strong>: Answer &quot;What changed, when, and why?&quot;</p>
+<p><strong>Structure</strong>:</p>
+<pre class="code"><code>
+entity_status_history:
+  attributes:
+    - history_id: VARCHAR (PK)
+    - entity_id: VARCHAR (FK)
+    - status_dimension: VARCHAR  # Which status changed
+    - old_value: VARCHAR
+    - new_value: VARCHAR
+    - changed_at: TIMESTAMP
+    - changed_by: VARCHAR
+    - change_reason: VARCHAR
+</code></pre>
+<p><strong>Example</strong>:</p>
+<pre class="code"><code>
+-- Track status transitions for orders
+CREATE TABLE order_status_history (
+    history_id VARCHAR PRIMARY KEY,
+    order_id VARCHAR REFERENCES order(order_id),
+    old_status VARCHAR,
+    new_status VARCHAR,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changed_by VARCHAR,
+    change_reason VARCHAR
+);
+</code></pre>
+<p><strong>Difference from <code>_version</code></strong>:</p>
+<p>  * <code>_version</code>: full row snapshots, answers &quot;what was the complete state?&quot;</p>
+<p>  * <code>_history</code>: change events, answers &quot;what specifically changed?&quot;</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>3. Quality Tables (<code>_quality</code>, <code>_quality_sidecar</code>)</h3>
+<p>Store data quality metrics and attestations.</p>
+<p><strong>Purpose</strong>: Answer &quot;How trustworthy is this data?&quot;</p>
+<p><strong>Structure</strong>:</p>
+<pre class="code"><code>
+entity_quality_sidecar:
+  attributes:
+    - batch_id: VARCHAR (PK)
+    - attestation_id: VARCHAR
+    - load_timestamp: TIMESTAMP
+    - row_count: INTEGER
+    - overall_status: VARCHAR      # PASSED, WARNING, FAILED
+    - overall_score: DECIMAL
+    - completeness_score: DECIMAL
+    - uniqueness_score: DECIMAL
+    - validity_score: DECIMAL
+    - passed_checks: INTEGER
+    - failed_checks: INTEGER
+    - attestation_json: JSON       # Full attestation detail
+</code></pre>
+<p><strong>Example</strong>:</p>
+<pre class="code"><code>
+-- Quality sidecar for transactions
+CREATE TABLE fct_transactions_quality_sidecar (
+    batch_id VARCHAR PRIMARY KEY,
+    load_timestamp TIMESTAMP,
+    row_count INTEGER,
+    overall_status VARCHAR,
+    overall_score DECIMAL(5,4),
+    completeness_score DECIMAL(5,4),
+    uniqueness_score DECIMAL(5,4),
+    total_checks INTEGER,
+    passed_checks INTEGER,
+    attestation_json JSON
+);
+
+-- Query: &quot;Should I trust today&#x27;s data?&quot;
+SELECT batch_id, overall_status, overall_score
+FROM fct_transactions_quality_sidecar
+WHERE load_timestamp &gt;= CURRENT_DATE
+  AND overall_status = &#x27;PASSED&#x27;;
+</code></pre>
+<p>This is the pattern the companion article on <strong>quality metadata exchange</strong> covers in depth: the quality sidecar is how trust travels with data instead of living in someone&#x27;s dashboard, disconnected from the rows it describes.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>4. Log Tables (<code>_log</code>)</h3>
+<p>Track operational events: loads, deployments, executions.</p>
+<p><strong>Purpose</strong>: Answer &quot;What happened during processing?&quot;</p>
+<p><strong>Structure</strong>:</p>
+<pre class="code"><code>
+entity_load_history:
+  attributes:
+    - load_id: VARCHAR (PK)
+    - entity_id: VARCHAR (FK)
+    - batch_id: VARCHAR
+    - load_start: TIMESTAMP
+    - load_end: TIMESTAMP
+    - rows_inserted: INTEGER
+    - rows_updated: INTEGER
+    - rows_deleted: INTEGER
+    - status: VARCHAR              # SUCCESS, FAILED, PARTIAL
+    - error_message: VARCHAR
+</code></pre>
+<p><strong>Example</strong>:</p>
+<pre class="code"><code>
+-- Deployment log for models
+CREATE TABLE model_deployment_log (
+    deployment_id VARCHAR PRIMARY KEY,
+    model_id VARCHAR,
+    version_tag VARCHAR,
+    environment VARCHAR,
+    deployed_at TIMESTAMP,
+    deployed_by VARCHAR,
+    deployment_ticket VARCHAR,
+    status VARCHAR
+);
+</code></pre>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>5. Audit Tables (<code>_audit</code>)</h3>
+<p>Track who accessed or modified data and when.</p>
+<p><strong>Purpose</strong>: Answer &quot;Who did what and when?&quot; — compliance and security territory.</p>
+<p><strong>Structure</strong>:</p>
+<pre class="code"><code>
+entity_audit:
+  attributes:
+    - audit_id: VARCHAR (PK)
+    - entity_id: VARCHAR (FK)
+    - action: VARCHAR              # SELECT, INSERT, UPDATE, DELETE
+    - performed_by: VARCHAR
+    - performed_at: TIMESTAMP
+    - client_ip: VARCHAR
+    - session_id: VARCHAR
+    - affected_rows: INTEGER
+</code></pre>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>6. Configuration Tables (<code>_config</code>, <code>_def</code>)</h3>
+<p>Store runtime parameters and definitions.</p>
+<p><strong>Purpose</strong>: Answer &quot;How should this entity behave?&quot;</p>
+<p><strong>Structure</strong>:</p>
+<pre class="code"><code>
+entity_config:
+  attributes:
+    - config_id: VARCHAR (PK)
+    - entity_id: VARCHAR (FK)
+    - config_key: VARCHAR
+    - config_value: VARCHAR
+    - effective_from: TIMESTAMP
+    - effective_to: TIMESTAMP
+</code></pre>
+<p><strong>Example</strong>:</p>
+<pre class="code"><code>
+-- PIT generation configuration
+CREATE TABLE dim_customer_pit_config (
+    config_id VARCHAR PRIMARY KEY,
+    entity_id VARCHAR,
+    pit_generation_enabled BOOLEAN,
+    snapshot_frequency VARCHAR,
+    retention_days INTEGER
+);
+</code></pre>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Naming Conventions</h3>
+<p>MDDE follows consistent naming patterns for sidecar tables — the suffix tells you the purpose before you&#x27;ve opened the DDL:</p>
+<p>!Sidecar suffix reference table: <code>_version</code> for SCD2 row snapshots, <code>_history</code> for change tracking, <code>_quality</code>/<code>_quality_sidecar</code> for DQ metrics, <code>_log</code> for operational events, <code>_audit</code> for access/modification audit, <code>_config</code>/<code>_def</code> for configuration — each with a real table-name example/sidecar-tables-companion-metadata-for-data-assets/assets/02_figure/02_figure.png)</p>
+<p><strong>Full Naming Pattern</strong>:</p>
+<pre class="code"><code>
+{main_entity}_{sidecar_type}
+</code></pre>
+<p>Examples:</p>
+<p>  * <code>customer</code> → <code>customer_version</code>, <code>customer_history</code>, <code>customer_quality_sidecar</code></p>
+<p>  * <code>fct_orders</code> → <code>fct_orders_version</code>, <code>fct_orders_load_history</code></p>
+<p>  * <code>dim_product</code> → <code>dim_product_status_history</code>, <code>dim_product_quality_sidecar</code></p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Multiple Sidecars per Main Table</h3>
+<p>A single main table can have multiple sidecar tables, each serving a different purpose — this is the point, not an edge case:</p>
+<pre class="code"><code>
+                    ┌─────────────────────────┐
+                    │      dim_customer       │
+                    │  (Main Business Table)  │
+                    │                         │
+                    │  customer_id (PK)       │
+                    │  name                   │
+                    │  email                  │
+                    │  segment                │
+                    └───────────┬─────────────┘
+                                │
+         ┌──────────────────────┼──────────────────────┐
+         │                      │                      │
+         ▼                      ▼                      ▼
+┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐
+│ dim_customer_   │   │ dim_customer_   │   │ dim_customer_   │
+│ version         │   │ status_history  │   │ quality_sidecar │
+│                 │   │                 │   │                 │
+│ Full SCD2       │   │ Segment changes │   │ DQ scores per   │
+│ snapshots       │   │ over time       │   │ load batch      │
+└─────────────────┘   └─────────────────┘   └─────────────────┘
+         │
+         ▼
+┌─────────────────┐
+│ dim_customer_   │
+│ load_history    │
+│                 │
+│ ETL execution   │
+│ statistics      │
+└─────────────────┘
+</code></pre>
+<p><strong>MDDE&#x27;s Internal Model Example</strong>: the <code>entity</code> table — core metadata about every modeled entity — has four sidecars of its own, tracking definition history, lifecycle status, load activity, and platform-specific configuration:</p>
+<p>!MDDE&#x27;s entity table sidecars: entity_version (historical snapshots of entity definitions), entity_status_history (lifecycle status changes draft→active→deprecated), entity_load_history (when entity data was loaded), entity_physical_options (platform-specific configuration)/sidecar-tables-companion-metadata-for-data-assets/assets/03_figure/03_figure.png)</p>
+<p>Metadata about metadata, sidecar&#x27;d the same way you&#x27;d sidecar business data. If the pattern is worth applying to a <code>customer</code> table, it&#x27;s worth applying to the tool&#x27;s own internal model — that consistency is what makes the pattern trustworthy rather than a one-off convention.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Implementation Patterns</h3>
+<h3>Pattern 1: Foreign Key Reference</h3>
+<p>The simplest pattern — sidecar references main table:</p>
+<pre class="code"><code>
+CREATE TABLE customer_version (
+    version_id VARCHAR PRIMARY KEY,
+    customer_id VARCHAR NOT NULL REFERENCES customer(customer_id),
+    -- versioned attributes...
+);
+</code></pre>
+<p><strong>Pros</strong>: strong referential integrity. <strong>Cons</strong>: cannot create a sidecar record before the main record exists.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Pattern 2: Loose Coupling</h3>
+<p>Sidecar stores the reference without an FK constraint:</p>
+<pre class="code"><code>
+CREATE TABLE customer_quality_sidecar (
+    batch_id VARCHAR PRIMARY KEY,
+    entity_name VARCHAR NOT NULL,  -- &#x27;customer&#x27;
+    -- quality metrics...
+);
+</code></pre>
+<p><strong>Pros</strong>: sidecar can exist independently, works for external data. <strong>Cons</strong>: no referential integrity guarantee.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Pattern 3: Composite Key Reference</h3>
+<p>For sidecars that track attributes rather than whole entities:</p>
+<pre class="code"><code>
+CREATE TABLE attribute_propagation_history (
+    history_id VARCHAR PRIMARY KEY,
+    entity_id VARCHAR NOT NULL,
+    attribute_id VARCHAR NOT NULL,
+    -- history details...
+    FOREIGN KEY (entity_id, attribute_id)
+        REFERENCES attribute(entity_id, attribute_id)
+);
+</code></pre>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Pattern 4: JSON Sidecar Column</h3>
+<p>Sometimes a full sidecar table is overkill. Embed as JSON instead:</p>
+<pre class="code"><code>
+CREATE TABLE fct_transactions (
+    transaction_id VARCHAR PRIMARY KEY,
+    amount DECIMAL(18,2),
+    -- business columns...
+    -- Embedded sidecar as JSON
+    _quality_attestation JSON,
+    _lineage_metadata JSON
+);
+</code></pre>
+<p><strong>Pros</strong>: no join needed, data travels together. <strong>Cons</strong>: harder to query, index, and maintain.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>When to Use Sidecar Tables</h3>
+<h3>Use Sidecars When:</h3>
+<p>  1. <strong>Separation of concerns</strong> — operational metadata shouldn&#x27;t pollute business data</p>
+<p>  2. <strong>Different lifecycles</strong> — you want to archive or purge sidecars independently</p>
+<p>  3. <strong>Different access patterns</strong> — consumers rarely need the metadata</p>
+<p>  4. <strong>Compliance requirements</strong> — audit trails must be immutable</p>
+<p>  5. <strong>Multiple metadata types</strong> — one main table needs version + quality + audit, and cramming all three into one wide table would be worse than three focused ones</p>
+<h3>Avoid Sidecars When:</h3>
+<p>  1. <strong>Simple audit columns suffice</strong> — <code>created_at</code>, <code>updated_at</code> cover your needs</p>
+<p>  2. <strong>Performance is critical</strong> — every join adds latency</p>
+<p>  3. <strong>Metadata is always needed</strong> — if consumers always need quality scores, embed them</p>
+<p>  4. <strong>Volume is low</strong> — the overhead isn&#x27;t justified for small tables</p>
+<p>This is the honest trade-off, not a rule to apply everywhere. A sidecar you always have to join is a normalization decision you&#x27;re paying for on every query — sometimes a wide table with a few extra columns is the right call, and the discipline is knowing which situation you&#x27;re in.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>MDDE&#x27;s Sidecar Implementation</h3>
+<p>MDDE uses sidecars extensively in its own internal metadata model — not as a demo, but because the tool has to obey its own rules:</p>
+<h3>Versioning Sidecars</h3>
+<pre class="code"><code>
+models/versioning/entities/
+├── attribute_version/      # Attribute definition history
+├── entity_version/         # Entity definition history
+├── model_version/          # Model definition history
+├── relationship_version/   # Relationship definition history
+├── schema_version/         # Schema definition history
+├── object_version/         # Generic object versioning
+├── change_log/             # Change event log
+├── deletion_audit/         # Soft delete tracking
+└── domain_version_history/ # Domain value changes
+</code></pre>
+<h3>History Sidecars</h3>
+<pre class="code"><code>
+models/governance/entities/
+├── entity_status_history/  # Lifecycle status transitions
+├── compliance_history/     # Compliance check results
+├── spec_history/           # Specification change history
+└── survivorship_audit/     # MDM survivorship decisions
+
+models/operations/entities/
+├── entity_load_history/    # ETL load statistics
+├── effectivity_history/    # Effectivity period changes
+├── quality_metric_history/ # DQ metric time series
+└── quality_kpi_history/    # Aggregated quality KPIs
+</code></pre>
+<h3>Log Sidecars</h3>
+<pre class="code"><code>
+models/operations/entities/
+├── model_deployment_log/   # Deployment events
+├── run_log/                # Pipeline execution log
+└── sql_generation_run/     # SQL generation events
+
+models/work/entities/
+└── work_action_log/        # User action audit
+</code></pre>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Quality Sidecar in Detail</h3>
+<p>The quality sidecar pattern deserves a closer look because it&#x27;s the one that enables an actual <strong>data trust decision</strong> — not just a record of what happened, but a gate a consumer can query before deciding whether to use the data at all:</p>
+<pre class="code"><code>
+-- Producer creates quality attestation
+INSERT INTO fct_transactions_quality_sidecar (
+    batch_id,
+    load_timestamp,
+    row_count,
+    overall_status,
+    overall_score,
+    completeness_score,
+    uniqueness_score,
+    attestation_json
+) VALUES (
+    &#x27;batch_20260301_001&#x27;,
+    &#x27;2026-03-01 10:00:00&#x27;,
+    1500000,
+    &#x27;PASSED&#x27;,
+    0.9875,
+    0.9950,
+    1.0000,
+    &#x27;{&quot;checks&quot;: [...], &quot;environment&quot;: &quot;PROD&quot;, &quot;producer_version&quot;: &quot;v2.1.0&quot;}&#x27;
+);
+
+-- Consumer queries quality before using data
+SELECT t.*, q.overall_status, q.overall_score
+FROM fct_transactions t
+JOIN fct_transactions_quality_sidecar q ON t.batch_id = q.batch_id
+WHERE q.overall_status = &#x27;PASSED&#x27;
+  AND q.overall_score &gt;= 0.95;
+</code></pre>
+<p><strong>Quality travels with data.</strong> Consumers can make informed decisions about data trustworthiness without a side conversation with the producer team — the attestation sits right next to the rows it describes, queryable the same way. That&#x27;s <strong>[[concept-metadata-as-code|metadata as code]]</strong> in practice: not a wiki page claiming the data is good, a table you can join against.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Best Practices</h3>
+<h3>1. Consistent Naming</h3>
+<p>Follow the <code>{main_entity}_{sidecar_type}</code> pattern religiously:</p>
+<pre class="code"><code>
+✅ customer_version
+✅ customer_status_history
+✅ customer_quality_sidecar
+
+❌ customer_hist           # Unclear abbreviation
+❌ version_customer        # Wrong order
+❌ tbl_customer_versions   # Hungarian notation
+</code></pre>
+<h3>2. Common Columns</h3>
+<p>Include standard columns in all sidecars:</p>
+<pre class="code"><code>
+# Origin tracking
+origin_id: VARCHAR      # Source of this record
+origin_type: VARCHAR    # yaml_import, sql_parser, api, etc.
+
+# Audit tracking
+created_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+</code></pre>
+<h3>3. Indexing Strategy</h3>
+<p>Index the foreign key and the common query patterns:</p>
+<pre class="code"><code>
+-- Always index the FK
+CREATE INDEX idx_customer_version_customer_id
+    ON customer_version(customer_id);
+
+-- Index temporal queries
+CREATE INDEX idx_customer_version_valid_from
+    ON customer_version(valid_from);
+
+-- Index current record lookup
+CREATE INDEX idx_customer_version_current
+    ON customer_version(customer_id, is_current)
+    WHERE is_current = TRUE;
+</code></pre>
+<h3>4. Retention Policies</h3>
+<p>Define retention independently for each sidecar — this is exactly the &quot;different lifecycle&quot; argument made concrete:</p>
+<pre class="code"><code>
+retention_policies:
+  customer:
+    retention: forever          # Business data kept indefinitely
+  customer_version:
+    retention: 7_years          # Regulatory requirement
+  customer_quality_sidecar:
+    retention: 90_days          # Operational data, shorter retention
+  customer_load_history:
+    retention: 30_days          # Debug data, shortest retention
+</code></pre>
+<h3>5. Documentation</h3>
+<p>Document the relationship in metadata, not tribal knowledge:</p>
+<pre class="code"><code>
+# customer.yaml
+entity:
+  name: customer
+  sidecars:
+    - type: version
+      table: customer_version
+      purpose: SCD2 history for regulatory compliance
+    - type: quality
+      table: customer_quality_sidecar
+      purpose: DQ attestation per load batch
+    - type: history
+      table: customer_status_history
+      purpose: Segment transition audit
+</code></pre>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Querying Sidecars</h3>
+<h3>Point-in-Time Query (Version Sidecar)</h3>
+<pre class="code"><code>
+-- What was customer 123&#x27;s segment on Jan 1, 2026?
+SELECT cv.segment
+FROM customer_version cv
+WHERE cv.customer_id = &#x27;123&#x27;
+  AND cv.valid_from &lt;= &#x27;2026-01-01&#x27;
+  AND (cv.valid_to &gt; &#x27;2026-01-01&#x27; OR cv.valid_to IS NULL);
+</code></pre>
+<h3>Change History Query (History Sidecar)</h3>
+<pre class="code"><code>
+-- Show all segment changes for customer 123
+SELECT
+    old_value AS previous_segment,
+    new_value AS new_segment,
+    changed_at,
+    change_reason
+FROM customer_status_history
+WHERE entity_id = &#x27;123&#x27;
+  AND status_dimension = &#x27;segment&#x27;
+ORDER BY changed_at;
+</code></pre>
+<h3>Quality-Gated Query (Quality Sidecar)</h3>
+<pre class="code"><code>
+-- Only use data from batches that passed quality
+SELECT t.*
+FROM fct_transactions t
+JOIN fct_transactions_quality_sidecar q
+    ON t.batch_id = q.batch_id
+WHERE q.overall_status = &#x27;PASSED&#x27;
+  AND q.completeness_score &gt;= 0.99;
+</code></pre>
+<h3>Load Statistics Query (Log Sidecar)</h3>
+<pre class="code"><code>
+-- Recent load performance
+SELECT
+    load_start,
+    load_end,
+    load_end - load_start AS duration,
+    rows_inserted,
+    rows_updated,
+    status
+FROM customer_load_history
+WHERE load_start &gt;= CURRENT_DATE - INTERVAL &#x27;7 days&#x27;
+ORDER BY load_start DESC;
+</code></pre>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Conclusion</h3>
+<p>Sidecar tables aren&#x27;t a clever trick — they&#x27;re a naming convention and a placement decision, applied with enough discipline that the pattern becomes invisible. That&#x27;s the whole point, and it&#x27;s why it belongs under <strong>Structure Beats Magic</strong>: there&#x27;s no AI, no framework, no magic step. Just a rule — metadata about data lives beside the data, not inside it — applied consistently across every entity in the model.</p>
+<p>Follow it and you get:</p>
+<p>  1. <strong>Clean business tables</strong> — only business data in business tables</p>
+<p>  2. <strong>Time-travel</strong> — full historical audit trails, queryable without archaeology</p>
+<p>  3. <strong>Trust that travels</strong> — quality attestations sit next to the rows they describe</p>
+<p>  4. <strong>Debuggability</strong> — load logs and operational metrics at your fingertips</p>
+<p>  5. <strong>Compliance you can prove</strong> — immutable audit trails for regulatory requirements</p>
+<p>The pattern generalizes beyond any one tool: <strong>[[concept-metadata-mesh|metadata mesh]]</strong> thinking says each domain owns and publishes its metadata as a product. Sidecar tables are the physical implementation of that idea at the table level — the metadata product lives right beside the data it describes, not in a separate catalog you have to trust is still in sync. Metadata about data is also data. It deserves its own schema design, not a dozen columns tacked onto the end of a <code>CREATE TABLE</code> statement because nobody made the call.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>References</h3>
+<p>  * <a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/sidecar">Sidecar Pattern</a> — Microsoft&#x27;s cloud pattern documentation</p>
+<p>  * <a href="https://github.com/data-engine-thinking/samples">Data Engine Thinking</a> — Temporal data patterns</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<p>_Part of the MDDE series on metadata-driven data engineering._</p>
+<p style="margin-top:34px"><a href="index.html">&larr; All articles</a></p>
+</main></div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+<script type="module">
+  import { initDetail } from "../assets/detail.js";
+  initDetail();
+</script>
+</body></html>

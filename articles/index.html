@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
+<title>Articles — Structured Metadata</title>
+<meta name="description" content="Articles on Structured Metadata — filter, sort and browse." />
+<link rel="canonical" href="https://structuredmetadata.com/articles/" />
+<meta property="og:title" content="Articles — Structured Metadata" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://structuredmetadata.com/articles/" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head>
+<body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">The idea</button><span class="navmenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Library</button><span class="navmenu">
+<a href="../concepts/index.html">Concepts</a>
+<a href="../anti-patterns/index.html">Anti-patterns</a>
+<a href="../glossary/index.html">Glossary</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Explore</button><span class="navmenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+<a href="../skills/index.html">Skills</a>
+<a href="../decisions/index.html">Decisions</a>
+<a href="../ideas/index.html">Ideas</a>
+</span></span>
+<a href="../articles/index.html">Articles</a>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
+<div class="hero wrap" style="padding-bottom:16px">
+  <div class="eyebrow">Listing</div>
+  <h1>Articles</h1>
+</div>
+<section class="wrap">
+<div id="browse" data-page-type="articles"></div>
+<div class="bw-fallback">
+  <p class="muted">All items:</p>
+  <ul class="artlist">
+    <li><a href="../articles/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata.html">Atomic SQL: Self-Contained Data Pipelines That Carry Their Own Metadata</a> &mdash; <span class="muted">A SQL file that documents itself is a SQL file that can&#x27;t drift from its own documentation</span></li>
+    <li><a href="../articles/bill-inmons-lasting-impact-why-3nf-and-universal-data-models-still-matter-in-modern-integration-layers.html">Bill Inmon&#x27;s Lasting Impact: Why 3NF and Universal Data Models Still Matter in Modern Integration Layers</a> &mdash; <span class="muted">The father of data warehousing never designed for dbt, Data Vault, or dual SCD2 — but the integration-layer di</span></li>
+    <li><a href="../articles/building-ai-enabled-metadata-driven-data-platform-teams.html">Building AI-Enabled, Metadata-Driven Data Platform Teams</a> &mdash; <span class="muted">The roles don&#x27;t disappear when AI arrives — they move up a level, and metadata is what makes that move possibl</span></li>
+    <li><a href="../articles/from-kimball-to-metadata-how-dimensional-thinking-still-shapes-modern-data-architecture.html">From Kimball to Metadata: How Dimensional Thinking Still Shapes Modern Data Architecture</a> &mdash; <span class="muted">Kimball gave the field a shared vocabulary — metadata-driven engineering gives that vocabulary structure it ca</span></li>
+    <li><a href="../articles/mdde-adoption-framework-minimal-metadata-for-your-use-case.html">MDDE Adoption Framework: Minimal Metadata for Your Use Case</a> &mdash; <span class="muted">Deploy exactly the entities your use case needs — not the 380+ a platform ships &quot;just in case&quot;.</span></li>
+    <li><a href="../articles/sidecar-tables-companion-metadata-for-data-assets.html">Sidecar Tables: Companion Metadata for Data Assets</a> &mdash; <span class="muted">How auxiliary tables let metadata travel with your data without polluting the business schema</span></li>
+    <li><a href="../articles/tmdl-and-model-driven-development-generate-vs-handcraft.html">TMDL and Model-Driven Development: Generate vs. Hand-Craft</a> &mdash; <span class="muted">Why the future of semantic model development is generation, not authoring</span></li>
+  </ul>
+</div>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../",
+    assets: "../concepts/assets/",
+    pageType: "articles",
+    itemTypes: ["post"],
+    defaults: {"view": "list", "sort": "newest"}
+  }).then(() => document.body.classList.add("bw-ready"));
+</script>
+</section>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+</body></html>
