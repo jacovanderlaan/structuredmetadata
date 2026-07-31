@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Metadata browser — Structured Metadata</title>
+<meta name="description" content="Run the demo metamodel live in your browser: every question about the platform is a SQL query. Powered by DuckDB-WASM." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="assets/site.css" />
+<style>
+  .mb-wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+  .mb-status{font-size:.9rem;color:var(--muted);margin:0 0 16px}
+  .mb-status .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--muted);margin-right:7px;vertical-align:middle}
+  .mb-status.ready .dot{background:#1a9d5a}
+  .mb-status.err .dot{background:#c0392b}
+  .mb-queries{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+  .mb-q{font-size:.85rem;font-weight:600;color:var(--accent);background:var(--accent-soft);
+    border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;transition:background .12s}
+  .mb-q:hover{background:color-mix(in srgb,var(--accent) 14%,transparent)}
+  .mb-editor{width:100%;min-height:120px;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:.9rem;line-height:1.5;padding:14px;border:1px solid var(--line);border-radius:10px;
+    background:var(--code);color:var(--fg);resize:vertical;box-sizing:border-box}
+  .mb-run{margin:12px 0}
+  .mb-note{font-size:.85rem;color:var(--muted);margin:.4rem 0 0}
+  .mb-result{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:10px}
+  table.mb-tbl{width:100%;border-collapse:collapse;font-size:.9rem}
+  table.mb-tbl th{text-align:left;background:var(--card);color:var(--muted);font-weight:600;
+    font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+  table.mb-tbl td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
+  table.mb-tbl tr:last-child td{border-bottom:none}
+  .mb-err{color:#c0392b;font-size:.9rem;padding:14px;background:color-mix(in srgb,#c0392b 6%,transparent);border-radius:10px}
+  .mb-meta{font-size:.82rem;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="index.html">Home</a>
+      <a href="index.html#demo">The demo</a>
+      <a href="browser.html">Browser</a>
+      <a href="concepts/index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow">Live in your browser &middot; DuckDB-WASM</div>
+  <h1>Metadata browser</h1>
+  <p class="sub">The demo metamodel runs right here in your browser &mdash; no server. Pick a question or write your own SQL: every question about the platform really is a query. This runs on the demo subset (a handful of tables, sample models only).</p>
+</div>
+
+<section class="mb-wrap">
+  <p class="mb-status" id="status"><span class="dot"></span><span id="status-text">Loading DuckDB &amp; the demo metamodel&hellip;</span></p>
+
+  <div class="mb-queries" id="queries"></div>
+
+  <textarea class="mb-editor" id="editor" spellcheck="false"></textarea>
+  <div class="mb-run">
+    <button class="btn" id="run" disabled>Run query</button>
+  </div>
+  <p class="mb-note">Read-only demo database. Tables live in the <code>metadata</code> schema (e.g. <code>metadata.entity</code>, <code>metadata.attribute</code>, <code>metadata.entity_mapping</code>).</p>
+
+  <div id="out"></div>
+
+  <p style="margin-top:34px"><a href="index.html">&larr; Back home</a></p>
+</section>
+
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+
+<script type="module">
+import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.28.0/+esm';
+
+const statusEl = document.getElementById('status');
+const statusText = document.getElementById('status-text');
+const runBtn = document.getElementById('run');
+const editor = document.getElementById('editor');
+const out = document.getElementById('out');
+
+const QUERIES = [
+  { label: 'The four hubs', sql:
+`SELECT 'models' AS hub, count(*) AS n FROM metadata.model
+UNION ALL SELECT 'entities',   count(*) FROM metadata.entity
+UNION ALL SELECT 'attributes', count(*) FROM metadata.attribute
+UNION ALL SELECT 'mappings',   count(*) FROM metadata.entity_mapping
+ORDER BY n DESC;` },
+  { label: 'Model → entities → attributes', sql:
+`SELECT e.model_id, e.entity_name, count(a.attribute_id) AS attributes
+FROM metadata.entity e
+LEFT JOIN metadata.attribute a ON a.entity_id = e.entity_id
+GROUP BY 1, 2 ORDER BY 1, 3 DESC LIMIT 20;` },
+  { label: 'The FROM clause as data', sql:
+`SELECT e.entity_name AS target, em.source_table, em.join_type, em.join_cardinality
+FROM metadata.entity_mapping em
+JOIN metadata.entity e ON e.entity_id = em.entity_id
+LIMIT 20;` },
+  { label: 'Column-level lineage', sql:
+`SELECT tgt.entity_name AS target, src.entity_name AS source, count(*) AS mapped_columns
+FROM metadata.attribute_mapping am
+JOIN metadata.attribute ta ON ta.attribute_id = am.target_attribute_id
+JOIN metadata.entity tgt ON tgt.entity_id = ta.entity_id
+JOIN metadata.attribute sa ON sa.attribute_id = am.source_attribute_id
+JOIN metadata.entity src ON src.entity_id = sa.entity_id
+GROUP BY 1, 2 ORDER BY 3 DESC LIMIT 20;` },
+  { label: 'PII governance per entity', sql:
+`SELECT e.entity_name, count(*) AS pii_attributes
+FROM metadata.attribute a
+JOIN metadata.entity e ON e.entity_id = a.entity_id
+WHERE a.is_pii
+GROUP BY 1 ORDER BY 2 DESC LIMIT 10;` },
+  { label: 'Tables in use', sql:
+`SELECT table_name, estimated_size AS rows
+FROM duckdb_tables() WHERE schema_name = 'metadata'
+ORDER BY estimated_size DESC LIMIT 25;` },
+];
+
+// render query buttons
+const qWrap = document.getElementById('queries');
+QUERIES.forEach((q, i) => {
+  const b = document.createElement('button');
+  b.className = 'mb-q'; b.textContent = q.label;
+  b.onclick = () => { editor.value = q.sql; runQuery(); };
+  qWrap.appendChild(b);
+});
+editor.value = QUERIES[0].sql;
+
+let conn = null;
+
+async function init() {
+  try {
+    const bundles = duckdb.getJsDelivrBundles();
+    const bundle = await duckdb.selectBundle(bundles);
+    const worker_url = URL.createObjectURL(
+      new Blob([`importScripts("${bundle.mainWorker}");`], { type: 'text/javascript' }));
+    const worker = new Worker(worker_url);
+    const logger = new duckdb.ConsoleLogger();
+    const db = new duckdb.AsyncDuckDB(logger, worker);
+    await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+    URL.revokeObjectURL(worker_url);
+
+    conn = await db.connect();
+    // Load the demo metamodel from version-independent Parquet files (tiny, ~180 KB
+    // total) into a fresh in-memory "metadata" schema — avoids DuckDB storage-format
+    // version mismatches between the .duckdb file and DuckDB-WASM.
+    statusText.textContent = 'Loading the demo metamodel…';
+    const tablesResp = await fetch('demo/parquet/_tables.csv');
+    const tablesTxt = await tablesResp.text();
+    const tables = tablesTxt.split(/\r?\n/).slice(1).map(s => s.trim()).filter(Boolean);
+    await conn.query(`CREATE SCHEMA IF NOT EXISTS metadata;`);
+    for (const t of tables) {
+      const r = await fetch(`demo/parquet/${t}.parquet`);
+      const b = new Uint8Array(await r.arrayBuffer());
+      await db.registerFileBuffer(`${t}.parquet`, b);
+      await conn.query(`CREATE TABLE metadata."${t}" AS SELECT * FROM read_parquet('${t}.parquet');`);
+    }
+
+    statusEl.classList.add('ready');
+    statusText.textContent = 'Ready — the demo metamodel is running in your browser.';
+    runBtn.disabled = false;
+    runQuery();
+  } catch (e) {
+    statusEl.classList.add('err');
+    statusText.textContent = 'Could not start the in-browser database.';
+    out.innerHTML = `<div class="mb-err">${String(e)}</div>`;
+  }
+}
+
+async function runQuery() {
+  if (!conn) return;
+  const sql = editor.value.trim();
+  if (!sql) return;
+  out.innerHTML = '<p class="mb-meta">Running…</p>';
+  try {
+    const t0 = performance.now();
+    const res = await conn.query(sql);
+    const ms = Math.round(performance.now() - t0);
+    renderTable(res, ms);
+  } catch (e) {
+    out.innerHTML = `<div class="mb-err">${String(e)}</div>`;
+  }
+}
+
+function renderTable(res, ms) {
+  const cols = res.schema.fields.map(f => f.name);
+  const rows = res.toArray().map(r => r.toJSON());
+  let html = '<div class="mb-result"><table class="mb-tbl"><thead><tr>';
+  cols.forEach(c => html += `<th>${esc(c)}</th>`);
+  html += '</tr></thead><tbody>';
+  rows.forEach(row => {
+    html += '<tr>';
+    cols.forEach(c => {
+      let v = row[c];
+      v = (v === null || v === undefined) ? '<span style="color:var(--muted)">null</span>' : esc(String(v));
+      html += `<td>${v}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  html += `<p class="mb-meta">${rows.length} row${rows.length===1?'':'s'} &middot; ${ms} ms</p>`;
+  out.innerHTML = html;
+}
+
+function esc(s){ return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+runBtn.onclick = runQuery;
+editor.addEventListener('keydown', e => { if ((e.ctrlKey||e.metaKey) && e.key === 'Enter') runQuery(); });
+init();
+</script>
+</body>
+</html>
