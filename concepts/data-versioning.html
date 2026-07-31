@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Data Versioning — Structured Metadata</title>
+<meta name="description" content="Track how the data changes over time — bi-temporal SCD2 with redelivery support — so you can ask what the data looked like, and what you knew, at any point in the past." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Temporal patterns</div>
+  <h1>Data Versioning</h1>
+  <p class="sub">Track how the data changes over time — bi-temporal SCD2 with redelivery support — so you can ask what the data looked like, and what you knew, at any point in the past.</p>
+</div>
+<section class="wrap">
+<figure class="c-hero"><img src="assets/data-versioning-hero.png" alt="Data Versioning" loading="eager" /></figure>
+<p>> Track how the data changes over time — bi-temporal SCD2 with redelivery support — so you can ask what the data looked like, and what you knew, at any point in the past.</p>
+<p>Data versioning is the discipline of keeping the history of the *data* itself: not just the current value, but every value it has had, with the dates that make time queryable. The workhorse is bi-temporal SCD2 &mdash; two timelines, one for when something was true in the world and one for when the platform knew it &mdash; extended with redelivery support so a corrected or re-sent load slots into history without rewriting it. Ask &ldquo;what did this record say on the first of March, as we understood it then?&rdquo; and the answer is a query, not an archaeology project.</p>
+<p>It is the twin of <a href="model-versioning.html">model versioning</a>, and the pair matters. Data versioning captures how the *data* changed; model versioning captures how the *model and platform* changed. Confuse the two and history lies: a value that looks like a data change might really be a model change, and only tracking both clocks tells them apart. Together they let you reconstruct not just the numbers but the system that produced them, at any point in time.</p>
+<p>This is the foundation audits, reconciliations and reality checks stand on. You cannot prove new equals old, or explain why a number moved, without a faithful record of what the data was and when. Version the data, and the past stays answerable.</p>
+<p><strong>Where it lives:</strong> the temporal layer of Breakthrough Modeling &mdash; the data&rsquo;s own history, kept queryable.</p>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="model-versioning.html">Model Versioning</a></li><li><a href="data-deliveries.html">Data Deliveries</a></li><li><a href="model-driven-data-engineering.html">Model Driven Data Engineering</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

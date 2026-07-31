@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Data Deliveries — Structured Metadata</title>
+<meta name="description" content="Model the expected deliveries — what, when, in what form — together with the quality metadata the provider ships alongside: the results of their own DQ and plausibility checks." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Delivery & method</div>
+  <h1>Data Deliveries</h1>
+  <p class="sub">Model the expected deliveries — what, when, in what form — together with the quality metadata the provider ships alongside: the results of their own DQ and plausibility checks.</p>
+</div>
+<section class="wrap">
+<figure class="c-hero"><img src="assets/data-deliveries-hero.png" alt="Data Deliveries" loading="eager" /></figure>
+<p>> Model the expected deliveries — what, when, in what form — together with the quality metadata the provider ships alongside: the results of their own DQ and plausibility checks.</p>
+<p>A data delivery is a concrete hand-off: this dataset, arriving from that system, in this shape, at this time. Modeling deliveries means the *expectation* is explicit &mdash; the consumer knows what should arrive and when &mdash; so a missing or malformed delivery is a detectable event, not a surprise discovered three steps later. Expected deliveries are the unit that makes &ldquo;the data is late&rdquo; or &ldquo;the data is wrong&rdquo; a fact the system can state on its own.</p>
+<p>The important move is that a delivery carries <strong>quality metadata from the provider.</strong> The producer runs its own data-quality and plausibility checks and ships the *results* alongside the data: row counts, check outcomes, known gaps, confidence. The consumer no longer has to guess whether the data is trustworthy &mdash; the provider says so, in machine-readable form, and stands behind it. Quality becomes part of the delivery, not an afterthought at the receiving end.</p>
+<p>Deliveries sit inside their <a href="data-contracts.html">contract</a> and along their calendar: the contract says what&rsquo;s allowed, the calendar says when it&rsquo;s due, and the delivery is the actual event with its quality attached. Modeled together, the whole flow between systems becomes observable and accountable.</p>
+<p><strong>Where it lives:</strong> the delivery layer of Breakthrough Modeling &mdash; the expected hand-off, with quality shipped alongside.</p>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="data-contracts.html">Data Contracts</a></li><li><a href="incident-modeling.html">Incident Modeling</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

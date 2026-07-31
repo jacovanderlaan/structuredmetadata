@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Model Versioning — Structured Metadata</title>
+<meta name="description" content="Version the model, not just the data — as models and transformations keep changing, capture how the system itself evolves, and model the reality that sources and interfaces run different versions at the same time." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Delivery & method</div>
+  <h1>Model Versioning</h1>
+  <p class="sub">Version the model, not just the data — as models and transformations keep changing, capture how the system itself evolves, and model the reality that sources and interfaces run different versions at the same time.</p>
+</div>
+<section class="wrap">
+<figure class="c-hero"><img src="assets/model-versioning-hero.png" alt="Model Versioning" loading="eager" /></figure>
+<p>> Version the model, not just the data — as models and transformations keep changing, capture how the system itself evolves, and model the reality that sources and interfaces run different versions at the same time.</p>
+<p>In the new era it isn&rsquo;t just a simple data model anymore. The data models and transformations keep changing &mdash; along with sources, platforms and teams &mdash; so we have to model the change in the system itself, the way MDDE does with <strong>model versioning.</strong> We already had <strong>data versioning</strong> &mdash; bi-temporal SCD2, tracking how the *data* changes over time. Model versioning is its counterpart: tracking how the *model and the platform* change over time. Two different clocks, both of which have to be captured, or the history is only half told.</p>
+<p>The reality this exists for is concrete. Not every source can already deliver in the agreed, enterprise-wide integration format &mdash; some business entities are still one version behind, and that has to be modeled, not wished away. And <strong>outbound interfaces</strong> can sit on different versions at a given point in time too. So at any moment the landscape is a mix of versions coexisting: this source on v2, that one still on v1, this consumer expecting the new shape, that one not yet migrated. Model versioning is what makes that mixture explicit and manageable instead of a source of silent breakage.</p>
+<p>Once versions are modeled, the transitions become governable: you can see who is behind, plan the migration, keep a contract valid across versions, and let systems tell each other which version they speak. Version the model, and the living system &mdash; not just a snapshot &mdash; is finally something you can reason about.</p>
+<p><strong>Where it lives:</strong> the delivery layer of Breakthrough Modeling &mdash; the system&rsquo;s own change, versioned alongside the data&rsquo;s.</p>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="model-the-process.html">Model The Process</a></li><li><a href="data-contracts.html">Data Contracts</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>
