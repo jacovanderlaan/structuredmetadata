@@ -1,0 +1,21 @@
+<div id="browse" data-page-type="decisions"></div>
+<div class="bw-fallback">
+  <p class="muted">All items:</p>
+  <ul class="artlist">
+    <li>A database behind the static sites — Parquet shipped as an artifact, queried in the browser &mdash; <span class="muted">Jaco: &quot;jacovanderlaan.com still runs on WordPress, which has a DB underneath. Our static sites don&#x27;t use a dat</span></li>
+    <li>ADR 124 concept publishing to multiple sites &mdash; <span class="muted">Accepted — 2026-07-31. Bouwt op ADR-080-folder-per-concept (folder-per-concept) en de SBM/MDDE folder-per-unit</span></li>
+    <li>ADR 125 static sites over wordpress &mdash; <span class="muted">Accepted — 2026-07-31. Betreft de publicatie-laag van het content-ecosysteem (SBM, breakthroughmodeling, struc</span></li>
+    <li>Borrow from the WordPress content model selectively — post/page shape yes, its schema no &mdash; <span class="muted">Jaco, immediately after ADR-129: &quot;Can we also use part of the WordPress data model (posts and pages core entit</span></li>
+    <li>File → DuckDB derivation — write-through edits + auto-refresh (single-writer, file-is-truth) &mdash; <span class="muted">Beacon&#x27;s data-integration pattern (ADR-114) is: files → importer → DuckDB → read-only endpoint → entityView, w</span></li>
+    <li>Shared design base across the sites — tokens and menu, not a shared app shell &mdash; <span class="muted">Five published sites plus the Beacon app (C:/Repos/vault-mobile-site), grown at different times, had drifted a</span></li>
+  </ul>
+</div>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../",
+    assets: "../concepts/assets/",
+    pageType: "decisions"
+  }).then(() => document.body.classList.add("bw-ready"));
+</script>
