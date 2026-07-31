@@ -4,10 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
-<title>Structured Metadata — the full MDDE metadata model, 268 tables explained</title>
-<meta name="description" content="The complete metadata model behind Metadata-Driven Data Engineering: 268 tables across 16 subject areas. Structure, transformation, temporality, quality, lineage, governance and knowledge — as queryable data, not code locked in tools." />
-<meta property="og:title" content="Structured Metadata — the MDDE metadata model" />
-<meta property="og:description" content="268 tables, 16 subject areas. The full metamodel that makes a data platform's structure and logic queryable data, not code." />
+<title>Structured Metadata — structure and logic as data you can query</title>
+<meta name="description" content="A data platform's structure and transformation logic are data, not code — entities, mappings, rules and even the generated SQL live as rows you can query. See the runnable demo: every question about the platform becomes a SQL query." />
+<meta property="og:title" content="Structured Metadata — metadata that runs the platform" />
+<meta property="og:description" content="Structure and logic as queryable data, not code. A runnable demo where every question is a SQL query." />
 <meta property="og:type" content="website" />
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="assets/site.css" />
@@ -19,7 +19,7 @@
     <a class="brand" href="index.html">Structured <span class="abbr">Metadata</span></a>
     <nav class="main">
       <a href="#idea">The idea</a>
-      <a href="#areas">The model</a>
+      <a href="#demo">The demo</a>
       <a href="concepts/index.html">Concepts</a>
       <a href="#articles">Articles</a>
       <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
@@ -30,19 +30,19 @@
 <div class="hero wrap">
   <div class="eyebrow">The MDDE metadata model</div>
   <h1>Structure and logic, as data you can query.</h1>
-  <p class="sub">A data platform&rsquo;s structure and transformation logic are <strong>data, not code</strong>. Entities, mappings, filters, time policies, rules, lineage &mdash; and even the generated SQL &mdash; live as rows in one metamodel. <strong>268 tables. 16 subject areas.</strong> Every question about the platform becomes a SQL query instead of an archaeology project.</p>
+  <p class="sub">A data platform&rsquo;s structure and transformation logic are <strong>data, not code</strong>. Entities, mappings, filters, time policies, rules, lineage &mdash; and even the generated SQL &mdash; live as rows in one metamodel. Every question about the platform becomes a <strong>SQL query</strong> instead of an archaeology project.</p>
   <div class="formula">structure &middot; movement &middot; meaning &middot; AI-readable &mdash; in one model</div>
   <div class="cta-row">
-    <a class="btn" href="#areas">Explore the 16 areas</a>
-    <a class="btn ghost" href="#articles">Read the articles</a>
+    <a class="btn" href="#demo">See the demo</a>
+    <a class="btn ghost" href="concepts/index.html">Explore the concepts</a>
   </div>
-  <img class="hero-img" src="assets/home-hero.png" alt="An entity-relationship schema of many connected tables. Four are highlighted in blue as the central hubs, chained model -> layer -> entity -> attribute, with dozens of other tables hanging off them — suggesting a large 268-table metadata model." loading="eager" />
+  <img class="hero-img" src="assets/home-hero.png" alt="An entity-relationship schema: four tables highlighted in blue as the central hubs, chained model -> layer -> entity -> attribute, with other tables connected around them." loading="eager" />
 </div>
 
 <section class="wrap" id="idea">
   <h2>The idea in one paragraph</h2>
   <p class="lead">MDDE&rsquo;s bet: a data platform&rsquo;s structure and transformation logic are <strong>data</strong>. Entities, attributes, mappings, filters, time policies, rules and the generated SQL live as rows in a metamodel &mdash; and the platform artifacts (DDL, dbt, pipelines, documentation, diagrams) are <em>generated views</em> of that metadata.</p>
-  <p>The 268 tables are the price of making every question &mdash; lineage, impact, quality, history, who-decided-what &mdash; a query instead of guesswork. This model exists to show that each table earns its price. It even documents itself: the reference docs, DDL and diagrams are generated from the metamodel database. A metadata framework whose own documentation is hand-maintained would be a contradiction.</p>
+  <p>Once structure and logic are data, every question &mdash; lineage, impact, quality, history, who-decided-what &mdash; becomes a query instead of guesswork. The metamodel even documents itself: the reference docs, DDL and diagrams are generated from it. A metadata framework whose own documentation is hand-maintained would be a contradiction.</p>
   <div class="callout">
     <p><strong>Four hubs everything hangs off:</strong> <code>model</code> &rarr; <code>layer</code> &rarr; <code>entity</code> &rarr; <code>attribute</code>. From there: mappings (the SELECT as data), filters, time, rules, lineage, governance and knowledge.</p>
   </div>
@@ -52,34 +52,24 @@
   </figure>
 </section>
 
-<section class="wrap" id="areas">
-  <h2>The model &mdash; 16 subject areas</h2>
-  <p class="muted">Every table assigned to exactly one area; 268 base tables classified core / optional, hub / sub / satellite.</p>
-  <div class="cards">
-    <div class="card"><h3>Core structural model <span class="badge">21</span></h3><p>The irreducible kernel: model &rarr; layer &rarr; entity &rarr; attribute, plus keys, identifiers, inheritance, domains and subject areas as first-class citizens.</p></div>
-    <div class="card"><h3>Transformation logic <span class="badge">30</span></h3><p>A SQL query as a structured object: FROM/JOIN, SELECT list, WHERE, GROUP BY, windows, functions and filters &mdash; each clause its own table. Impact analysis becomes a query.</p></div>
-    <div class="card"><h3>Temporality &amp; time <span class="badge">7</span></h3><p>Time reified, not hidden in SQL: reusable time profiles, point-in-time generation, timeline consolidation, materialized temporal filters.</p></div>
-    <div class="card"><h3>Source integration &amp; mastering <span class="badge">16</span></h3><p>MDM as data: contributors with trust scores, key harmonization, probabilistic matching, golden records with survivorship audit &mdash; which value won and why.</p></div>
-    <div class="card"><h3>Data Vault &amp; imports <span class="badge">11</span></h3><p>Ingest an existing Data Vault and reason about it &mdash; or migrate away: detected hubs/links/satellites, plan-execute-verify migration, effectivity and multi-active patterns.</p></div>
-    <div class="card"><h3>Business modeling front-ends <span class="badge">13</span></h3><p>BEAM modelstorming and FCO-IM fact-oriented modeling, implemented as data &mdash; with requirements-to-implementation traceability a document can never give you.</p></div>
-    <div class="card"><h3>Discovery &amp; reverse engineering <span class="badge">19</span></h3><p>Reconstruct a model from legacy SQL: mined keys and relationships with confidence and review, lineage, complexity, safe-restructuring proposals with regression tests.</p></div>
-    <div class="card"><h3>Rules, quality &amp; testing <span class="badge">28</span></h3><p>Rules as data (AnaCredit-grade), contracts, gates, tests, incidents, anomalies and a quality score with a time axis. The area that&rsquo;s seen the most real use.</p></div>
-    <div class="card"><h3>Reconciliation &amp; comparison <span class="badge">9</span></h3><p>Prove new equals old: source-vs-target and query-pair comparison with per-column tolerance and row-level evidence &mdash; the trail auditors want.</p></div>
-    <div class="card"><h3>Runs, generation &amp; observability <span class="badge">26</span></h3><p>Everything the engine does, recorded as data: runs, SQL generation and patches, table/column profiling, load history, freshness, metrics and alerts.</p></div>
-    <div class="card"><h3>Versioning, change &amp; environments <span class="badge">28</span></h3><p>Metadata change governed like data change: per-object version snapshots, field-level audit, environments, releases and git-style merge for metadata.</p></div>
-    <div class="card"><h3>Orchestration &amp; delivery <span class="badge">6</span></h3><p>The model generates its own pipelines: DAG, tasks, dependencies and schedules &mdash; plus delivery expectations for &lsquo;delivery is late&rsquo; alerting.</p></div>
-    <div class="card"><h3>Governance, collaboration &amp; knowledge <span class="badge">30</span></h3><p>The people-and-meaning layer: glossary, synonyms, ownership, tags, data mesh, access control, verified query-to-SQL pairs &mdash; the seed of a semantic layer.</p></div>
-    <div class="card"><h3>Work management <span class="badge">8</span></h3><p>A lightweight tracker embedded in the metamodel, so work links to the exact entity it concerns instead of a disconnected ticket system.</p></div>
-    <div class="card"><h3>Import/export bridges <span class="badge">15</span></h3><p>Bridges to DBML, PowerDesigner, Unity Catalog and Power BI &mdash; down to individual visuals, so BI lineage reaches into the report.</p></div>
-    <div class="card"><h3>Diagramming &amp; presentation <span class="badge">5</span></h3><p>Diagrams are views of the model, never the model itself: definitions, placed symbols, reusable styles and user templates with a render history.</p></div>
+<section class="wrap" id="demo">
+  <h2>The demo</h2>
+  <p class="lead">The quickest way to get it is to see it run. A small, runnable demo proves the whole idea: the platform&rsquo;s structure and logic are data, so <strong>every question is a SQL query</strong> &mdash; not a dig through code.</p>
+  <div class="callout">
+    <p><strong>Four hubs everything hangs off:</strong> <code>model</code> &rarr; <code>entity</code> &rarr; <code>attribute</code>, with <code>entity_mapping</code> holding the transformation. Learn these and you can navigate the rest.</p>
   </div>
-  <p class="muted">Totals: 16 areas &middot; 268 base tables (+4 views) &middot; every table placed on column evidence.</p>
+  <div class="cards">
+    <div class="card"><h3>Structure as rows</h3><p>Models, entities and attributes are rows you can count and join. &ldquo;How many attributes does this entity have?&rdquo; is a query, and identifiers and PII classification live right on the attribute.</p></div>
+    <div class="card"><h3>Transformation as data</h3><p>The FROM clause, the joins with type and cardinality, the SELECT list &mdash; each is a row. Column-level lineage falls out as a query, because the mapping was modeled, not buried in SQL.</p></div>
+    <div class="card"><h3>Generated, not written</h3><p>From the same metadata the platform generates its DDL, its SQL, its docs and its diagrams. Change the metadata and the artifacts change &mdash; they can&rsquo;t drift, because they are all views of one source.</p></div>
+  </div>
+  <p class="muted">A handful of tables is enough to prove the trick: SQL generated <em>from</em> metadata instead of typed by hand. The demo runs on DuckDB &mdash; every question above is a query you can run yourself.</p>
 </section>
 
 <section class="wrap" id="concepts">
   <h2>Concepts</h2>
   <p class="lead">The model has a vocabulary. These are the named ideas behind it &mdash; <strong>Executable Metadata</strong>, <strong>Metadata Star</strong>, <strong>Data Capsule</strong>, <strong>Metadata-as-Code</strong> and more &mdash; each a small, self-contained idea you can point at.</p>
-  <p>Metadata that doesn&rsquo;t just describe the platform but <em>runs</em> it; a metadata operating system with SQL, lineage, tests and docs all generated from one source. The concepts explain how the 268 tables actually work as a system.</p>
+  <p>Metadata that doesn&rsquo;t just describe the platform but <em>runs</em> it; a metadata operating system with SQL, lineage, tests and docs all generated from one source. The concepts explain how the model actually works as a system.</p>
   <div class="cta-row">
     <a class="btn" href="concepts/index.html">Browse the concept library &rarr;</a>
   </div>
