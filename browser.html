@@ -127,7 +127,14 @@ QUERIES.forEach((q, i) => {
   b.onclick = () => { editor.value = q.sql; runQuery(); };
   qWrap.appendChild(b);
 });
-editor.value = QUERIES[0].sql;
+// preload a query from the URL: browser.html?q=<base64-sql> (from the area pages)
+const urlQ = new URLSearchParams(location.search).get('q');
+if (urlQ) {
+  try { editor.value = decodeURIComponent(escape(atob(urlQ))); }
+  catch (e) { editor.value = QUERIES[0].sql; }
+} else {
+  editor.value = QUERIES[0].sql;
+}
 
 let conn = null;
 

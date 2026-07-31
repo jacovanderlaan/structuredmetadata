@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Generated, Not Written — Structured Metadata</title>
+<meta name="description" content="Every platform artifact — DDL, SQL, dbt, pipelines, docs, diagrams — is a generated view of the metadata. Change the metadata and the artifacts change; they can&#x27;t drift, because they&#x27;re all views of one source." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#demo">The demo</a>
+      <a href="../browser.html">Browser</a>
+      <a href="../concepts/index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow">Metadata area</div>
+  <h1>Generated, Not Written</h1>
+  <p class="sub">Every platform artifact — DDL, SQL, dbt, pipelines, docs, diagrams — is a generated view of the metadata. Change the metadata and the artifacts change; they can&#x27;t drift, because they&#x27;re all views of one source.</p>
+</div>
+<section class="wrap">
+<figure class="c-hero"><img src="assets/generated-artifacts-hero.png" alt="Generated, Not Written" loading="eager" /></figure>
+<p>> Every platform artifact — DDL, SQL, dbt, pipelines, docs, diagrams — is a generated view of the metadata. Change the metadata and the artifacts change; they can't drift, because they're all views of one source.</p>
+<p>This is the payoff of treating structure and logic as data: the platform&rsquo;s artifacts are not authored by hand, they are *generated* from the metadata. The DDL, the SQL, the dbt models, the pipelines, the documentation, the diagrams &mdash; each is a view of the same source. Change the metadata and every artifact changes with it. Nothing is transcribed, so nothing can quietly fall out of sync.</p>
+<p>The word that matters is deterministic: the same metadata produces the same SQL, every time, byte for byte. That is what makes generation trustworthy rather than a party trick &mdash; you can regenerate the whole platform and know exactly what you&rsquo;ll get. And because docs and lineage are generated too, the documentation is always current: a metadata framework whose own documentation is hand-maintained would be a contradiction, so this one generates its own.</p>
+<p>It also inverts the usual relationship with drift. In most platforms, SQL, docs, tests and diagrams are separate things kept aligned by manual effort that teams eventually stop supplying. Here alignment isn&rsquo;t maintained, it&rsquo;s inherited &mdash; an artifact can&rsquo;t drift from the metadata for the same reason a shadow can&rsquo;t drift from the object casting it. Write the model; let the platform write itself.</p>
+<div class="callout" style="margin-top:26px"><p><strong>Generated, not written:</strong> The platform&#x27;s tables aren&#x27;t hand-typed — they&#x27;re counted straight out of the metadata that generates them. Ask how big the metamodel is, and how much of it is in use here.</p><pre style="overflow-x:auto;background:var(--code);border-radius:8px;padding:12px 14px;font-size:.85rem;margin:.6rem 0 0"><code>SELECT table_name, estimated_size AS rows
+FROM   duckdb_tables()
+WHERE  schema_name = &#x27;metadata&#x27;
+ORDER BY estimated_size DESC;</code></pre><p style="margin:.7rem 0 0"><a class="btn" href="../browser.html?q=U0VMRUNUIHRhYmxlX25hbWUsIGVzdGltYXRlZF9zaXplIEFTIHJvd3MKRlJPTSAgIGR1Y2tkYl90YWJsZXMoKQpXSEVSRSAgc2NoZW1hX25hbWUgPSAnbWV0YWRhdGEnCk9SREVSIEJZIGVzdGltYXRlZF9zaXplIERFU0M7">Run this in the live browser &rarr;</a></p></div>
+<div class="c-rel"><h3>Related concepts</h3><ul><li><a href="../concepts/deterministic-sql-generation.html">Deterministic Sql Generation</a></li><li><a href="../concepts/metadata-star.html">Metadata Star</a></li><li><a href="../concepts/living-documentation.html">Living Documentation</a></li><li><a href="../concepts/metadata-first.html">Metadata First</a></li></ul></div>
+  <p style="margin-top:34px"><a href="../index.html#demo">&larr; All areas</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

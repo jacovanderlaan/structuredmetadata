@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Structure Metadata — Structured Metadata</title>
+<meta name="description" content="The shape of the platform as data — models, entities, attributes, identifiers and relationships are rows you can count, join and query, with governance living right on the attribute." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#demo">The demo</a>
+      <a href="../browser.html">Browser</a>
+      <a href="../concepts/index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow">Metadata area</div>
+  <h1>Structure Metadata</h1>
+  <p class="sub">The shape of the platform as data — models, entities, attributes, identifiers and relationships are rows you can count, join and query, with governance living right on the attribute.</p>
+</div>
+<section class="wrap">
+<figure class="c-hero"><img src="assets/structure-metadata-hero.png" alt="Structure Metadata" loading="eager" /></figure>
+<p>> The shape of the platform as data — models, entities, attributes, identifiers and relationships are rows you can count, join and query, with governance living right on the attribute.</p>
+<p>Structure metadata is the part everyone recognizes as &ldquo;the data model&rdquo; &mdash; but here it isn&rsquo;t a diagram, it&rsquo;s data. Models, entities and attributes are rows. Identifiers are first-class objects (an identifier has member columns, in order, with its constraint and index metadata), not flags squeezed onto the entity. Relationships carry cardinality and roles. The kernel is small and deliberate: model &rarr; layer &rarr; entity &rarr; attribute, with keys, inheritance and domains as first-class citizens rather than afterthoughts.</p>
+<p>Because the structure is data, questions about it are queries. &ldquo;How many attributes does this entity have?&rdquo; is a join. &ldquo;Which attributes are PII, and on which entities?&rdquo; is a filter &mdash; and the answer is trustworthy because governance lives *on* the attribute, not in a separate spreadsheet that drifts. The same is true for classification, profiling and the physical options: they hang off the structural hubs as satellites, so the hubs stay lean while the model stays complete.</p>
+<p>This is the foundation everything else builds on. Transformation, temporality, quality and lineage all reference the structural hubs. Get the structure right &mdash; explicit, queryable, governed on the attribute &mdash; and the rest of the platform has something solid to stand on.</p>
+<div class="callout" style="margin-top:26px"><p><strong>Structure as rows:</strong> How many attributes does each entity have? That&#x27;s a join, not a diagram — because the structure itself is data.</p><pre style="overflow-x:auto;background:var(--code);border-radius:8px;padding:12px 14px;font-size:.85rem;margin:.6rem 0 0"><code>SELECT e.model_id, e.entity_name,
+       count(a.attribute_id) AS attributes
+FROM   metadata.entity e
+LEFT JOIN metadata.attribute a ON a.entity_id = e.entity_id
+GROUP BY 1, 2
+ORDER BY 1, 3 DESC;</code></pre><p style="margin:.7rem 0 0"><a class="btn" href="../browser.html?q=U0VMRUNUIGUubW9kZWxfaWQsIGUuZW50aXR5X25hbWUsCiAgICAgICBjb3VudChhLmF0dHJpYnV0ZV9pZCkgQVMgYXR0cmlidXRlcwpGUk9NICAgbWV0YWRhdGEuZW50aXR5IGUKTEVGVCBKT0lOIG1ldGFkYXRhLmF0dHJpYnV0ZSBhIE9OIGEuZW50aXR5X2lkID0gZS5lbnRpdHlfaWQKR1JPVVAgQlkgMSwgMgpPUkRFUiBCWSAxLCAzIERFU0M7">Run this in the live browser &rarr;</a></p></div>
+<div class="c-rel"><h3>Related concepts</h3><ul><li><a href="../concepts/metadata-first.html">Metadata First</a></li><li><a href="../concepts/executable-metadata.html">Executable Metadata</a></li><li><a href="../concepts/universal-data-models.html">Universal Data Models</a></li><li><a href="../concepts/business-friendly-metadata.html">Business Friendly Metadata</a></li></ul></div>
+  <p style="margin-top:34px"><a href="../index.html#demo">&larr; All areas</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

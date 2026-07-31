@@ -60,9 +60,9 @@
     <p><strong>Four hubs everything hangs off:</strong> <code>model</code> &rarr; <code>entity</code> &rarr; <code>attribute</code>, with <code>entity_mapping</code> holding the transformation. Learn these and you can navigate the rest.</p>
   </div>
   <div class="cards">
-    <div class="card"><h3>Structure as rows</h3><p>Models, entities and attributes are rows you can count and join. &ldquo;How many attributes does this entity have?&rdquo; is a query, and identifiers and PII classification live right on the attribute.</p></div>
-    <div class="card"><h3>Transformation as data</h3><p>The FROM clause, the joins with type and cardinality, the SELECT list &mdash; each is a row. Column-level lineage falls out as a query, because the mapping was modeled, not buried in SQL.</p></div>
-    <div class="card"><h3>Generated, not written</h3><p>From the same metadata the platform generates its DDL, its SQL, its docs and its diagrams. Change the metadata and the artifacts change &mdash; they can&rsquo;t drift, because they are all views of one source.</p></div>
+    <div class="card"><h3><a href="areas/structure-metadata.html">Structure as rows</a></h3><p>Models, entities and attributes are rows you can count and join. &ldquo;How many attributes does this entity have?&rdquo; is a query, and identifiers and PII classification live right on the attribute.</p></div>
+    <div class="card"><h3><a href="areas/transformation-metadata.html">Transformation as data</a></h3><p>The FROM clause, the joins with type and cardinality, the SELECT list &mdash; each is a row. Column-level lineage falls out as a query, because the mapping was modeled, not buried in SQL.</p></div>
+    <div class="card"><h3><a href="areas/generated-artifacts.html">Generated, not written</a></h3><p>From the same metadata the platform generates its DDL, its SQL, its docs and its diagrams. Change the metadata and the artifacts change &mdash; they can&rsquo;t drift, because they are all views of one source.</p></div>
   </div>
   <p class="muted">A handful of tables is enough to prove the trick: SQL generated <em>from</em> metadata instead of typed by hand.</p>
   <div class="cta-row">

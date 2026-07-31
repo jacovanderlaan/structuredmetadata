@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Transformation Metadata — Structured Metadata</title>
+<meta name="description" content="How data moves and changes, modeled as data — the FROM clause, the joins, the SELECT list, filters and time all captured as metadata instead of buried in hand-written SQL." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#demo">The demo</a>
+      <a href="../browser.html">Browser</a>
+      <a href="../concepts/index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow">Metadata area</div>
+  <h1>Transformation Metadata</h1>
+  <p class="sub">How data moves and changes, modeled as data — the FROM clause, the joins, the SELECT list, filters and time all captured as metadata instead of buried in hand-written SQL.</p>
+</div>
+<section class="wrap">
+<figure class="c-hero"><img src="assets/transformation-metadata-hero.png" alt="Transformation Metadata" loading="eager" /></figure>
+<p>> How data moves and changes, modeled as data — the FROM clause, the joins, the SELECT list, filters and time all captured as metadata instead of buried in hand-written SQL.</p>
+<p>Transformation is the half of modeling that the classic tools never solved. Structure got boxes and lines; the logic that turns sources into targets ended up in code &mdash; and in practice, in complex, inconsistent SQL where logic is copy-pasted, data-quality fixes are tangled with functional rules, time handling is ad-hoc, and there is no clear layering. Change one thing and you can't tell what breaks, because the intent was never modeled &mdash; only the SQL was written.</p>
+<p>Transformation metadata models it explicitly. Every clause of a query becomes a structured object: the FROM/JOIN with its type and cardinality, the SELECT list as column-level mappings, the WHERE as filter expressions, the GROUP BY, the window functions, the time policy. The SQL is then *generated* from that metadata, deterministically &mdash; identical, repeatable output from the same source. Because the mapping is data, column-level lineage and impact analysis fall out as queries, and the logic stays consistent and layered instead of scattered across a thousand bespoke statements.</p>
+<p>This is where structure and movement finally meet: the transformation is modeled with the same rigor as the structure, so &ldquo;how does this value get computed, and what does changing it affect?&rdquo; is something you can ask the model &mdash; not something you reverse-engineer from SQL.</p>
+<div class="callout" style="margin-top:26px"><p><strong>The FROM clause as data:</strong> A join isn&#x27;t a line of SQL here — it&#x27;s a row. Ask &quot;which sources feed this entity, with what join type and cardinality?&quot; and it&#x27;s a query, not a read-through of a query.</p><pre style="overflow-x:auto;background:var(--code);border-radius:8px;padding:12px 14px;font-size:.85rem;margin:.6rem 0 0"><code>SELECT e.entity_name AS target,
+       em.source_table,
+       em.join_type,
+       em.join_cardinality
+FROM   metadata.entity_mapping em
+JOIN   metadata.entity e ON e.entity_id = em.entity_id;</code></pre><p style="margin:.7rem 0 0"><a class="btn" href="../browser.html?q=U0VMRUNUIGUuZW50aXR5X25hbWUgQVMgdGFyZ2V0LAogICAgICAgZW0uc291cmNlX3RhYmxlLAogICAgICAgZW0uam9pbl90eXBlLAogICAgICAgZW0uam9pbl9jYXJkaW5hbGl0eQpGUk9NICAgbWV0YWRhdGEuZW50aXR5X21hcHBpbmcgZW0KSk9JTiAgIG1ldGFkYXRhLmVudGl0eSBlIE9OIGUuZW50aXR5X2lkID0gZW0uZW50aXR5X2lkOw==">Run this in the live browser &rarr;</a></p></div>
+<div class="c-rel"><h3>Related concepts</h3><ul><li><a href="../concepts/transformation-modeling.html">Transformation Modeling</a></li><li><a href="../concepts/deterministic-sql-generation.html">Deterministic Sql Generation</a></li><li><a href="../concepts/atomic-sql.html">Atomic Sql</a></li><li><a href="../concepts/self-describing-sql.html">Self Describing Sql</a></li></ul></div>
+  <p style="margin-top:34px"><a href="../index.html#demo">&larr; All areas</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>
