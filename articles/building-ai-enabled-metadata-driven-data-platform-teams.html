@@ -174,7 +174,7 @@
 <p>| Integration | Point-to-point design | Semantic layer design for AI consumption |</p>
 <p>| Communication | Presentations to leadership | Dashboards + AI-generated insights |</p>
 <p><strong>Key evolution</strong>:</p>
-<p>!<a href="assets/13_figure/13_figure.png">Before/after comparison: before AI, an architect writes a 50-page standards document that engineers read sometimes and often ignore; after AI, the architect defines naming patterns, stereotype rules, quality thresholds, and compliance requirements as metadata that AI enforces automatically, with the architect handling exceptions</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/13_figure/13_figure.png">Before/after comparison: before AI, an architect writes a 50-page standards document that engineers read sometimes and often ignore; after AI, the architect defines naming patterns, stereotype rules, quality thresholds, and compliance requirements as metadata that AI enforces automatically, with the architect handling exceptions</a></p>
 <p><strong>AI partnership</strong>:</p>
 <ul>
 <li>Architect defines <strong>what good looks like</strong> (patterns, rules)</li>
@@ -194,7 +194,7 @@
 <p>| Documentation | Manual documentation | AI-generated docs from metadata |</p>
 <p><strong>Note</strong>: in most organizations the data architect defines standards and patterns, while the data modeler creates the actual entity designs — see the <a href="#data-modeler">Data Modeler</a> section below for how that division plays out under AI.</p>
 <p><strong>Key evolution</strong>:</p>
-<p>!<a href="assets/14_figure/14_figure.png">Before/after comparison: before AI, an architect defines standards manually in documents and modelers interpret them inconsistently; after AI, the architect defines naming patterns, stereotype rules, and quality thresholds as encoded rules that AI enforces, with modelers focused on design instead of compliance</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/14_figure/14_figure.png">Before/after comparison: before AI, an architect defines standards manually in documents and modelers interpret them inconsistently; after AI, the architect defines naming patterns, stereotype rules, and quality thresholds as encoded rules that AI enforces, with modelers focused on design instead of compliance</a></p>
 <p><strong>AI partnership</strong>:</p>
 <ul>
 <li>Architect provides <strong>patterns and constraints</strong></li>
@@ -214,7 +214,7 @@
 <p>| Scalability | Capacity planning | AI-driven cost/performance analysis |</p>
 <p>| Integration | Technical interface design | Generator configurations per platform |</p>
 <p><strong>Key evolution</strong>:</p>
-<p>!<a href="assets/17_figure/17_figure.png">Before/after comparison: before AI, an architect spends 4-8 hours manually investigating a slow query, tests multiple approaches, and completes a 2-3 day performance review; after AI, the assistant analyzes query patterns and suggests partitioning, clustering, and materialization options in 30 minutes, with the architect evaluating trade-offs and selecting the best approach</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/17_figure/17_figure.png">Before/after comparison: before AI, an architect spends 4-8 hours manually investigating a slow query, tests multiple approaches, and completes a 2-3 day performance review; after AI, the assistant analyzes query patterns and suggests partitioning, clustering, and materialization options in 30 minutes, with the architect evaluating trade-offs and selecting the best approach</a></p>
 <p><strong>AI partnership</strong>:</p>
 <ul>
 <li>Architect defines <strong>platform-specific patterns</strong> (Databricks vs. Snowflake)</li>
@@ -234,7 +234,7 @@
 <p>| Stereotype selection | Manual selection (if any) | AI recommends based on entity characteristics |</p>
 <p>| Documentation | Separate documentation effort | Generated from model metadata |</p>
 <p><strong>Key evolution</strong>:</p>
-<p>!<a href="assets/18_figure/18_figure.png">Before/after comparison: before AI, a modeler creates an entity design over 2-3 days, reviews with the architect, and iterates 2-3 times, with a final design ready in 1-2 weeks; after AI, the modeler describes requirements, AI generates the entity design in 10 minutes, the modeler reviews and adjusts semantics, and the final design is ready in 1-2 hours</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/18_figure/18_figure.png">Before/after comparison: before AI, a modeler creates an entity design over 2-3 days, reviews with the architect, and iterates 2-3 times, with a final design ready in 1-2 weeks; after AI, the modeler describes requirements, AI generates the entity design in 10 minutes, the modeler reviews and adjusts semantics, and the final design is ready in 1-2 hours</a></p>
 <p><strong>AI partnership</strong>:</p>
 <ul>
 <li>Modeler provides <strong>business context and requirements</strong></li>
@@ -245,7 +245,7 @@
 <p><strong>Relationship with the Data Architect</strong>: the architect defines standards and patterns (naming conventions, stereotypes, quality rules); the modeler creates models following those patterns; AI bridges the gap by enforcing patterns and suggesting compliant designs — it&#x27;s <strong>transfer-by-design</strong> at the role level, the pattern lives in the team from day one instead of being handed over after the fact.</p>
 <p>---</p>
 <h3>The architecture hierarchy in AI-enabled teams</h3>
-<p>!<a href="assets/20_figure/20_figure.png">Diagram showing the architecture hierarchy: an Enterprise Data Architect at the top owns organization-wide knowledge architecture, cross-domain standards, and AI governance; below that, three parallel Solution Architects (Finance, Risk) and a Technical Architect (Platform) own domain and platform patterns; both feed into a Metadata Architect who owns stereotype design, repository structure, and AI context optimization</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/20_figure/20_figure.png">Diagram showing the architecture hierarchy: an Enterprise Data Architect at the top owns organization-wide knowledge architecture, cross-domain standards, and AI governance; below that, three parallel Solution Architects (Finance, Risk) and a Technical Architect (Platform) own domain and platform patterns; both feed into a Metadata Architect who owns stereotype design, repository structure, and AI context optimization</a></p>
 <h3>Architecture deliverables in the AI age</h3>
 <p>Traditional architecture deliverables transform rather than disappear:</p>
 <p>| Traditional deliverable | AI-enabled equivalent |</p>
@@ -257,7 +257,7 @@
 <p>| Governance board | Automated compliance + human exceptions |</p>
 <h3>The architect as AI guide</h3>
 <p><strong>Key insight</strong>: architects shift from <strong>creating designs</strong> to <strong>teaching AI how to design</strong>.</p>
-<p>!<a href="assets/21_figure/21_figure.png">Diagram showing the architect as AI guide: on the left, examples of what the architect teaches (bi-temporal entity rules, regulatory classification rules, Databricks platform preferences); on the right, the corresponding rules the AI learns to apply automatically, such as applying the dual_scd2 stereotype, adding audit columns, or generating Delta syntax with Z-ordering</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/21_figure/21_figure.png">Diagram showing the architect as AI guide: on the left, examples of what the architect teaches (bi-temporal entity rules, regulatory classification rules, Databricks platform preferences); on the right, the corresponding rules the AI learns to apply automatically, such as applying the dual_scd2 stereotype, adding audit columns, or generating Delta syntax with Z-ordering</a></p>
 <h3>Architecture challenges in AI adoption</h3>
 <p>| Challenge | What people say | Solution |</p>
 <p>|-----------|------------------|----------|</p>
@@ -295,28 +295,28 @@
 <h3>Challenge 5 — measuring success</h3>
 <p><em>&quot;How do we know this is working?&quot;</em></p>
 <p>Traditional metrics — lines of code, tickets closed — don&#x27;t capture what AI actually changes.</p>
-<p>!<a href="assets/25_figure/25_figure.png">Table of new metrics for the AI age: Time to Model under 2 hours, Onboarding Time under 5 days, Documentation Freshness under 60 days, AI Acceptance Rate over 70%, Error Escape Rate on a decreasing trend, and Metadata Coverage over 90%</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/25_figure/25_figure.png">Table of new metrics for the AI age: Time to Model under 2 hours, Onboarding Time under 5 days, Documentation Freshness under 60 days, AI Acceptance Rate over 70%, Error Escape Rate on a decreasing trend, and Metadata Coverage over 90%</a></p>
 <p>---</p>
 <h2>The roadmap: how to get there</h2>
 <h3>Phase 1 — foundation (months 1–3)</h3>
 <p><strong>Goal</strong>: establish metadata infrastructure and initial AI integration.</p>
-<p>!<a href="assets/26_figure/26_figure.png">Phase 1 roadmap table showing month-by-month actions and deliverables: month 1 builds the knowledge repository structure and CLAUDE.md context file; month 2 AI-extracts metadata from existing docs and sets up a verification workflow, delivering 50+ verified documents; month 3 configures the AI assistant and pilots it with 1-2 engineers, delivering AI-assisted design for 5 entities</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/26_figure/26_figure.png">Phase 1 roadmap table showing month-by-month actions and deliverables: month 1 builds the knowledge repository structure and CLAUDE.md context file; month 2 AI-extracts metadata from existing docs and sets up a verification workflow, delivering 50+ verified documents; month 3 configures the AI assistant and pilots it with 1-2 engineers, delivering AI-assisted design for 5 entities</a></p>
 <p><strong>Key actions</strong>: assign a Metadata Architect and an AI Integration Lead. Create a Git-based knowledge repository. Extract and structure priority documentation. Set up Claude Code with an MCP server. Define success metrics before you need them, not after.</p>
 <h3>Phase 2 — expansion (months 4–6)</h3>
 <p><strong>Goal</strong>: expand AI integration to the full team, automate the key workflows.</p>
-<p>!<a href="assets/27_figure/27_figure.png">Phase 2 roadmap table: month 4 rolls AI out to all engineers and trains business analysts, building a prompt library; month 5 implements SQL generators, auto-generates quality checks, and enables lineage tracing, delivering generated pipelines for 20+ entities; month 6 adds impact analysis and quality dashboards, delivering production-grade automation</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/27_figure/27_figure.png">Phase 2 roadmap table: month 4 rolls AI out to all engineers and trains business analysts, building a prompt library; month 5 implements SQL generators, auto-generates quality checks, and enables lineage tracing, delivering generated pipelines for 20+ entities; month 6 adds impact analysis and quality dashboards, delivering production-grade automation</a></p>
 <p><strong>Key actions</strong>: complete the metadata migration. Configure SQL/pipeline generators. Implement confidence scoring. Establish verification SLAs. Build an internal champion network — adoption spreads through peers, not mandates.</p>
 <h3>Phase 3 — optimization (months 7–12)</h3>
 <p><strong>Goal</strong>: achieve full metadata-driven operation, optimize AI effectiveness.</p>
-<p>!<a href="assets/28_figure/28_figure.png">Phase 3 roadmap table: months 7-8 implement the AI feedback loop and calibrate confidence scoring, delivering high AI acceptance rate above 80%; months 9-10 add semantic layer integration and cross-team AI assistants, delivering enterprise-wide AI assistance; months 11-12 build self-healing pipelines and predictive recommendations, delivering an industry-leading data platform</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/28_figure/28_figure.png">Phase 3 roadmap table: months 7-8 implement the AI feedback loop and calibrate confidence scoring, delivering high AI acceptance rate above 80%; months 9-10 add semantic layer integration and cross-team AI assistants, delivering enterprise-wide AI assistance; months 11-12 build self-healing pipelines and predictive recommendations, delivering an industry-leading data platform</a></p>
 <p><strong>Key actions</strong>: measure and improve AI accuracy. Expand to adjacent teams. Implement advanced patterns (temporal, semantic). Build organizational capability. Document and share what you learned — the roadmap only compounds if the next team doesn&#x27;t start from zero.</p>
 <p>---</p>
 <h2>The human element: what AI can&#x27;t replace</h2>
 <h3>AI is a tool, not a team member</h3>
 <p>However sophisticated AI becomes, some capabilities stay uniquely human:</p>
-<p>!<a href="assets/29_figure/29_figure.png">Table of human capabilities AI can&#x27;t replace: Judgment (knowing when rules don&#x27;t apply), Context (organizational politics and history), Creativity (inventing new patterns), Relationships (building trust with stakeholders), Ethics (deciding when values conflict), and Accountability (owning outcomes, not just outputs)</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/29_figure/29_figure.png">Table of human capabilities AI can&#x27;t replace: Judgment (knowing when rules don&#x27;t apply), Context (organizational politics and history), Creativity (inventing new patterns), Relationships (building trust with stakeholders), Ethics (deciding when values conflict), and Accountability (owning outcomes, not just outputs)</a></p>
 <h3>The human-AI partnership model</h3>
-<p>!<a href="assets/30_figure/30_figure.png">Diagram of the human-AI partnership: AI excels at pattern recognition, rapid search, consistent formatting, generating variations, syntax validation, and 24/7 availability; humans excel at strategic decisions, stakeholder management, exception handling, quality judgment, business context, and ethical reasoning; the partnership flows as AI proposes/suggests to the human, and the human corrects/approves back, yielding the speed of AI plus the wisdom of humans</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/30_figure/30_figure.png">Diagram of the human-AI partnership: AI excels at pattern recognition, rapid search, consistent formatting, generating variations, syntax validation, and 24/7 availability; humans excel at strategic decisions, stakeholder management, exception handling, quality judgment, business context, and ethical reasoning; the partnership flows as AI proposes/suggests to the human, and the human corrects/approves back, yielding the speed of AI plus the wisdom of humans</a></p>
 <h3>The &quot;AI proposes, human disposes&quot; principle</h3>
 <p>Every AI interaction in this model follows the same pattern:</p>
 <p>1. <strong>Human request</strong> — &quot;Design a temporal entity for credit exposures&quot;</p>
@@ -336,7 +336,7 @@
 <li><strong>Architects</strong> are freed from implementation detail to focus on strategy and patterns</li>
 </ul>
 <h3>The compound effect</h3>
-<p>!<a href="assets/31_figure/31_figure.png">Diagram showing a compounding feedback loop: better metadata leads to better AI context, which leads to better suggestions, which leads to better outcomes through human review, which leads to better corrections, which feed back into better metadata</a></p>
+<p>!<a href="assets/building-ai-enabled-metadata-driven-data-platform-teams/31_figure/31_figure.png">Diagram showing a compounding feedback loop: better metadata leads to better AI context, which leads to better suggestions, which leads to better outcomes through human review, which leads to better corrections, which feed back into better metadata</a></p>
 <p>Every correction a Knowledge Curator makes, every pattern a Metadata Architect refines, every exception a Trust Engineer calibrates — it all compounds into a system that gets more useful, not more brittle, the longer it runs. That compounding is the actual payoff, more than any single metric.</p>
 <p>Organizations that get this right report meaningfully faster entity design, shorter onboarding, higher AI-suggestion acceptance, and fewer production incidents after a year of operating this way — but the honest caveat is that these numbers depend entirely on how disciplined the underlying metadata work is. Skip the metadata investment and chase the AI headline instead, and none of this shows up.</p>
 <p>---</p>
