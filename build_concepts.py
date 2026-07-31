@@ -7,7 +7,7 @@ renders each to <site_dir>/concepts/<slug>.html + builds concepts/index.html.
 Only links between concepts that are IN the selected set are kept as links;
 others become plain text (self-contained site).
 """
-import os, re, sys
+import os, re, sys, shutil
 
 SRC = "W:/data/rules/mdde-concepts"
 
@@ -22,8 +22,14 @@ def parse_note(path):
     name = field("name")
     desc = field("description").strip('"')
     cat = field("category")
+    hero = field("hero_image").strip('"')
+    hero_cap = field("hero_caption").strip('"')
     related = re.findall(r"-\s*(concept-[a-z0-9-]+)", fm)
-    return {"name": name, "desc": desc, "category": cat, "related": related, "body": body}
+    # key_concept: [site1, site2] — inline list or yaml block list
+    key_raw = field("key_concept")
+    key_sites = re.findall(r"[a-z0-9-]+", key_raw.replace("concept-", "")) if key_raw else []
+    return {"name": name, "desc": desc, "category": cat, "related": related, "body": body,
+            "hero": hero, "hero_cap": hero_cap, "key_sites": key_sites}
 
 def slug_from_concept(cslug):  # concept-executable-metadata -> executable-metadata
     return cslug[len("concept-"):] if cslug.startswith("concept-") else cslug
@@ -74,9 +80,9 @@ PAGE = """<!doctype html>
 <body>
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="/">{brand}</a>
+    <a class="brand" href="../index.html">{brand}</a>
     <nav class="main">
-      <a href="/">Home</a>
+      <a href="../index.html">Home</a>
       <a href="index.html">Concepts</a>
       <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
     </nav>
@@ -88,6 +94,7 @@ PAGE = """<!doctype html>
   <p class="sub">{desc}</p>
 </div>
 <section class="wrap">
+{herohtml}
 {bodyhtml}
 {relatedhtml}
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
@@ -113,9 +120,9 @@ INDEX = """<!doctype html>
 <body>
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="/">{brand}</a>
+    <a class="brand" href="../index.html">{brand}</a>
     <nav class="main">
-      <a href="/">Home</a>
+      <a href="../index.html">Home</a>
       <a href="index.html">Concepts</a>
       <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
     </nav>
@@ -128,7 +135,7 @@ INDEX = """<!doctype html>
 </div>
 <section class="wrap">
 {groups}
-  <p style="margin-top:34px"><a href="/">&larr; Back home</a></p>
+  <p style="margin-top:34px"><a href="../index.html">&larr; Back home</a></p>
 </section>
 <footer><div class="wrap">
   <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
@@ -139,24 +146,52 @@ INDEX = """<!doctype html>
 
 def build(site_dir, slugs, sitename, brand):
     selected = set(slugs)
+    site_key = os.path.basename(os.path.normpath(site_dir))  # e.g. "breakthroughmodeling"
     concepts = {}
     for slug in slugs:
         path = os.path.join(SRC, slug, slug + ".md")
         if not os.path.exists(path):
             print("  MISSING:", slug); continue
         concepts[slug] = parse_note(path)
+    def is_key(c):
+        return site_key in c.get("key_sites", [])
     outdir = os.path.join(site_dir, "concepts")
-    os.makedirs(outdir, exist_ok=True)
+    assetdir = os.path.join(outdir, "assets")
+    os.makedirs(assetdir, exist_ok=True)
+    copied = 0
+    n_key = sum(1 for c in concepts.values() if is_key(c))
     # per-concept pages
     for slug, c in concepts.items():
         title = title_from_slug(slug)
+        # hero: copy from the concept's W-folder assets/ into concepts/assets/ (source of truth = W:)
+        herohtml = ""
+        if c.get("hero"):
+            src_img = os.path.join(SRC, slug, "assets", c["hero"])
+            if os.path.isfile(src_img):
+                shutil.copy2(src_img, os.path.join(assetdir, c["hero"]))
+                copied += 1
+                cap = f'<figcaption>{c["hero_cap"]}</figcaption>' if c.get("hero_cap") else ""
+                herohtml = (f'<figure class="c-hero"><img src="assets/{c["hero"]}" '
+                            f'alt="{title}" loading="eager" />{cap}</figure>')
+            else:
+                print(f"  ! hero missing on disk: {slug} -> {c['hero']}")
         rel = [slug_from_concept(r) for r in c["related"] if slug_from_concept(r) in selected]
+        # split related into key vs regular for this site
+        rel_key = [r for r in rel if r in concepts and is_key(concepts[r])]
+        rel_reg = [r for r in rel if r not in rel_key]
         relhtml = ""
-        if rel:
-            items = " · ".join(f'<a href="{r}.html">{title_from_slug(r)}</a>' for r in rel)
-            relhtml = f'<div class="callout" style="margin-top:30px"><p><strong>Related concepts:</strong> {items}</p></div>'
+        if rel_key:
+            items = "".join(f'<li><a href="{r}.html">{title_from_slug(r)}</a></li>' for r in rel_key)
+            relhtml += f'<div class="c-rel c-key"><h3>Key concepts</h3><ul>{items}</ul></div>'
+        if rel_reg:
+            items = "".join(f'<li><a href="{r}.html">{title_from_slug(r)}</a></li>' for r in rel_reg)
+            relhtml += f'<div class="c-rel"><h3>Related concepts</h3><ul>{items}</ul></div>'
+        eyebrow = c["category"]
+        if is_key(c):
+            eyebrow = f'<span class="key-badge">Key concept</span> {c["category"]}'
         html = PAGE.format(title=title, sitename=sitename, brand=brand,
-                           desc=c["desc"].replace('"', "&quot;"), category=c["category"],
+                           desc=c["desc"].replace('"', "&quot;"), category=eyebrow,
+                           herohtml=herohtml,
                            bodyhtml=render_body(c["body"], selected), relatedhtml=relhtml)
         with open(os.path.join(outdir, slug + ".html"), "w", encoding="utf-8") as f:
             f.write(html)
@@ -167,18 +202,26 @@ def build(site_dir, slugs, sitename, brand):
     order = ["Umbrella thesis", "Signature principle", "Metadata OS", "SQL & generation",
              "Lineage & governance", "Business-Friendly family", "Method", "Delivery & method",
              "Temporal patterns", "Semantics", "AI & innovation", "Architecture"]
+    def card(slug):
+        c = concepts[slug]
+        badge = '<span class="key-badge">Key</span> ' if is_key(c) else ""
+        return (f'<div class="card{" is-key" if is_key(c) else ""}">'
+                f'<h3>{badge}<a href="{slug}.html">{title_from_slug(slug)}</a></h3>'
+                f'<p>{c["desc"]}</p></div>\n')
     groups_html = ""
+    # Key concepts section first (this site's key concepts, highlighted)
+    key_slugs = sorted([s for s, c in concepts.items() if is_key(c)])
+    if key_slugs:
+        groups_html += ('<div class="key-section"><h2>Key concepts</h2>'
+                        '<p class="muted">The ideas that matter most here &mdash; start with these.</p>\n'
+                        '<div class="cards">\n' + "".join(card(s) for s in key_slugs) + '</div></div>\n')
     for fam in order + [f for f in fams if f not in order]:
         if fam not in fams: continue
-        cards = ""
-        for slug in sorted(fams[fam]):
-            c = concepts[slug]
-            cards += (f'<div class="card"><h3><a href="{slug}.html">{title_from_slug(slug)}</a></h3>'
-                      f'<p>{c["desc"]}</p></div>\n')
+        cards = "".join(card(s) for s in sorted(fams[fam]))
         groups_html += f'<h2>{fam}</h2>\n<div class="cards">\n{cards}</div>\n'
     with open(os.path.join(outdir, "index.html"), "w", encoding="utf-8") as f:
         f.write(INDEX.format(sitename=sitename, brand=brand, n=len(concepts), groups=groups_html))
-    print(f"  built {len(concepts)} concept pages + index in {outdir}")
+    print(f"  built {len(concepts)} concept pages + index, copied {copied} hero(es) in {outdir}")
 
 if __name__ == "__main__":
     site_dir, csv = sys.argv[1], sys.argv[2]
