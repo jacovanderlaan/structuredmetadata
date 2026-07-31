@@ -18,7 +18,7 @@
 <a href="../index.html#idea">The idea</a>
 <a href="../index.html#relation">Where this fits</a>
 </span></span>
-<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Library</button><span class="navmenu">
+<span class="navgroup"><button class="navtop on" type="button" aria-haspopup="true">Library</button><span class="navmenu">
 <a href="../concepts/index.html">Concepts</a>
 <a href="../anti-patterns/index.html">Anti-patterns</a>
 <a href="../glossary/index.html">Glossary</a>
@@ -42,6 +42,8 @@
   <p class="sub">The named ideas behind the model &mdash; 57 metadata concepts, grouped by family. Each one is a small, self-contained idea you can point at.</p>
 </div>
 <section class="wrap">
+<div id="browse"></div>
+<div class="bw-fallback">
 <div class="key-section"><h2>Key concepts</h2><p class="muted">The ideas that matter most here &mdash; start with these.</p>
 <div class="cards">
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="atomic-sql.html">Atomic Sql</a></h3><p>Each SQL file is self-contained — it carries its own metadata and runs independently.</p></div>
@@ -196,8 +198,19 @@
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="maps-everywhere.html">Maps Everywhere</a></h3><p>Every layer of the system carries a map of itself — vault, repo, database, app, decisions. No blind spots, because orientation is a built artifact, not a memory.</p></div>
 </div>
 
+</div>
   <p style="margin-top:34px"><a href="../index.html">&larr; Back home</a></p>
 </section>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../", assets: "assets/",
+    itemTypes: ["concept", "activity"],
+    defaults: { view: "cards" }
+  }).then(() => document.body.classList.add("bw-ready"))
+    .catch((e) => console.warn("browse:", e));
+</script>
 <footer><div class="wrap">
   <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
 </div></footer>
