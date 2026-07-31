@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Coupled By Default — Structured Metadata</title>
+<meta name="description" content="The anti-pattern: systems reach into each other's internals because nothing stopped them — dependencies nobody declared and nobody can see." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<div class="navgroup"><a class="navtop" href="../index.html#idea">The idea</a><div class="submenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</div></div>
+<div class="navgroup"><a class="navtop on" href="../concepts/index.html">Library</a><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../areas/structure-metadata.html">Explore</a><div class="submenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../index.html#articles">Writing</a><div class="submenu">
+<a href="../index.html#articles">Articles</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Anti-pattern</div>
+  <h1>Coupled By Default</h1>
+  <p class="sub">The anti-pattern: systems reach into each other's internals because nothing stopped them — dependencies nobody declared and nobody can see.</p>
+</div>
+<section class="wrap">
+
+<p><strong>Nobody decided to couple these systems. Nothing prevented it.</strong> A report reads a source table directly because it was there. A pipeline joins another team's staging area because it was convenient that sprint. A dashboard depends on a column whose owner has never heard of the dashboard.</p>
+<p>The dependency is real, load-bearing, and <strong>undeclared</strong> — which means it is invisible until it breaks, and it breaks at the worst possible moment: when the owner of the upstream, acting entirely reasonably, changes something they had every right to change.</p>
+<h3>The asymmetry that makes it spread</h3>
+<p>Coupling is cheap to create and expensive to remove. Reaching directly into a table takes an afternoon; the contract, the interface and the monitoring take a week. Under delivery pressure the afternoon always wins, and each individual shortcut is defensible.</p>
+<p><strong>And the cost lands on someone else, later.</strong> The person who couples gets the benefit; the person who must change the upstream pays. Nothing in the normal process makes that trade visible at the moment of the decision — so it recurs, forever, without anyone behaving badly.</p>
+<h3>How you know you have it</h3>
+<p>- Nobody can say who consumes a given table, so nothing can safely be deprecated.
+- Every change is preceded by an archaeology phase.
+- "We can't change that, something might depend on it" — an admission that dependencies are unknown, not that they are important.
+- A staging or intermediate layer has quietly become a public interface because people started reading it.
+- Fixing anything requires knowing everything, which is Bus Factor of One wearing an architecture diagram.</p>
+<h3>Not the same as "too many connections"</h3>
+<p>Decoupled systems can be densely connected. The distinction is not *how many* dependencies exist but whether they are <strong>declared, owned and monitored</strong>. Ten contracts are healthier than three undocumented reach-ins. The goal is front doors, not fewer visitors — see <a href="decoupling.html">Decoupling</a>.</p>
+<h3>The correction</h3>
+<p>You do not fix this by rewriting everything. You fix it by making the seams <strong>explicit where change actually happens</strong>: name the interface, agree the <a href="data-contracts.html">contract</a>, monitor it, and let the internals behind it move freely. Start where it hurts — the boundaries that have already broken twice.</p>
+<p>The permanent guard is default-deny: <strong>internals are private unless published.</strong> A system with no declared outbound interface offers nothing; if someone needs it, that is a conversation, and the conversation produces a contract.</p>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="decoupling.html">Decoupling</a></li><li><a href="data-contracts.html">Data Contracts</a></li><li><a href="local-tidiness.html">Local Tidiness</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

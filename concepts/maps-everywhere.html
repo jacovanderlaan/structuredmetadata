@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Maps Everywhere — Structured Metadata</title>
+<meta name="description" content="Every layer of the system carries a map of itself — vault, repo, database, app, decisions. No blind spots, because orientation is a built artifact, not a memory." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<div class="navgroup"><a class="navtop" href="../index.html#idea">The idea</a><div class="submenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</div></div>
+<div class="navgroup"><a class="navtop on" href="../concepts/index.html">Library</a><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../areas/structure-metadata.html">Explore</a><div class="submenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../index.html#articles">Writing</a><div class="submenu">
+<a href="../index.html#articles">Articles</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Knowledge structure</div>
+  <h1>Maps Everywhere</h1>
+  <p class="sub">Every layer of the system carries a map of itself — vault, repo, database, app, decisions. No blind spots, because orientation is a built artifact, not a memory.</p>
+</div>
+<section class="wrap">
+
+<p><strong>Every layer of the system carries a map of itself.</strong> Not one index at the top, not a wiki someone maintains on Fridays — a map at each level, generated or curated where that level lives, and readable by both a person and a machine.</p>
+<p>A Map of Content is the building block: one hub for one theme. <strong>Maps Everywhere</strong> is the principle: apply it *at every layer*, until there is nowhere in the system you can stand and not know where you are.</p>
+<h3>Why it beats "clarity"</h3>
+<p>Clarity is a virtue word. Everyone claims it, nobody can be held to it, and it tells you nothing about what to *do* on Monday morning. You cannot open a repo and check whether it is clarity-compliant.</p>
+<p>Maps Everywhere is falsifiable. Point at any layer and ask: <strong>where is its map?</strong> If a folder has no folder-note, a database has no schema mirror, a repo has no purpose statement, an app has no model view — you have found a blind spot, and you know exactly what to build. It turns an aspiration into a checklist.</p>
+<p>That is the difference between a value and a practice. Clarity describes how the result should *feel*. Maps Everywhere describes what you *build* to get there.</p>
+<h3>What it looks like in practice</h3>
+<p>| Layer | Its map |
+|---|---|
+| Knowledge / vault | MOCs per theme, marked `type: MOC` — queryable, not just readable |
+| Folders | Folder-notes: what lives here, why, what it is for |
+| Repos & apps | Purpose, code location, published artifacts, status |
+| Databases | A schema mirror — the system as a row in its own model |
+| Decisions | Decision records *with* the alternatives that lost |
+| The system itself | A Backroom: data model, sources, relationships, releases, artifacts |</p>
+<p>The pattern repeats deliberately. Same instinct, different altitude.</p>
+<h3>Why it matters more as AI generates more</h3>
+<p>Generation scales; comprehension does not. When a system produces models, diagrams, code and records faster than a human can read them, the constraint stops being production and becomes <strong>orientation</strong>. Maps are what keep a fast-growing system understandable — for the person who has to change it in six months, and for the agent that has to reason over it today.</p>
+<p>This is the guard rail, stated positively. Not "review everything" — nobody does — but *make sure every layer can tell you what it is.* An LLM turned loose on eighty thousand files retrieves plausible fragments. An LLM that finds a map first knows the shape of the thing before it starts searching. Structure beats magic, applied recursively.</p>
+<h3>The failure mode it names</h3>
+<p>The opposite of Maps Everywhere is not chaos — it is <strong>local tidiness with global blindness</strong>. Every folder looks reasonable up close; nobody can say what the system *is*. Work gets redone because it could not be found. Decisions get relitigated because the reasoning was never recorded. The map exists only in one person's head, which means it does not exist.</p>
+<p><strong>Where it lives:</strong> Applied across `D:/vault/personal/index/` (20 MOCs) · `system.duckdb` (the self-model) · the Backroom (`Data Model · Databases · Relationships · Decisions · Artifacts`) · folder-notes on `W:/`.</p>
+
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

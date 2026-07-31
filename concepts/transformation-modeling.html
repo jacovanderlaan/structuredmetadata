@@ -13,11 +13,24 @@
 <header class="site">
   <div class="wrap">
     <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
-    <nav class="main">
-      <a href="../index.html">Home</a>
-      <a href="index.html">Concepts</a>
-      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
-    </nav>
+<nav class="main">
+<div class="navgroup"><a class="navtop" href="../index.html#idea">The idea</a><div class="submenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</div></div>
+<div class="navgroup"><a class="navtop on" href="../concepts/index.html">Library</a><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../areas/structure-metadata.html">Explore</a><div class="submenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../index.html#articles">Writing</a><div class="submenu">
+<a href="../index.html#articles">Articles</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav>
   </div>
 </header>
 <div class="hero wrap" style="padding-bottom:20px">
@@ -32,7 +45,7 @@
 <p>And the code shows the cost of never modeling it. Transformation is usually captured in <strong>complex SQL queries</strong>, and in practice they are messy in familiar ways: logic copied and pasted from one query to the next until no two agree; data-quality fixes tangled together with functional business logic in the same statement; time logic (bi-temporal, as-of, snapshots) done ad-hoc and differently everywhere; source-specific quirks hard-wired into the transformation; and no clear layering, so staging, cleansing, integration and business rules all blur into one long, unmaintainable query. Change one thing and you can&rsquo;t tell what breaks, because the intent was never modeled &mdash; only the SQL was written.</p>
 <p>Breakthrough Modeling treats transformation as something to <strong>model, not just to code.</strong> The mapping, the filters, the joins, the time policy, the rules &mdash; each becomes explicit, layered metadata, and the SQL is *generated* from it deterministically rather than hand-written and copied. That is what closes the gap the tools left open: movement modeled with the same rigor as structure, so the logic is consistent, layered, traceable, and no longer hiding in a thousand bespoke queries.</p>
 <p><strong>Where it lives:</strong> the signature principle of Breakthrough Modeling &mdash; movement modeled, not buried in SQL.</p>
-<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="model-the-process.html">Model The Process</a></li><li><a href="model-driven-data-engineering.html">Model Driven Data Engineering</a></li></ul></div><div class="c-rel"><h3>Related concepts</h3><ul><li><a href="atomic-sql.html">Atomic Sql</a></li><li><a href="deterministic-sql-generation.html">Deterministic Sql Generation</a></li></ul></div>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="model-the-process.html">Model The Process</a></li><li><a href="atomic-sql.html">Atomic Sql</a></li><li><a href="deterministic-sql-generation.html">Deterministic Sql Generation</a></li><li><a href="model-driven-data-engineering.html">Model Driven Data Engineering</a></li></ul></div>
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
 </section>
 <footer><div class="wrap">

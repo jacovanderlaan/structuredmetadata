@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Local Tidiness — Structured Metadata</title>
+<meta name="description" content="The anti-pattern: every folder looks reasonable up close, and nobody can say what the system is. Order without orientation." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<div class="navgroup"><a class="navtop" href="../index.html#idea">The idea</a><div class="submenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</div></div>
+<div class="navgroup"><a class="navtop on" href="../concepts/index.html">Library</a><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../areas/structure-metadata.html">Explore</a><div class="submenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../index.html#articles">Writing</a><div class="submenu">
+<a href="../index.html#articles">Articles</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Anti-pattern</div>
+  <h1>Local Tidiness</h1>
+  <p class="sub">The anti-pattern: every folder looks reasonable up close, and nobody can say what the system is. Order without orientation.</p>
+</div>
+<section class="wrap">
+
+<p><strong>Every part is neat; the whole is unknowable.</strong> Each folder has a sensible name. Each repo has a README. Each schema follows the standard. Zoom out one level and nobody can tell you what the system *is*, what depends on what, or where a given fact actually comes from.</p>
+<p>This is the failure mode that hides best, because it passes every local inspection. Audits look at parts. Reviews look at parts. The problem only appears when someone new arrives, or when something has to change across a boundary — and then it appears all at once.</p>
+<h3>How it forms</h3>
+<p>Nobody decides to build it. It accretes from reasonable decisions: a folder added where it made sense that week, a service that solved a real problem, a database created for one project. Every step is defensible. <strong>The absence is not of order, but of orientation</strong> — no layer was ever responsible for saying what the whole thing is.</p>
+<p>It also accelerates with generation. AI produces well-formed, locally tidy artifacts faster than anyone can integrate them: clean code, valid models, correct diagrams — each fine in isolation, none of them connected to a picture of the system.</p>
+<h3>The symptoms</h3>
+<p>- Work gets redone because nobody could find that it already existed.
+- Two teams build the same thing and neither is wrong.
+- Onboarding is a tour given by a person, because no artifact can give it.
+- The architecture diagram is aspirational; the real one exists only as a shared assumption.
+- Every question about the whole starts with "well, it depends who you ask."</p>
+<h3>Why "just document it" fails</h3>
+<p>The instinct is a big documentation effort — a wiki, an architecture deck, a landscape drawing. These describe the whole *at a moment*, drift within a quarter, and are then distrusted, which makes the next one harder to justify.</p>
+<p>The alternative is structural: <strong>make each layer able to describe itself</strong>, so the overview is assembled from current artifacts rather than maintained as a separate document. That is <a href="maps-everywhere.html">Maps Everywhere</a> — local tidiness is precisely what it exists to fix. A folder-note per folder, a schema mirror per database, a purpose statement per repo, decisions recorded where the decision happened.</p>
+<h3>The test</h3>
+<p>Point anywhere in the system and ask: <strong>can this thing tell me what it is, and how it connects?</strong> If the answer requires a person, you have local tidiness — order without orientation.</p>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="maps-everywhere.html">Maps Everywhere</a></li><li><a href="decoupling.html">Decoupling</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

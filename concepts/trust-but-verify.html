@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Trust But Verify — Structured Metadata</title>
+<meta name="description" content="Extend trust and check anyway — not because you suspect the source, but because verification is what makes trust safe to give at scale." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<div class="navgroup"><a class="navtop" href="../index.html#idea">The idea</a><div class="submenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</div></div>
+<div class="navgroup"><a class="navtop on" href="../concepts/index.html">Library</a><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../areas/structure-metadata.html">Explore</a><div class="submenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../index.html#articles">Writing</a><div class="submenu">
+<a href="../index.html#articles">Articles</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Signature principle</div>
+  <h1>Trust But Verify</h1>
+  <p class="sub">Extend trust and check anyway — not because you suspect the source, but because verification is what makes trust safe to give at scale.</p>
+</div>
+<section class="wrap">
+
+<p><strong>Extend trust, and check anyway.</strong> Not out of suspicion — checking is precisely what makes trust affordable. Without verification, trust is a bet placed on a person's competence and mood on a given afternoon. With it, trust becomes a working assumption you can safely hold at scale.</p>
+<p>The discipline comes from <strong>clinical research</strong>, where it is not a slogan but a regulatory reality. A trial result is not believed because the investigator is honest; it is believed because source data verification, monitoring visits, audit trails and independent review make it *checkable*. Everyone involved is trusted. Everything is verified anyway. Nobody experiences this as an insult, because the check is a property of the system rather than a judgement about the person.</p>
+<p>That distinction is the whole concept: <strong>verification is structural, not personal.</strong></p>
+<h3>Why it applies directly to AI-generated work</h3>
+<p>An LLM produces output that is fluent, confident, plausibly structured — and occasionally wrong in ways that are invisible at a glance. It has no notion of whether it knows something. The failure mode is not obvious error; it is <strong>credible error</strong>, which is far more expensive.</p>
+<p>Blanket distrust is not a workable answer either: reviewing every generated line by hand removes the reason to generate at all. Trust but verify is the only stance that scales — <strong>accept the output, and gate it on checks the output must pass.</strong> Does the SQL compile? Does the model satisfy the contract? Do the row counts reconcile? Is every referenced column real? Does the total land within a plausible range?</p>
+<p>The same applies to human-written code, which is the part people skip. Developers also produce confident, plausible, occasionally wrong work. The reason we already accept tests, code review and CI is that we settled this argument for humans decades ago. AI does not introduce a new principle — <strong>it raises the volume until the principle becomes unavoidable.</strong></p>
+<h3>The three layers of verification</h3>
+<p>| Layer | Question | Catches |
+|---|---|---|
+| <strong>Tests</strong> | Does it do what it claims? | Logic errors, regressions, broken contracts |
+| <strong>DQ frameworks</strong> | Is the data itself sound? | Nulls, duplicates, orphans, referential breaks, drift |
+| <strong>Plausibility checks</strong> | Does this look like reality? | Technically valid nonsense — a 14 % conversion rate that used to be 2 %, revenue that doubled overnight, a customer count larger than the population |</p>
+<p>The third layer is the one most often missing, and the one that catches what the others cannot. Tests verify against specification; DQ verifies against rules; <strong>plausibility verifies against the world.</strong> All three can pass individually while a result remains obviously wrong to anyone who knows the domain — which is exactly the kind of judgement worth encoding rather than leaving to chance.</p>
+<h3>Where trust actually goes</h3>
+<p>Trust does not disappear; it moves. Instead of trusting each output, you trust <strong>the checks</strong> — which means the checks themselves become the thing requiring care. A verification suite nobody maintains is worse than none, because it manufactures confidence without providing it. See The Validation Loop: the loop improves the checks, not only the output.</p>
+<p>The stance also has a limit worth stating. Verification is only as good as what you thought to verify. Every check encodes a prediction about how things go wrong, and the failure you did not anticipate passes cleanly. That is not an argument against checking — it is an argument for treating a passed suite as *evidence*, never as proof.</p>
+<h3>The opposite</h3>
+<p>Vibe-Driven AI: output accepted because it reads well. Trust without verification, at machine speed.</p>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="data-observability.html">Data Observability</a></li><li><a href="completeness-gate.html">Completeness Gate</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

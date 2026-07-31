@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
 <title>Concepts — Structured Metadata</title>
-<meta name="description" content="The metadata concepts behind Structured Metadata: 41 named ideas, grouped by family." />
+<meta name="description" content="The metadata concepts behind Structured Metadata: 57 named ideas, grouped by family." />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" />
 </head>
@@ -13,103 +13,184 @@
 <header class="site">
   <div class="wrap">
     <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
-    <nav class="main">
-      <a href="../index.html">Home</a>
-      <a href="index.html">Concepts</a>
-      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
-    </nav>
+<nav class="main">
+<div class="navgroup"><a class="navtop" href="../index.html#idea">The idea</a><div class="submenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</div></div>
+<div class="navgroup"><a class="navtop on" href="../concepts/index.html">Library</a><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../areas/structure-metadata.html">Explore</a><div class="submenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../index.html#articles">Writing</a><div class="submenu">
+<a href="../index.html#articles">Articles</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav>
   </div>
 </header>
 <div class="hero wrap" style="padding-bottom:20px">
   <div class="eyebrow">Concept library</div>
   <h1>Concepts</h1>
-  <p class="sub">The named ideas behind the model &mdash; 41 metadata concepts, grouped by family. Each one is a small, self-contained idea you can point at.</p>
+  <p class="sub">The named ideas behind the model &mdash; 57 metadata concepts, grouped by family. Each one is a small, self-contained idea you can point at.</p>
 </div>
 <section class="wrap">
 <div class="key-section"><h2>Key concepts</h2><p class="muted">The ideas that matter most here &mdash; start with these.</p>
 <div class="cards">
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="atomic-sql.html">Atomic Sql</a></h3><p>Each SQL file is self-contained — it carries its own metadata and runs independently.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="batteries-included.html">Batteries Included</a></h3><p>Metadata and governance ship with the platform, pre-configured.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="business-friendly-metadata.html">Business Friendly Metadata</a></h3><p>Metadata explained and governed so it makes sense to both business and technical audiences.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="capsule-slot.html">Capsule Slot</a></h3><p>One of the six conventional metadata containers inside a Data Capsule.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="clickable-diagrams.html">Clickable Diagrams</a></h3><p>A generated SVG carries links, so the picture stops being a dead end and becomes the navigation layer of the model.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="common-integration-layer.html">Common Integration Layer</a></h3><p>A governed semantic handshake between domains and systems.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="completeness-gate.html">Completeness Gate</a></h3><p>A CI gate that requires specific metadata slots before a deployment is allowed.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="continuous-metadata-integration.html">Continuous Metadata Integration</a></h3><p>CI applied to metadata — metadata changes flow through the platform continuously, validated and propagated like code.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="coupled-by-default.html">Coupled By Default</a></h3><p>The anti-pattern: systems reach into each other's internals because nothing stopped them — dependencies nobody declared and nobody can see.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="cte-notebooks.html">Cte Notebooks</a></h3><p>Interactive, cell-by-cell SQL development with metadata round-tripping and a per-CTE advisor.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="data-capsule.html">Data Capsule</a></h3><p>Data shipped together with its complete metadata as one versioned, executable unit.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="data-contracts.html">Data Contracts</a></h3><p>Crystal-clear, machine-readable agreements between a producing and a consuming system — what will be delivered, in what shape, at what quality — continuously monitored.</p></div>
-<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="data-deliveries.html">Data Deliveries</a></h3><p>Model the expected deliveries — what, when, in what form — together with the quality metadata the provider ships alongside: the results of their own DQ and plausibility checks.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="data-observability.html">Data Observability</a></h3><p>Continuous visibility into the health of your data pipelines — freshness, volume, schema drift, distribution and quality — so problems surface on their own, at the boundary, in time to fix them.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="data-versioning.html">Data Versioning</a></h3><p>Track how the data changes over time — bi-temporal SCD2 with redelivery support — so you can ask what the data looked like, and what you knew, at any point in the past.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="decision-black-box.html">Decision Black Box</a></h3><p>The anti-pattern: the outcome was recorded, the reasoning was not — so every decision has to be re-argued from scratch.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="decoupling.html">Decoupling</a></h3><p>Systems meet only at agreed interfaces — inbound and outbound — so each side can change independently. The contract is the seam, and it is monitored.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="deterministic-sql-generation.html">Deterministic Sql Generation</a></h3><p>Identical, repeatable SQL from the same metadata — a hard invariant.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="documentation-theatre.html">Documentation Theatre</a></h3><p>The anti-pattern: documentation produced to satisfy a process rather than a reader — complete, compliant, and trusted by nobody.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="embedded-metadata-governance.html">Embedded Metadata Governance</a></h3><p>Governance rules embedded in the metadata layer itself, so they travel with the data wherever it goes.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="executable-metadata.html">Executable Metadata</a></h3><p>Metadata that doesn't just describe the platform — it runs it: driving generation, validation, and deployment.</p></div>
-<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="incident-modeling.html">Incident Modeling</a></h3><p>Model delivery incidents as data, not loose tickets — a late feed, a failed quality check, a broken schema becomes a tracked, owned, queryable object in the model itself.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="fragmented-schools-of-thought.html">Fragmented Schools Of Thought</a></h3><p>The anti-pattern: a discipline splits into rival interpretations of the same method, and practitioners spend their energy defending a camp instead of solving the problem.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="gated-knowledge.html">Gated Knowledge</a></h3><p>The anti-pattern: understanding locked behind a person, a licence or a login — access controlled by whoever holds the key rather than by whether you need it.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="impact-analysis.html">Impact Analysis</a></h3><p>Lineage traversed backwards: what breaks if I change this? The question every engineer asks before touching anything, and the one most platforms cannot answer.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="just-to-be-clear.html">Just To Be Clear</a></h3><p>A model is the moment an organisation says the quiet part out loud — the sentence that turns shared assumptions into something everyone can see and check.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="knowledge-representation.html">Knowledge Representation</a></h3><p>Capturing meaning in machine-usable structured form, so systems and AI can reason over it.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="living-documentation.html">Living Documentation</a></h3><p>Documentation derived from metadata and lineage — so it never goes stale.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="local-tidiness.html">Local Tidiness</a></h3><p>The anti-pattern: every folder looks reasonable up close, and nobody can say what the system is. Order without orientation.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="maps-everywhere.html">Maps Everywhere</a></h3><p>Every layer of the system carries a map of itself — vault, repo, database, app, decisions. No blind spots, because orientation is a built artifact, not a memory.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="metadata-as-code.html">Metadata As Code</a></h3><p>Metadata lives in version-controlled files — reviewed, tested and deployed like code, so the model is an engineering artifact rather than a GUI state.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="metadata-first.html">Metadata First</a></h3><p>Metadata is the material Breakthrough Modeling is built from — structure, logic and meaning captured as data, so the platform and the AI can both read and run it.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="metadata-mesh.html">Metadata Mesh</a></h3><p>Federated, domain-owned metadata that still interoperates through shared standards.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="metadata-operating-system.html">Metadata Operating System</a></h3><p>Metadata as the operational centre — governing models, lineage, contracts and execution.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="metadata-star.html">Metadata Star</a></h3><p>Metadata as the central star everything orbits — SQL, lineage, tests, and docs are all generated from it.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-as-drawing.html">Model As Drawing</a></h3><p>The anti-pattern: treating the model as a picture to be drawn rather than knowledge to be captured — so it informs nobody and generates nothing.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-close-to-the-data.html">Model Close To The Data</a></h3><p>Metadata, validation and governance live where the data lives — where the SQL runs.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-driven-data-architecture.html">Model Driven Data Architecture</a></h3><p>Bridging models, metadata and meaning across the enterprise.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-driven-data-engineering.html">Model Driven Data Engineering</a></h3><p>Building scalable, metadata-driven data platforms from models — not hand-written code.</p></div>
-<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-the-process.html">Model The Process</a></h3><p>Model not just the data model and the transformations, but the whole process — delivery, integration, migration, quality checking, the backroom — and how the system changes over time.</p></div>
-<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-versioning.html">Model Versioning</a></h3><p>Version the model, not just the data — as models and transformations keep changing, capture how the system itself evolves, and model the reality that sources and interfaces run different versions at the same time.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-driven-data-quality.html">Model Driven Data Quality</a></h3><p>Automating data-quality checks with models, metadata and patterns.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-driven-migrations.html">Model Driven Migrations</a></h3><p>Plan and execute controlled platform migrations using metadata and automation.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="players-and-spectators.html">Players And Spectators</a></h3><p>Two stances toward the same situation — the player treats it as something they author, the spectator as something happening to them. The difference is where responsibility sits, not how much control you have.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="policy-as-code.html">Policy As Code</a></h3><p>Governance policies expressed as code or metadata — versioned, testable, and enforced automatically.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="round-trip-engineering.html">Round Trip Engineering</a></h3><p>Metadata flows into the editor as you write — not just out at deploy.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="rulebooks-playbooks-and-cookbooks.html">Rulebooks Playbooks And Cookbooks</a></h3><p>The book family: rulebooks enforce, playbooks direct, cookbooks show, runbooks execute — each a structured document of text plus metadata, built from segments.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="self-describing-sql.html">Self Describing Sql</a></h3><p>SQL that carries its own meaning — metadata embedded where the query lives.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="semantic-devops.html">Semantic Devops</a></h3><p>CI/CD for meaning — semantics and metadata versioned, tested and deployed like software.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="sidecar-tables.html">Sidecar Tables</a></h3><p>Companion metadata tables that live beside data assets without changing them.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="social-cost-of-method.html">Social Cost Of Method</a></h3><p>The anti-pattern: a method's vocabulary becomes insider language, splitting the team into those who can follow the conversation and those who cannot.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="the-default-future.html">The Default Future</a></h3><p>The future you'll get if nothing changes — your past on autopilot. It arrives by itself, which is exactly why it never feels like a decision.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="time-travel-the-model.html">Time Travel The Model</a></h3><p>Load the git history of the metadata files into the mirror as versioned snapshots, so an app can scrub any object — a table, a rule — back to how it looked at any point in time. Git becomes the model-versioning clock.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="transformation-modeling.html">Transformation Modeling</a></h3><p>Movement — how data actually moves and changes. A separate world the tools never solved, where logic hides in complex, inconsistent SQL instead of being modeled.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="trust-but-verify.html">Trust But Verify</a></h3><p>Extend trust and check anyway — not because you suspect the source, but because verification is what makes trust safe to give at scale.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="universal-data-models.html">Universal Data Models</a></h3><p>Reusable patterns for clear, scalable data models.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="universal-metadata-models.html">Universal Metadata Models</a></h3><p>A reusable, universal way to structure metadata for models and mappings.</p></div>
 </div></div>
-<h2>Umbrella thesis</h2>
+<div class="key-section act-section"><h2>Key activities</h2><p class="muted">What the method actually <em>does</em> &mdash; the moves, not the ideas.</p><div class="cards"><div class="card is-key"><h3><span class="key-badge act-badge">Activity</span> <a href="data-deliveries.html">Data Deliveries</a></h3><p>Model the expected deliveries — what, when, in what form — together with the quality metadata the provider ships alongside: the results of their own DQ and plausibility checks.</p></div>
+<div class="card is-key"><h3><span class="key-badge act-badge">Activity</span> <a href="incident-modeling.html">Incident Modeling</a></h3><p>Model delivery incidents as data, not loose tickets — a late feed, a failed quality check, a broken schema becomes a tracked, owned, queryable object in the model itself.</p></div>
+<div class="card is-key"><h3><span class="key-badge act-badge">Activity</span> <a href="model-the-process.html">Model The Process</a></h3><p>Model not just the data model and the transformations, but the whole process — delivery, integration, migration, quality checking, the backroom — and how the system changes over time.</p></div>
+<div class="card is-key"><h3><span class="key-badge act-badge">Activity</span> <a href="model-versioning.html">Model Versioning</a></h3><p>Version the model, not just the data — as models and transformations keep changing, capture how the system itself evolves, and model the reality that sources and interfaces run different versions at the same time.</p></div>
+</div></div><h2>Umbrella thesis</h2>
 <div class="cards">
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-driven-data-engineering.html">Model Driven Data Engineering</a></h3><p>Building scalable, metadata-driven data platforms from models — not hand-written code.</p></div>
 </div>
 <h2>Signature principle</h2>
 <div class="cards">
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="players-and-spectators.html">Players And Spectators</a></h3><p>Two stances toward the same situation — the player treats it as something they author, the spectator as something happening to them. The difference is where responsibility sits, not how much control you have.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="the-default-future.html">The Default Future</a></h3><p>The future you'll get if nothing changes — your past on autopilot. It arrives by itself, which is exactly why it never feels like a decision.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="transformation-modeling.html">Transformation Modeling</a></h3><p>Movement — how data actually moves and changes. A separate world the tools never solved, where logic hides in complex, inconsistent SQL instead of being modeled.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="trust-but-verify.html">Trust But Verify</a></h3><p>Extend trust and check anyway — not because you suspect the source, but because verification is what makes trust safe to give at scale.</p></div>
 </div>
 <h2>Metadata OS</h2>
 <div class="cards">
-<div class="card"><h3><a href="capsule-slot.html">Capsule Slot</a></h3><p>One of the six conventional metadata containers inside a Data Capsule.</p></div>
-<div class="card"><h3><a href="common-integration-layer.html">Common Integration Layer</a></h3><p>A governed semantic handshake between domains and systems.</p></div>
-<div class="card"><h3><a href="completeness-gate.html">Completeness Gate</a></h3><p>A CI gate that requires specific metadata slots before a deployment is allowed.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="capsule-slot.html">Capsule Slot</a></h3><p>One of the six conventional metadata containers inside a Data Capsule.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="common-integration-layer.html">Common Integration Layer</a></h3><p>A governed semantic handshake between domains and systems.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="completeness-gate.html">Completeness Gate</a></h3><p>A CI gate that requires specific metadata slots before a deployment is allowed.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="data-capsule.html">Data Capsule</a></h3><p>Data shipped together with its complete metadata as one versioned, executable unit.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="executable-metadata.html">Executable Metadata</a></h3><p>Metadata that doesn't just describe the platform — it runs it: driving generation, validation, and deployment.</p></div>
-<div class="card"><h3><a href="knowledge-representation.html">Knowledge Representation</a></h3><p>Capturing meaning in machine-usable structured form, so systems and AI can reason over it.</p></div>
-<div class="card"><h3><a href="metadata-as-code.html">Metadata As Code</a></h3><p>Metadata lives in version-controlled files — reviewed, tested and deployed like code.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="knowledge-representation.html">Knowledge Representation</a></h3><p>Capturing meaning in machine-usable structured form, so systems and AI can reason over it.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="metadata-as-code.html">Metadata As Code</a></h3><p>Metadata lives in version-controlled files — reviewed, tested and deployed like code, so the model is an engineering artifact rather than a GUI state.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="metadata-first.html">Metadata First</a></h3><p>Metadata is the material Breakthrough Modeling is built from — structure, logic and meaning captured as data, so the platform and the AI can both read and run it.</p></div>
-<div class="card"><h3><a href="metadata-mesh.html">Metadata Mesh</a></h3><p>Federated, domain-owned metadata that still interoperates through shared standards.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="metadata-mesh.html">Metadata Mesh</a></h3><p>Federated, domain-owned metadata that still interoperates through shared standards.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="metadata-operating-system.html">Metadata Operating System</a></h3><p>Metadata as the operational centre — governing models, lineage, contracts and execution.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="metadata-star.html">Metadata Star</a></h3><p>Metadata as the central star everything orbits — SQL, lineage, tests, and docs are all generated from it.</p></div>
-<div class="card"><h3><a href="sidecar-tables.html">Sidecar Tables</a></h3><p>Companion metadata tables that live beside data assets without changing them.</p></div>
-<div class="card"><h3><a href="universal-data-models.html">Universal Data Models</a></h3><p>Reusable patterns for clear, scalable data models.</p></div>
-<div class="card"><h3><a href="universal-metadata-models.html">Universal Metadata Models</a></h3><p>A reusable, universal way to structure metadata for models and mappings.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="sidecar-tables.html">Sidecar Tables</a></h3><p>Companion metadata tables that live beside data assets without changing them.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="time-travel-the-model.html">Time Travel The Model</a></h3><p>Load the git history of the metadata files into the mirror as versioned snapshots, so an app can scrub any object — a table, a rule — back to how it looked at any point in time. Git becomes the model-versioning clock.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="universal-data-models.html">Universal Data Models</a></h3><p>Reusable patterns for clear, scalable data models.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="universal-metadata-models.html">Universal Metadata Models</a></h3><p>A reusable, universal way to structure metadata for models and mappings.</p></div>
 </div>
 <h2>SQL & generation</h2>
 <div class="cards">
-<div class="card"><h3><a href="atomic-sql.html">Atomic Sql</a></h3><p>Each SQL file is self-contained — it carries its own metadata and runs independently.</p></div>
-<div class="card"><h3><a href="cte-notebooks.html">Cte Notebooks</a></h3><p>Interactive, cell-by-cell SQL development with metadata round-tripping and a per-CTE advisor.</p></div>
-<div class="card"><h3><a href="deterministic-sql-generation.html">Deterministic Sql Generation</a></h3><p>Identical, repeatable SQL from the same metadata — a hard invariant.</p></div>
-<div class="card"><h3><a href="model-close-to-the-data.html">Model Close To The Data</a></h3><p>Metadata, validation and governance live where the data lives — where the SQL runs.</p></div>
-<div class="card"><h3><a href="round-trip-engineering.html">Round Trip Engineering</a></h3><p>Metadata flows into the editor as you write — not just out at deploy.</p></div>
-<div class="card"><h3><a href="self-describing-sql.html">Self Describing Sql</a></h3><p>SQL that carries its own meaning — metadata embedded where the query lives.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="atomic-sql.html">Atomic Sql</a></h3><p>Each SQL file is self-contained — it carries its own metadata and runs independently.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="cte-notebooks.html">Cte Notebooks</a></h3><p>Interactive, cell-by-cell SQL development with metadata round-tripping and a per-CTE advisor.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="deterministic-sql-generation.html">Deterministic Sql Generation</a></h3><p>Identical, repeatable SQL from the same metadata — a hard invariant.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-close-to-the-data.html">Model Close To The Data</a></h3><p>Metadata, validation and governance live where the data lives — where the SQL runs.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="round-trip-engineering.html">Round Trip Engineering</a></h3><p>Metadata flows into the editor as you write — not just out at deploy.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="self-describing-sql.html">Self Describing Sql</a></h3><p>SQL that carries its own meaning — metadata embedded where the query lives.</p></div>
 </div>
 <h2>Lineage & governance</h2>
 <div class="cards">
-<div class="card"><h3><a href="embedded-metadata-governance.html">Embedded Metadata Governance</a></h3><p>Governance rules embedded in the metadata layer itself, so they travel with the data wherever it goes.</p></div>
-<div class="card"><h3><a href="living-documentation.html">Living Documentation</a></h3><p>Documentation derived from metadata and lineage — so it never goes stale.</p></div>
-<div class="card"><h3><a href="model-driven-data-quality.html">Model Driven Data Quality</a></h3><p>Automating data-quality checks with models, metadata and patterns.</p></div>
-<div class="card"><h3><a href="policy-as-code.html">Policy As Code</a></h3><p>Governance policies expressed as code or metadata — versioned, testable, and enforced automatically.</p></div>
-<div class="card"><h3><a href="rulebooks-playbooks-and-cookbooks.html">Rulebooks Playbooks And Cookbooks</a></h3><p>Three levels of metadata-driven governance: enforce, procedure, pattern.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="embedded-metadata-governance.html">Embedded Metadata Governance</a></h3><p>Governance rules embedded in the metadata layer itself, so they travel with the data wherever it goes.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="impact-analysis.html">Impact Analysis</a></h3><p>Lineage traversed backwards: what breaks if I change this? The question every engineer asks before touching anything, and the one most platforms cannot answer.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="living-documentation.html">Living Documentation</a></h3><p>Documentation derived from metadata and lineage — so it never goes stale.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-driven-data-quality.html">Model Driven Data Quality</a></h3><p>Automating data-quality checks with models, metadata and patterns.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="policy-as-code.html">Policy As Code</a></h3><p>Governance policies expressed as code or metadata — versioned, testable, and enforced automatically.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="rulebooks-playbooks-and-cookbooks.html">Rulebooks Playbooks And Cookbooks</a></h3><p>The book family: rulebooks enforce, playbooks direct, cookbooks show, runbooks execute — each a structured document of text plus metadata, built from segments.</p></div>
 </div>
 <h2>Business-Friendly family</h2>
 <div class="cards">
-<div class="card"><h3><a href="business-friendly-diagramming.html">Business Friendly Diagramming</a></h3><p>Clear, consistent, metadata-driven diagrams that connect business and technology.</p></div>
-<div class="card"><h3><a href="business-friendly-metadata.html">Business Friendly Metadata</a></h3><p>Metadata explained and governed so it makes sense to both business and technical audiences.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="business-friendly-metadata.html">Business Friendly Metadata</a></h3><p>Metadata explained and governed so it makes sense to both business and technical audiences.</p></div>
 </div>
 <h2>Method</h2>
 <div class="cards">
-<div class="card"><h3><a href="continuous-metadata-integration.html">Continuous Metadata Integration</a></h3><p>CI applied to metadata — metadata changes flow through the platform continuously, validated and propagated like code.</p></div>
-<div class="card"><h3><a href="semantic-devops.html">Semantic Devops</a></h3><p>CI/CD for meaning — semantics and metadata versioned, tested and deployed like software.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="continuous-metadata-integration.html">Continuous Metadata Integration</a></h3><p>CI applied to metadata — metadata changes flow through the platform continuously, validated and propagated like code.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="just-to-be-clear.html">Just To Be Clear</a></h3><p>A model is the moment an organisation says the quiet part out loud — the sentence that turns shared assumptions into something everyone can see and check.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="semantic-devops.html">Semantic Devops</a></h3><p>CI/CD for meaning — semantics and metadata versioned, tested and deployed like software.</p></div>
 </div>
 <h2>Delivery & method</h2>
 <div class="cards">
-<div class="card"><h3><a href="batteries-included.html">Batteries Included</a></h3><p>Metadata and governance ship with the platform, pre-configured.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="batteries-included.html">Batteries Included</a></h3><p>Metadata and governance ship with the platform, pre-configured.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="data-contracts.html">Data Contracts</a></h3><p>Crystal-clear, machine-readable agreements between a producing and a consuming system — what will be delivered, in what shape, at what quality — continuously monitored.</p></div>
-<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="data-deliveries.html">Data Deliveries</a></h3><p>Model the expected deliveries — what, when, in what form — together with the quality metadata the provider ships alongside: the results of their own DQ and plausibility checks.</p></div>
+<div class="card is-key"><h3><span class="key-badge act-badge">Activity</span> <a href="data-deliveries.html">Data Deliveries</a></h3><p>Model the expected deliveries — what, when, in what form — together with the quality metadata the provider ships alongside: the results of their own DQ and plausibility checks.</p></div>
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="data-observability.html">Data Observability</a></h3><p>Continuous visibility into the health of your data pipelines — freshness, volume, schema drift, distribution and quality — so problems surface on their own, at the boundary, in time to fix them.</p></div>
-<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="incident-modeling.html">Incident Modeling</a></h3><p>Model delivery incidents as data, not loose tickets — a late feed, a failed quality check, a broken schema becomes a tracked, owned, queryable object in the model itself.</p></div>
-<div class="card"><h3><a href="model-driven-data-architecture.html">Model Driven Data Architecture</a></h3><p>Bridging models, metadata and meaning across the enterprise.</p></div>
-<div class="card"><h3><a href="model-driven-migrations.html">Model Driven Migrations</a></h3><p>Plan and execute controlled platform migrations using metadata and automation.</p></div>
-<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-the-process.html">Model The Process</a></h3><p>Model not just the data model and the transformations, but the whole process — delivery, integration, migration, quality checking, the backroom — and how the system changes over time.</p></div>
-<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-versioning.html">Model Versioning</a></h3><p>Version the model, not just the data — as models and transformations keep changing, capture how the system itself evolves, and model the reality that sources and interfaces run different versions at the same time.</p></div>
+<div class="card is-key"><h3><span class="key-badge act-badge">Activity</span> <a href="incident-modeling.html">Incident Modeling</a></h3><p>Model delivery incidents as data, not loose tickets — a late feed, a failed quality check, a broken schema becomes a tracked, owned, queryable object in the model itself.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-driven-data-architecture.html">Model Driven Data Architecture</a></h3><p>Bridging models, metadata and meaning across the enterprise.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-driven-migrations.html">Model Driven Migrations</a></h3><p>Plan and execute controlled platform migrations using metadata and automation.</p></div>
+<div class="card is-key"><h3><span class="key-badge act-badge">Activity</span> <a href="model-the-process.html">Model The Process</a></h3><p>Model not just the data model and the transformations, but the whole process — delivery, integration, migration, quality checking, the backroom — and how the system changes over time.</p></div>
+<div class="card is-key"><h3><span class="key-badge act-badge">Activity</span> <a href="model-versioning.html">Model Versioning</a></h3><p>Version the model, not just the data — as models and transformations keep changing, capture how the system itself evolves, and model the reality that sources and interfaces run different versions at the same time.</p></div>
 </div>
 <h2>Temporal patterns</h2>
 <div class="cards">
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="data-versioning.html">Data Versioning</a></h3><p>Track how the data changes over time — bi-temporal SCD2 with redelivery support — so you can ask what the data looked like, and what you knew, at any point in the past.</p></div>
+</div>
+<h2>Architecture</h2>
+<div class="cards">
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="clickable-diagrams.html">Clickable Diagrams</a></h3><p>A generated SVG carries links, so the picture stops being a dead end and becomes the navigation layer of the model.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="decoupling.html">Decoupling</a></h3><p>Systems meet only at agreed interfaces — inbound and outbound — so each side can change independently. The contract is the seam, and it is monitored.</p></div>
+</div>
+<h2>Anti-pattern</h2>
+<div class="cards">
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="coupled-by-default.html">Coupled By Default</a></h3><p>The anti-pattern: systems reach into each other's internals because nothing stopped them — dependencies nobody declared and nobody can see.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="decision-black-box.html">Decision Black Box</a></h3><p>The anti-pattern: the outcome was recorded, the reasoning was not — so every decision has to be re-argued from scratch.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="documentation-theatre.html">Documentation Theatre</a></h3><p>The anti-pattern: documentation produced to satisfy a process rather than a reader — complete, compliant, and trusted by nobody.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="fragmented-schools-of-thought.html">Fragmented Schools Of Thought</a></h3><p>The anti-pattern: a discipline splits into rival interpretations of the same method, and practitioners spend their energy defending a camp instead of solving the problem.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="gated-knowledge.html">Gated Knowledge</a></h3><p>The anti-pattern: understanding locked behind a person, a licence or a login — access controlled by whoever holds the key rather than by whether you need it.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="local-tidiness.html">Local Tidiness</a></h3><p>The anti-pattern: every folder looks reasonable up close, and nobody can say what the system is. Order without orientation.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="model-as-drawing.html">Model As Drawing</a></h3><p>The anti-pattern: treating the model as a picture to be drawn rather than knowledge to be captured — so it informs nobody and generates nothing.</p></div>
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="social-cost-of-method.html">Social Cost Of Method</a></h3><p>The anti-pattern: a method's vocabulary becomes insider language, splitting the team into those who can follow the conversation and those who cannot.</p></div>
+</div>
+<h2>Knowledge structure</h2>
+<div class="cards">
+<div class="card is-key"><h3><span class="key-badge">Key</span> <a href="maps-everywhere.html">Maps Everywhere</a></h3><p>Every layer of the system carries a map of itself — vault, repo, database, app, decisions. No blind spots, because orientation is a built artifact, not a memory.</p></div>
 </div>
 
   <p style="margin-top:34px"><a href="../index.html">&larr; Back home</a></p>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
 <title>Rulebooks Playbooks And Cookbooks — Structured Metadata</title>
-<meta name="description" content="Three levels of metadata-driven governance: enforce, procedure, pattern." />
+<meta name="description" content="The book family: rulebooks enforce, playbooks direct, cookbooks show, runbooks execute — each a structured document of text plus metadata, built from segments." />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" />
 </head>
@@ -13,23 +13,57 @@
 <header class="site">
   <div class="wrap">
     <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
-    <nav class="main">
-      <a href="../index.html">Home</a>
-      <a href="index.html">Concepts</a>
-      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
-    </nav>
+<nav class="main">
+<div class="navgroup"><a class="navtop" href="../index.html#idea">The idea</a><div class="submenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</div></div>
+<div class="navgroup"><a class="navtop on" href="../concepts/index.html">Library</a><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../areas/structure-metadata.html">Explore</a><div class="submenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../index.html#articles">Writing</a><div class="submenu">
+<a href="../index.html#articles">Articles</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav>
   </div>
 </header>
 <div class="hero wrap" style="padding-bottom:20px">
-  <div class="eyebrow">Lineage & governance</div>
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Lineage & governance</div>
   <h1>Rulebooks Playbooks And Cookbooks</h1>
-  <p class="sub">Three levels of metadata-driven governance: enforce, procedure, pattern.</p>
+  <p class="sub">The book family: rulebooks enforce, playbooks direct, cookbooks show, runbooks execute — each a structured document of text plus metadata, built from segments.</p>
 </div>
 <section class="wrap">
 
-<p>Three tiers of governance shaped by metadata: Rulebooks (automated enforcement), Playbooks (procedural steps) and Cookbooks (technical implementation patterns).</p>
-<p><strong>Where it lives:</strong> Article 2025-10-15.</p>
-
+<p><strong>The book family.</strong> Four kinds of structured document, distinguished by what they do to the reader — enforce, direct, show, or execute. Naming them separately matters because organisations collapse them into one undifferentiated "documentation", and then wonder why none of it gets used.</p>
+<p>| Book | Answers | Binding? | Reader |
+|---|---|---|---|
+| <strong>Rulebook</strong> | *What must always be true* | Enforced automatically | The platform (and the auditor) |
+| <strong>Playbook</strong> | *How we handle this situation* | Procedural, judgment allowed | A person deciding |
+| <strong>Cookbook</strong> | *How this is built, in practice* | Pattern, freely adapted | A builder, mid-task |
+| <strong>Runbook</strong> | *What to do, step by step, now* | Deterministic, no judgment | Whoever is on duty — or an agent |</p>
+<p>The distinction is not formality but <strong>what happens when you deviate.</strong> Break a rulebook and the pipeline fails. Deviate from a playbook and you explain yourself. Ignore a cookbook and you have written something bespoke. Skip a runbook step and the thing does not work.</p>
+<h3>Text plus metadata</h3>
+<p>A book in this family is <strong>never prose alone.</strong> Each is a hybrid: readable text for the human, structured metadata for the machine — owner, scope, version, applicability, the systems it governs, when it was last validated. The metadata is what makes a book *findable, checkable and executable*; the text is what makes it understandable.</p>
+<p>That is the difference between a book and a document. A document is read. A book is <strong>queried</strong> — "which rulebooks apply to this domain", "which runbooks haven't been exercised this quarter", "which playbook covers this incident type" — and it can be checked for staleness without anyone opening it.</p>
+<h3>Built from segments</h3>
+<p>Books have <strong>structure below the document level</strong>: segments, each individually addressable. A rulebook is a set of rules, not a wall of text about rules. A runbook is a sequence of steps. A cookbook is a collection of patterns.</p>
+<p>Segments are what make the family useful rather than decorative:</p>
+<p>- <strong>Reuse</strong> — the same segment appears in several books without being copied. One definition, many contexts.
+- <strong>Provenance</strong> — a segment can point at the decision, interview or model element it came from.
+- <strong>Precision</strong> — you cite *this step*, not "somewhere in the deployment doc".
+- <strong>Generation</strong> — a segment can be produced from the model, so parts of a book are never hand-written.
+- <strong>Validation</strong> — a step marked executed, a rule marked enforced, a pattern marked deprecated. Individually.</p>
+<p>A document that cannot be addressed below its own title is a document. A book made of segments is a <strong>structure that happens to read as prose.</strong></p>
+<h3>Why this is a BTM concept</h3>
+<p>Books are where methodology stops being a slide and becomes operational. BTM is more than a model — it needs the layer that says how work is actually done, and that layer has to be as structured as the model itself, or it decays into <a href="documentation-theatre.html">Documentation Theatre</a>.</p>
+<p>The test is the same as everywhere else in this library: <strong>can this artifact tell you what it is?</strong> A book with metadata and segments can. A Word file called `procedures_final_v3.docx` cannot.</p>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="documentation-theatre.html">Documentation Theatre</a></li><li><a href="maps-everywhere.html">Maps Everywhere</a></li></ul></div>
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
 </section>
 <footer><div class="wrap">

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Time Travel The Model — Structured Metadata</title>
+<meta name="description" content="Load the git history of the metadata files into the mirror as versioned snapshots, so an app can scrub any object — a table, a rule — back to how it looked at any point in time. Git becomes the model-versioning clock." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<nav class="main">
+<div class="navgroup"><a class="navtop" href="../index.html#idea">The idea</a><div class="submenu">
+<a href="../index.html#idea">The idea</a>
+<a href="../index.html#relation">Where this fits</a>
+</div></div>
+<div class="navgroup"><a class="navtop on" href="../concepts/index.html">Library</a><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../areas/structure-metadata.html">Explore</a><div class="submenu">
+<a href="../areas/structure-metadata.html">Structure metadata</a>
+<a href="../areas/transformation-metadata.html">Transformation metadata</a>
+<a href="../areas/generated-artifacts.html">Generated artifacts</a>
+<a href="../browser.html">Browser</a>
+</div></div>
+<div class="navgroup"><a class="navtop" href="../index.html#articles">Writing</a><div class="submenu">
+<a href="../index.html#articles">Articles</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Metadata OS</div>
+  <h1>Time Travel The Model</h1>
+  <p class="sub">Load the git history of the metadata files into the mirror as versioned snapshots, so an app can scrub any object — a table, a rule — back to how it looked at any point in time. Git becomes the model-versioning clock.</p>
+</div>
+<section class="wrap">
+<figure class="c-hero"><img src="assets/time-travel-the-model-hero.png" alt="Time Travel The Model" loading="eager" /></figure>
+<p>> Load the git history of the metadata files into the mirror as versioned snapshots, so an app can scrub any object — a table, a rule — back to how it looked at any point in time. Git becomes the model-versioning clock.</p>
+<p>The metadata mirror shows the current state: the files as they are now, read into a fast database. But the files live in git, and git already holds every earlier version of every one of them. Time-travel the model turns that latent history into a first-class dimension of the mirror. Instead of loading only the working tree, you walk the git log and load *each commit's* version of the metadata, tagging every row with the commit it came from and when it landed. The mirror stops being a snapshot and becomes a timeline.</p>
+<p>That makes a new kind of question answerable in an app: not "what does this table look like" but "what did this table look like on the fifteenth of July, and what changed since." A version column and a point-in-time filter is all it takes — pick a moment, and the mirror returns the state as of that moment, one row per object. It's an SCD2 pattern, except the history isn't hand-maintained: it's reconstructed from git, which was recording it for free the whole time.</p>
+<p>The symmetry is the point. Git is the version-control layer under the metadata files; <a href="model-versioning.html">model versioning</a> is the concept of tracking how the model itself evolves. Here they become the same thing — git *is* the model-versioning clock, and the mirror reads its history the way it already reads the files' content. Structure once as files, version for free in git, and the model's whole evolution becomes queryable — you can watch a definition drift, catch when a rule was introduced, and trace, with lineage, the exact commit a change came from.</p>
+<p><strong>Where it lives:</strong> the metadata OS — git history loaded into the mirror as a version axis, so the model's past is queryable, not just its present.</p>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="model-versioning.html">Model Versioning</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>
