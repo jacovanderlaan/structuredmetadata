@@ -6,6 +6,13 @@
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
 <title>Model Driven Data Engineering — Structured Metadata</title>
 <meta name="description" content="Building scalable, metadata-driven data platforms from models — not hand-written code." />
+<link rel="canonical" href="https://structuredmetadata.com/concepts/model-driven-data-engineering.html" />
+<meta property="og:title" content="Model Driven Data Engineering" />
+<meta property="og:description" content="Building scalable, metadata-driven data platforms from models — not hand-written code." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://structuredmetadata.com/concepts/model-driven-data-engineering.html" />
+<meta property="og:site_name" content="Structured Metadata" />
+<meta name="twitter:card" content="summary" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" />
 </head>
@@ -18,7 +25,7 @@
 <a href="../index.html#idea">The idea</a>
 <a href="../index.html#relation">Where this fits</a>
 </span></span>
-<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Methodology</button><span class="navmenu">
+<span class="navgroup"><button class="navtop on" type="button" aria-haspopup="true">Methodology</button><span class="navmenu">
 <a href="../concepts/index.html">Concepts</a>
 <a href="../patterns/index.html">Patterns</a>
 <a href="../glossary/index.html">Glossary</a>
@@ -31,7 +38,7 @@
 <a href="../skills/index.html">Skills</a>
 <a href="../decisions/index.html">Decisions</a>
 </span></span>
-<a href="../timeline/index.html">Timeline</a>
+<a class="navtop" href="../timeline/index.html">Timeline</a>
 <span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Writing</button><span class="navmenu">
 <a href="../articles/index.html">Articles</a>
 <a href="../ideas/index.html">Inspiration</a>
@@ -45,7 +52,7 @@
   <p class="sub">Building scalable, metadata-driven data platforms from models — not hand-written code.</p>
 </div>
 <section class="wrap">
-<figure class="c-hero"><img src="assets/model-driven-data-engineering-hero.png" alt="Model Driven Data Engineering" loading="eager" /></figure>
+<figure class="c-hero"><img src="assets/model-driven-data-engineering-hero.webp" alt="Model Driven Data Engineering" loading="eager" /></figure>
 <p>> Building scalable, metadata-driven data platforms from models — not hand-written code.</p>
 <p>The master brand, and the thesis the rest of the corpus elaborates: a data platform's structure and logic are <strong>data, not code</strong>. Entities, attributes, mappings, filters, time policies, rules — and even the generated SQL — live as rows in a metamodel, and the platform's artifacts (DDL, dbt, pipelines, tests, lineage, documentation, diagrams) are *generated views* of that metadata. Models are the source of truth; everything downstream is derived from them deterministically.</p>
 <p>The bet is easy to state and hard to hold: <strong>you write the model, not the pipeline.</strong> A five-table demo is enough to prove the trick — SQL generated from metadata instead of typed by hand. The full metamodel is 268 tables, and the honest question is why it grows that far. The answer is not sprawl but discipline: repeating groups become tables (an identifier has member columns, in order), declaration and call are separated the way a programming language separates them (a function has declared parameters; each use binds arguments), and capabilities arrive in coherent clusters (Data Vault, fact-oriented modeling, import bridges) you can adopt or ignore. The model is large the way a city is large — districts, not sprawl — and roughly two-thirds of it is optional.</p>
@@ -54,6 +61,10 @@
 <div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="executable-metadata.html">Executable Metadata</a></li><li><a href="metadata-star.html">Metadata Star</a></li><li><a href="deterministic-sql-generation.html">Deterministic Sql Generation</a></li><li><a href="metadata-operating-system.html">Metadata Operating System</a></li></ul></div>
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
 </section>
+<script type="module">
+  import { initDetail } from "../assets/detail.js";
+  initDetail();
+</script>
 <footer><div class="wrap">
   <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
 </div></footer>

@@ -6,6 +6,13 @@
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
 <title>Metadata Star — Structured Metadata</title>
 <meta name="description" content="Metadata as the central star everything orbits — SQL, lineage, tests, and docs are all generated from it." />
+<link rel="canonical" href="https://structuredmetadata.com/concepts/metadata-star.html" />
+<meta property="og:title" content="Metadata Star" />
+<meta property="og:description" content="Metadata as the central star everything orbits — SQL, lineage, tests, and docs are all generated from it." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://structuredmetadata.com/concepts/metadata-star.html" />
+<meta property="og:site_name" content="Structured Metadata" />
+<meta name="twitter:card" content="summary" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" />
 </head>
@@ -18,7 +25,7 @@
 <a href="../index.html#idea">The idea</a>
 <a href="../index.html#relation">Where this fits</a>
 </span></span>
-<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Methodology</button><span class="navmenu">
+<span class="navgroup"><button class="navtop on" type="button" aria-haspopup="true">Methodology</button><span class="navmenu">
 <a href="../concepts/index.html">Concepts</a>
 <a href="../patterns/index.html">Patterns</a>
 <a href="../glossary/index.html">Glossary</a>
@@ -31,7 +38,7 @@
 <a href="../skills/index.html">Skills</a>
 <a href="../decisions/index.html">Decisions</a>
 </span></span>
-<a href="../timeline/index.html">Timeline</a>
+<a class="navtop" href="../timeline/index.html">Timeline</a>
 <span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Writing</button><span class="navmenu">
 <a href="../articles/index.html">Articles</a>
 <a href="../ideas/index.html">Inspiration</a>
@@ -45,7 +52,7 @@
   <p class="sub">Metadata as the central star everything orbits — SQL, lineage, tests, and docs are all generated from it.</p>
 </div>
 <section class="wrap">
-<figure class="c-hero"><img src="assets/metadata-star-hero.png" alt="Metadata Star" loading="eager" /></figure>
+<figure class="c-hero"><img src="assets/metadata-star-hero.webp" alt="Metadata Star" loading="eager" /></figure>
 <p>> Metadata as the central star everything orbits — SQL, lineage, tests, and docs are all generated from it.</p>
 <p>Picture the platform as a solar system. At the center sits one body with all the mass: the metadata — models, mappings, rules, contracts. Everything else orbits it and shines with borrowed light: the SQL is generated from it, the tests are derived from it, the lineage is read out of it, the documentation is rendered from it. Nothing in orbit is authored independently; every artifact's position is determined by the star.</p>
 <p>The image earns its place because it makes the failure mode visible. In most platforms there is no star — SQL, docs, lineage tooling, and test suites are separate bodies on independent trajectories, and keeping them aligned is manual gravity that teams eventually stop supplying. With a metadata star, alignment is not maintained; it is *inherited*. An artifact cannot drift out of sync with the metadata for the same reason a planet cannot drift out of its orbit unnoticed.</p>
@@ -54,6 +61,10 @@
 <div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="metadata-operating-system.html">Metadata Operating System</a></li><li><a href="executable-metadata.html">Executable Metadata</a></li><li><a href="deterministic-sql-generation.html">Deterministic Sql Generation</a></li><li><a href="living-documentation.html">Living Documentation</a></li></ul></div>
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
 </section>
+<script type="module">
+  import { initDetail } from "../assets/detail.js";
+  initDetail();
+</script>
 <footer><div class="wrap">
   <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
 </div></footer>

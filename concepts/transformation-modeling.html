@@ -6,6 +6,13 @@
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
 <title>Transformation Modeling — Structured Metadata</title>
 <meta name="description" content="Movement — how data actually moves and changes. A separate world the tools never solved, where logic hides in complex, inconsistent SQL instead of being modeled." />
+<link rel="canonical" href="https://structuredmetadata.com/concepts/transformation-modeling.html" />
+<meta property="og:title" content="Transformation Modeling" />
+<meta property="og:description" content="Movement — how data actually moves and changes. A separate world the tools never solved, where logic hides in complex, inconsistent SQL instead of being modeled." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://structuredmetadata.com/concepts/transformation-modeling.html" />
+<meta property="og:site_name" content="Structured Metadata" />
+<meta name="twitter:card" content="summary" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" />
 </head>
@@ -18,7 +25,7 @@
 <a href="../index.html#idea">The idea</a>
 <a href="../index.html#relation">Where this fits</a>
 </span></span>
-<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Methodology</button><span class="navmenu">
+<span class="navgroup"><button class="navtop on" type="button" aria-haspopup="true">Methodology</button><span class="navmenu">
 <a href="../concepts/index.html">Concepts</a>
 <a href="../patterns/index.html">Patterns</a>
 <a href="../glossary/index.html">Glossary</a>
@@ -31,7 +38,7 @@
 <a href="../skills/index.html">Skills</a>
 <a href="../decisions/index.html">Decisions</a>
 </span></span>
-<a href="../timeline/index.html">Timeline</a>
+<a class="navtop" href="../timeline/index.html">Timeline</a>
 <span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Writing</button><span class="navmenu">
 <a href="../articles/index.html">Articles</a>
 <a href="../ideas/index.html">Inspiration</a>
@@ -45,7 +52,7 @@
   <p class="sub">Movement — how data actually moves and changes. A separate world the tools never solved, where logic hides in complex, inconsistent SQL instead of being modeled.</p>
 </div>
 <section class="wrap">
-<figure class="c-hero"><img src="assets/transformation-modeling-hero.png" alt="Transformation Modeling" loading="eager" /></figure>
+<figure class="c-hero"><img src="assets/transformation-modeling-hero.webp" alt="Transformation Modeling" loading="eager" /></figure>
 <p>> Movement — how data actually moves and changes. A separate world the tools never solved, where logic hides in complex, inconsistent SQL instead of being modeled.</p>
 <p>Structure has a settled discipline; <strong>movement</strong> never did. How data actually moves and changes &mdash; the transformation &mdash; is the other half of modeling, and it is where the classic tools fell short. Data modeling tools drew boxes and lines for structure and then went quiet about the hardest part: the logic that turns sources into targets. So that logic ended up living where it always has &mdash; in code.</p>
 <p>And the code shows the cost of never modeling it. Transformation is usually captured in <strong>complex SQL queries</strong>, and in practice they are messy in familiar ways: logic copied and pasted from one query to the next until no two agree; data-quality fixes tangled together with functional business logic in the same statement; time logic (bi-temporal, as-of, snapshots) done ad-hoc and differently everywhere; source-specific quirks hard-wired into the transformation; and no clear layering, so staging, cleansing, integration and business rules all blur into one long, unmaintainable query. Change one thing and you can&rsquo;t tell what breaks, because the intent was never modeled &mdash; only the SQL was written.</p>
@@ -54,6 +61,10 @@
 <div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="model-the-process.html">Model The Process</a></li><li><a href="atomic-sql.html">Atomic Sql</a></li><li><a href="deterministic-sql-generation.html">Deterministic Sql Generation</a></li><li><a href="model-driven-data-engineering.html">Model Driven Data Engineering</a></li></ul></div>
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
 </section>
+<script type="module">
+  import { initDetail } from "../assets/detail.js";
+  initDetail();
+</script>
 <footer><div class="wrap">
   <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
 </div></footer>

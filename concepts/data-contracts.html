@@ -6,6 +6,13 @@
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
 <title>Data Contracts — Structured Metadata</title>
 <meta name="description" content="Crystal-clear, machine-readable agreements between a producing and a consuming system — what will be delivered, in what shape, at what quality — continuously monitored." />
+<link rel="canonical" href="https://structuredmetadata.com/concepts/data-contracts.html" />
+<meta property="og:title" content="Data Contracts" />
+<meta property="og:description" content="Crystal-clear, machine-readable agreements between a producing and a consuming system — what will be delivered, in what shape, at what quality — continuously monitored." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://structuredmetadata.com/concepts/data-contracts.html" />
+<meta property="og:site_name" content="Structured Metadata" />
+<meta name="twitter:card" content="summary" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" />
 </head>
@@ -18,7 +25,7 @@
 <a href="../index.html#idea">The idea</a>
 <a href="../index.html#relation">Where this fits</a>
 </span></span>
-<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Methodology</button><span class="navmenu">
+<span class="navgroup"><button class="navtop on" type="button" aria-haspopup="true">Methodology</button><span class="navmenu">
 <a href="../concepts/index.html">Concepts</a>
 <a href="../patterns/index.html">Patterns</a>
 <a href="../glossary/index.html">Glossary</a>
@@ -31,7 +38,7 @@
 <a href="../skills/index.html">Skills</a>
 <a href="../decisions/index.html">Decisions</a>
 </span></span>
-<a href="../timeline/index.html">Timeline</a>
+<a class="navtop" href="../timeline/index.html">Timeline</a>
 <span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Writing</button><span class="navmenu">
 <a href="../articles/index.html">Articles</a>
 <a href="../ideas/index.html">Inspiration</a>
@@ -45,7 +52,7 @@
   <p class="sub">Crystal-clear, machine-readable agreements between a producing and a consuming system — what will be delivered, in what shape, at what quality — continuously monitored.</p>
 </div>
 <section class="wrap">
-<figure class="c-hero"><img src="assets/data-contracts-hero.png" alt="Data Contracts" loading="eager" /></figure>
+<figure class="c-hero"><img src="assets/data-contracts-hero.webp" alt="Data Contracts" loading="eager" /></figure>
 <p>> Crystal-clear, machine-readable agreements between a producing and a consuming system — what will be delivered, in what shape, at what quality — continuously monitored.</p>
 <p>A data contract is a <strong>crystal-clear agreement</strong> between the system that produces data and the system that consumes it: the schema, the meaning, the volume, the timing, the quality expected. The point is that it is *explicit and machine-readable* &mdash; not a shared assumption or an email thread, but a specification both sides commit to and a machine can check. When the producer changes something, the contract is what says whether that change is allowed.</p>
 <p>Contracts only mean something if they are <strong>continuously monitored.</strong> A contract no one measures is just documentation; a contract with metrics attached becomes a live guarantee &mdash; the moment a delivery breaks the agreed shape, volume or freshness, it is visible immediately, on the producer&rsquo;s side, before it poisons anything downstream. That is the difference between finding out at ingestion and finding out in a board report.</p>
@@ -55,6 +62,10 @@
 <div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="data-deliveries.html">Data Deliveries</a></li><li><a href="data-observability.html">Data Observability</a></li></ul></div>
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
 </section>
+<script type="module">
+  import { initDetail } from "../assets/detail.js";
+  initDetail();
+</script>
 <footer><div class="wrap">
   <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
 </div></footer>

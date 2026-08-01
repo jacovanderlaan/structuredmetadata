@@ -6,6 +6,13 @@
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
 <title>Time Travel The Model — Structured Metadata</title>
 <meta name="description" content="Load the git history of the metadata files into the mirror as versioned snapshots, so an app can scrub any object — a table, a rule — back to how it looked at any point in time. Git becomes the model-versioning clock." />
+<link rel="canonical" href="https://structuredmetadata.com/concepts/time-travel-the-model.html" />
+<meta property="og:title" content="Time Travel The Model" />
+<meta property="og:description" content="Load the git history of the metadata files into the mirror as versioned snapshots, so an app can scrub any object — a table, a rule — back to how it looked at any point in time. Git becomes the model-versioning clock." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://structuredmetadata.com/concepts/time-travel-the-model.html" />
+<meta property="og:site_name" content="Structured Metadata" />
+<meta name="twitter:card" content="summary" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" />
 </head>
@@ -18,7 +25,7 @@
 <a href="../index.html#idea">The idea</a>
 <a href="../index.html#relation">Where this fits</a>
 </span></span>
-<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Methodology</button><span class="navmenu">
+<span class="navgroup"><button class="navtop on" type="button" aria-haspopup="true">Methodology</button><span class="navmenu">
 <a href="../concepts/index.html">Concepts</a>
 <a href="../patterns/index.html">Patterns</a>
 <a href="../glossary/index.html">Glossary</a>
@@ -31,7 +38,7 @@
 <a href="../skills/index.html">Skills</a>
 <a href="../decisions/index.html">Decisions</a>
 </span></span>
-<a href="../timeline/index.html">Timeline</a>
+<a class="navtop" href="../timeline/index.html">Timeline</a>
 <span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Writing</button><span class="navmenu">
 <a href="../articles/index.html">Articles</a>
 <a href="../ideas/index.html">Inspiration</a>
@@ -45,7 +52,7 @@
   <p class="sub">Load the git history of the metadata files into the mirror as versioned snapshots, so an app can scrub any object — a table, a rule — back to how it looked at any point in time. Git becomes the model-versioning clock.</p>
 </div>
 <section class="wrap">
-<figure class="c-hero"><img src="assets/time-travel-the-model-hero.png" alt="Time Travel The Model" loading="eager" /></figure>
+<figure class="c-hero"><img src="assets/time-travel-the-model-hero.webp" alt="Time Travel The Model" loading="eager" /></figure>
 <p>> Load the git history of the metadata files into the mirror as versioned snapshots, so an app can scrub any object — a table, a rule — back to how it looked at any point in time. Git becomes the model-versioning clock.</p>
 <p>The metadata mirror shows the current state: the files as they are now, read into a fast database. But the files live in git, and git already holds every earlier version of every one of them. Time-travel the model turns that latent history into a first-class dimension of the mirror. Instead of loading only the working tree, you walk the git log and load *each commit's* version of the metadata, tagging every row with the commit it came from and when it landed. The mirror stops being a snapshot and becomes a timeline.</p>
 <p>That makes a new kind of question answerable in an app: not "what does this table look like" but "what did this table look like on the fifteenth of July, and what changed since." A version column and a point-in-time filter is all it takes — pick a moment, and the mirror returns the state as of that moment, one row per object. It's an SCD2 pattern, except the history isn't hand-maintained: it's reconstructed from git, which was recording it for free the whole time.</p>
@@ -54,6 +61,10 @@
 <div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="model-versioning.html">Model Versioning</a></li></ul></div>
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
 </section>
+<script type="module">
+  import { initDetail } from "../assets/detail.js";
+  initDetail();
+</script>
 <footer><div class="wrap">
   <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
 </div></footer>
