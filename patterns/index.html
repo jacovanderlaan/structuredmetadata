@@ -2,12 +2,12 @@
 <html lang="en"><head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
-<title>Anti-Patterns — Structured Metadata</title>
-<meta name="description" content="Anti-Patterns on Structured Metadata — filter, sort and browse." />
-<link rel="canonical" href="https://structuredmetadata.com/anti-patterns/" />
-<meta property="og:title" content="Anti-Patterns — Structured Metadata" />
+<title>Patterns — Structured Metadata</title>
+<meta name="description" content="Patterns on Structured Metadata — filter, sort and browse." />
+<link rel="canonical" href="https://structuredmetadata.com/patterns/" />
+<meta property="og:title" content="Patterns — Structured Metadata" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://structuredmetadata.com/anti-patterns/" />
+<meta property="og:url" content="https://structuredmetadata.com/patterns/" />
 <meta name="twitter:card" content="summary" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" /></head>
@@ -37,18 +37,19 @@
 <a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
 <div class="hero wrap listing-head">
   <div class="listing-head-text">
-    <div class="eyebrow">Anti-Patterns</div>
-    <h1>Anti-Patterns</h1>
-    <p class="lede"></p>
+    <div class="eyebrow">Patterns &amp; anti-patterns</div>
+    <h1>The shapes that work, and the ones that keep failing</h1>
+    <p class="lede">A pattern is a shape you reach for instead of inventing one — a repeatable solution someone already paid to learn. An anti-pattern is the same thing in reverse: a shape that keeps being reached for and keeps failing. Naming both is what makes either usable, so they share a page. Filter by type to see them apart.</p>
   </div>
-  <figure class="listing-hero"><img src="../assets/listing-anti-patterns.png" alt="Four boxes wired into a tangle, the crossing marked." loading="lazy" width="1200" height="800" /></figure>
+  
 </div>
 <section class="wrap">
-<div id="browse" data-page-type="anti-patterns"></div>
+<div id="browse" data-page-type="patterns"></div>
 <div class="bw-fallback">
   <p class="muted">All items:</p>
   <ul class="artlist">
     <li><a href="../concepts/coupled-by-default.html">Coupled by default</a> &mdash; <span class="muted">The anti-pattern: systems reach into each other&#x27;s internals because nothing stopped them — dependencies nobody</span></li>
+    <li><a href="../concepts/data-versioning.html">Data versioning</a> &mdash; <span class="muted">Track how the data changes over time — bi-temporal SCD2 with redelivery support — so you can ask what the data</span></li>
     <li><a href="../concepts/decision-black-box.html">Decision black box</a> &mdash; <span class="muted">The anti-pattern: the outcome was recorded, the reasoning was not — so every decision has to be re-argued from</span></li>
     <li><a href="../concepts/documentation-theatre.html">Documentation theatre</a> &mdash; <span class="muted">The anti-pattern: documentation produced to satisfy a process rather than a reader — complete, compliant, and </span></li>
     <li><a href="../concepts/fragmented-schools-of-thought.html">Fragmented schools of thought</a> &mdash; <span class="muted">The anti-pattern: a discipline splits into rival interpretations of the same method, and practitioners spend t</span></li>
@@ -64,8 +65,8 @@
     data: "../data/content_item.parquet",
     base: "../",
     assets: "../assets/",
-    pageType: "anti-patterns",
-    itemTypes: ["anti-pattern"],
+    pageType: "patterns",
+    itemTypes: ["pattern", "anti-pattern"],
     defaults: {"view": "cards", "sort": "title"}
   }).then(() => document.body.classList.add("bw-ready"));
 </script>
