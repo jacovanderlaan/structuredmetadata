@@ -54,7 +54,16 @@
     <div class="bw-side-h">Filter</div>
     <div class="bw-fgroup"><div class="bw-flabel">Kind</div><label class="bw-f"><input type="checkbox" data-filter="kind" value="concept" /><span>Concept</span><span class="bw-n">44</span></label><label class="bw-f"><input type="checkbox" data-filter="kind" value="anti-pattern" /><span>Anti-pattern</span><span class="bw-n">8</span></label><label class="bw-f"><input type="checkbox" data-filter="kind" value="post" /><span>Article</span><span class="bw-n">7</span></label><label class="bw-f"><input type="checkbox" data-filter="kind" value="activity" /><span>activity</span><span class="bw-n">4</span></label><label class="bw-f"><input type="checkbox" data-filter="kind" value="decision" /><span>Decision</span><span class="bw-n">1</span></label><label class="bw-f"><input type="checkbox" data-filter="kind" value="observation" /><span>Observation</span><span class="bw-n">1</span></label><label class="bw-f"><input type="checkbox" data-filter="kind" value="pattern" /><span>Pattern</span><span class="bw-n">1</span></label></div><div class="bw-fgroup"><div class="bw-flabel">Day</div><label class="bw-f"><input type="checkbox" data-filter="month" value="2026-07-31" /><span>2026-07-31</span><span class="bw-n">63</span></label><label class="bw-f"><input type="checkbox" data-filter="month" value="2026-08-01" /><span>2026-08-01</span><span class="bw-n">2</span></label><label class="bw-f"><input type="checkbox" data-filter="month" value="2026-07-30" /><span>2026-07-30</span><span class="bw-n">1</span></label></div>
   </aside>
-  <div class="tl-main"><article class="tl-entry" data-kind="decision"><div class="tl-meta"><time>2026-08-01</time><span class="tl-kind">Decision</span></div><h3>A name bought for a shelf that outgrew itself</h3><p class="tl-source">Counting the concept library: 269 entries, of which 19 are about building rather than modelling.</p><p>Model-driven data engineering is coding and modelling, and only the modelling half has ever had a front door. The theme was already sitting in the library under its own name — metadata as code, next to governance-as-code and policy-as-code — waiting for somewhere to live. So the name was registered and the site deliberately not built: nineteen concepts is a section, not a site. What makes the split cheap is that the two halves share everything except the shelf — the attitude material, the design base, the source of truth. Splitting by metadata rather than by folders means nothing has to move.</p><p class="tl-links"><a href="../concepts/metadata-as-code.html">metadata as code</a></p></article>
+  <div class="tl-body-col">
+    <div class="bw-bar tl-bar">
+      <span class="bw-spacer"></span>
+      <div class="bw-views" role="group" aria-label="Display">
+        <button type="button" data-tlview="list" class="on">List</button>
+        <button type="button" data-tlview="cards">Cards</button>
+        <button type="button" data-tlview="grid">Grid</button>
+      </div>
+    </div>
+    <div class="tl-main"><article class="tl-entry" data-kind="decision"><div class="tl-meta"><time>2026-08-01</time><span class="tl-kind">Decision</span></div><h3>A name bought for a shelf that outgrew itself</h3><p class="tl-source">Counting the concept library: 269 entries, of which 19 are about building rather than modelling.</p><p>Model-driven data engineering is coding and modelling, and only the modelling half has ever had a front door. The theme was already sitting in the library under its own name — metadata as code, next to governance-as-code and policy-as-code — waiting for somewhere to live. So the name was registered and the site deliberately not built: nineteen concepts is a section, not a site. What makes the split cheap is that the two halves share everything except the shelf — the attitude material, the design base, the source of truth. Splitting by metadata rather than by folders means nothing has to move.</p><p class="tl-links"><a href="../concepts/metadata-as-code.html">metadata as code</a></p></article>
 <article class="tl-entry" data-kind="observation"><div class="tl-meta"><time>2026-08-01</time><span class="tl-kind">Observation</span></div><h3>Patterns and anti-patterns belong on one page</h3><p class="tl-source">Restructuring the site navigation.</p><p>An anti-pattern is only legible against the pattern it fails to be. Splitting them into two pages hid that relationship behind the navigation — several of them are explicit counterparts.</p></article>
 <article class="tl-entry" data-kind="post"><div class="tl-meta"><time>2026-07-31 21:33</time><span class="tl-kind">Article</span></div><h3><a href="../articles/atomic-sql-self-contained-data-pipelines-that-carry-their-own-metadata.html">Atomic SQL: Self-Contained Data Pipelines That Carry Their Own Metadata</a></h3></article>
 <article class="tl-entry" data-kind="post"><div class="tl-meta"><time>2026-07-31 21:33</time><span class="tl-kind">Article</span></div><h3><a href="../articles/bill-inmons-lasting-impact-why-3nf-and-universal-data-models-still-matter-in-modern-integration-layers.html">Bill Inmon&#x27;s Lasting Impact: Why 3NF and Universal Data Models Still Matter in Modern Integration Layers</a></h3></article>
@@ -120,6 +129,7 @@
 <article class="tl-entry" data-kind="concept"><div class="tl-meta"><time>2026-07-31 06:34</time><span class="tl-kind">Concept</span></div><h3><a href="../concepts/data-contracts.html">Data contracts</a></h3></article>
 <article class="tl-entry" data-kind="pattern"><div class="tl-meta"><time>2026-07-31 05:48</time><span class="tl-kind">Pattern</span></div><h3><a href="../concepts/data-versioning.html">Data versioning</a></h3></article>
 <article class="tl-entry" data-kind="concept"><div class="tl-meta"><time>2026-07-30 23:04</time><span class="tl-kind">Concept</span></div><h3><a href="../concepts/data-capsule.html">Data capsule</a></h3></article></div>
+  </div>
 </div>
 </section>
 <footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
@@ -139,5 +149,33 @@ document.querySelectorAll('[data-filter]').forEach(function (cb) {
     });
   });
 });
+
+// Display mode. The entries are one DOM in every mode — only the container
+// class changes — so filtering, deep links and indexability are untouched.
+// Remembered per site, because someone who prefers grid prefers it next time.
+(function () {
+  var main = document.querySelector('.tl-main');
+  var btns = document.querySelectorAll('[data-tlview]');
+  if (!main || !btns.length) return;
+  var KEY = 'tl-view';
+
+  function set(v, remember) {
+    main.className = 'tl-main' + (v === 'list' ? '' : ' view-' + v);
+    btns.forEach(function (b) { b.classList.toggle('on', b.dataset.tlview === v); });
+    if (remember) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () { set(b.dataset.tlview, true); });
+  });
+
+  // ?view=grid wins over the stored preference: a shared link should show what
+  // the sender saw.
+  var q = new URLSearchParams(location.search).get('view');
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  var initial = q || stored;
+  if (initial && ['list', 'cards', 'grid'].indexOf(initial) > -1) set(initial, false);
+}());
 </script>
 </body></html>
