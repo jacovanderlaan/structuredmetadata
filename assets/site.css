@@ -373,7 +373,8 @@ nav.main a.nav-cta:hover{
   header.site:has(.nav-toggle) .burger{order:1;margin-right:10px}
   header.site:has(.nav-toggle) .wrap > .brand,
   header.site:has(.nav-toggle) .wrap > a.brand{margin-right:auto}
-  header.site:has(.nav-toggle) .wrap > nav.main{order:3}
+  header.site:has(.nav-toggle) .wrap > nav.main,
+  header.site:has(.nav-toggle) .wrap > nav.site{order:3}
   header.site:has(.nav-toggle) .wrap > a.cta,
   header.site:has(.nav-toggle) .wrap > .nav-cta{order:4}
 
