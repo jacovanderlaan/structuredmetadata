@@ -20,6 +20,7 @@
 <header class="site">
   <div class="wrap">
     <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+<input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Open menu" /><label for="nav-toggle" class="burger" aria-hidden="true"><span></span><span></span><span></span></label>
 <nav class="main">
 <span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Overview</button><span class="navmenu">
 <a href="../index.html#idea">The idea</a>
@@ -55,9 +56,12 @@
 <figure class="c-hero"><img src="assets/data-contracts-hero.webp" alt="Data Contracts" loading="eager" /></figure>
 <p>> Crystal-clear, machine-readable agreements between a producing and a consuming system — what will be delivered, in what shape, at what quality — continuously monitored.</p>
 <p>A data contract is a <strong>crystal-clear agreement</strong> between the system that produces data and the system that consumes it: the schema, the meaning, the volume, the timing, the quality expected. The point is that it is *explicit and machine-readable* &mdash; not a shared assumption or an email thread, but a specification both sides commit to and a machine can check. When the producer changes something, the contract is what says whether that change is allowed.</p>
+<h3>Continuously monitored</h3>
 <p>Contracts only mean something if they are <strong>continuously monitored.</strong> A contract no one measures is just documentation; a contract with metrics attached becomes a live guarantee &mdash; the moment a delivery breaks the agreed shape, volume or freshness, it is visible immediately, on the producer&rsquo;s side, before it poisons anything downstream. That is the difference between finding out at ingestion and finding out in a board report.</p>
+<h3>The interface layer of ownership</h3>
 <p>Contracts are the interface layer of ownership: ownership is the stance, accountability is being measured, and the contract is the agreed thing you are measured against. Modeled as metadata alongside <a href="data-deliveries.html">deliveries</a> and calendars, contracts make the whole hand-off between systems queryable and enforceable.</p>
-<p>And an agreement is not a static fact &mdash; it has a <strong>lineage.</strong> At every level, a contract needs the same questions answered as data: how did this agreement develop over time, how is it monitored, who owns it, and who are the stakeholders? Version the contract like anything else, and the model can tell you not just what is agreed now, but how it got here, who changed it, and who has a stake in it holding. An agreement without that history is a claim; an agreement with it is governable.</p>
+<h3>A lineage for every agreement</h3>
+<p>An agreement is not a static fact &mdash; it has a <strong>lineage.</strong> At every level, a contract needs the same questions answered as data: how did this agreement develop over time, how is it monitored, who owns it, and who are the stakeholders? Version the contract like anything else, and the model can tell you not just what is agreed now, but how it got here, who changed it, and who has a stake in it holding. An agreement without that history is a claim; an agreement with it is governable.</p>
 <p><strong>Where it lives:</strong> the delivery layer of Breakthrough Modeling &mdash; the agreement, as data, continuously checked.</p>
 <div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="data-deliveries.html">Data Deliveries</a></li><li><a href="data-observability.html">Data Observability</a></li></ul></div>
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
