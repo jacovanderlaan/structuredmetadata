@@ -557,6 +557,12 @@ html{scroll-behavior:smooth}
 .hero.listing-head .listing-hero{flex:0 1 380px;margin:0;min-width:0;max-width:380px}
 .hero.listing-head .listing-hero img{width:100%;max-width:100%;height:auto;
   display:block;border-radius:10px}
+.hero.listing-head.listing-left .listing-hero{order:-1;flex:0 1 240px;max-width:240px}
+.hero.listing-head.listing-left .listing-head-text,.hero.listing-head.listing-left .listing-head-text .eyebrow,.hero.listing-head.listing-left .listing-head-text h1,.hero.listing-head.listing-left .listing-head-text .lede{text-align:left;margin-left:0;margin-right:0}
+.hero.listing-head.listing-left .listing-hero img{border-radius:0;box-shadow:none;border:0;background:none}
+.hero.listing-head.listing-left{gap:2rem}
+.hero.listing-head.listing-left .listing-head-text{flex:1 1 22rem;margin-left:0}
+.hero.listing-head.listing-left .listing-head-text .lede,.hero.listing-head.listing-left .listing-head-text h1{max-width:none}
 @media(max-width:820px){.hero.listing-head .listing-hero{display:none}}
 
 /* the family page — the current site is marked, not linked */
